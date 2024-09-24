@@ -72,41 +72,33 @@ Next, we need to install xfel (<https://github.com/xboot/xfel>), which is the to
 
 Here are the steps:
 
-1. Go to the releases page for xfel (<https://github.com/xboot/xfel/releases/>) and download **xfel-windows-v1.3.2**. The file is labeled `xfel-windows-v1.3.2.7z` and should be 5.58 MB and was uploaded on June 10th, 2023.
-
-2. In your downloads folder (just navigating on your normal Windows file explorer), you should see that file, which is a compressed folder. Click on it and then click "extract all" on the top. You should now have an unzipped folder named `xfel-windows-v1.3.2`.
-
-3. Navigate into that folder, clicking on `xfel-windows-v1.3.2`, then another folder inside with the same name `xfel-windows-v1.3.2`, and then to another folder labeled `Drivers`. Inside, there should be an application labeled `zadig-2.8.exe`. Double-click on that, and then when asked if you want to allow the application to make changes to your device, click "yes".
+1. Run the following command in **wsl** to download our version of xfel and its dependencies.
+    ```console 
+    $ cd /mnt/c/Users/[your Windows user name]
+    $ wget https://github.com/cs107e/homebrew-cs107e/raw/master/xfelWin32.tar.gz
+    $ tar -xvf xfelWin32.tar.gz
+    $ rm xfelWin32.tar.gz # remove archive, not needed
+    ```
+2. Now we will run the "zadig-2.8.exe", when you enter the following command you will be asked if you want to allow the application to make changes to your device, click "yes".
+    ```console
+    $ powershell.exe "./xfel/zadig-2.8.exe"
+    ```
 
 4. By now, you should see a pop-up that looks like the below image. **Make sure your Mango Pi is plugged in for this part.** Click "Install Driver". You should get a pop-up on top that says "Installing Driver..." and once that finishes running, make sure you get a message that the driver was installed successfully. If not, make sure you call over a staff member. If so, you're good to go on!
 
     ![zadig.exe popup](../images/zadig.png){: .w-90}
 
-5. Close zadig.exe and go back to the `xfel-windows-v1.3.2` folder. Note its absolute path in Windows---for example, it might look something like
-    ```
-    C:\Users\[Your name]\Downloads\xfel-windows-v1.3.2\xfel-windows-v1.3.2\
-    ```
-6.  **In your WSL terminal**, navigate to the folder where we're going to store binaries (like the xfel program!):
+5. Close zadig. Now we are going to create a symbolic link to the xfel executable, this allows us to keep the xfel executable in the Windows file system while still being able to call it from WSL (this way it avoids Windows Defender doing a very lengthy antivirus scan everytime you run xfel!). Run the following commands and copy the final output 
     ```console
-    $ cd $CS107E/bin
-    $ ls
-    blink-actled.bin  mango-run  pinout.py
-    ```
-
-7. We're going to copy a few files from your Downloads folder (on the Windows side of your computer) to the WSL file system. To do this, we need to use the path that you found in Step 5. We're going to have to reference that path, starting from the `C:\` folder, within WSL.
-
-    For example, if my path in that step was `C:\Users\killer-rabbit\Downloads\xfel-windows-v1.3.2\xfel-windows-v1.3.2\`, then I would access that folder from WSL as `/mnt/c/Users/killer-rabbit/Downloads/xfel-windows-v1.3.2/xfel-windows-v1.3.2/`. (Note that the slashes go in different directions in Windows and Linux---that's just how they're referenced). You might have to play around to figure out the exact path on your computer, but once you have, use these two commands from inside the `$CS107E/bin` folder:
-
-    ```console
-    $ cp /mnt/c/[downloads path]/xfel-windows-v1.3.2/xfel-windows-v1.3.2/xfel.exe xfel
-    $ cp /mnt/c/[downloads path]/xfel-windows-v1.3.2/xfel-windows-v1.3.2/libusb-1.0.dll .
+    $ cd xfel 
+    $ ln -s /mnt/c/Users/[your Windows user name]/xfel/xfel $CS107E/bin 
     ```
 
     If this worked, the following files should appear in your respository:
     ```console
     $ cd $CS107E/bin
     $ ls
-    blink-actled.bin  libusb-1.0.dll  mango-run  pinout.py  xfel
+    blink-actled.bin  mango-run  pinout.py  xfel
     ```
 
 8. Time to check if that worked! Go back to your `mycode` folder, and try running xfel.
