@@ -81,6 +81,9 @@ To prepare, please do the following __before__ coming to this lab:
     - The download/install takes some time, please try to complete before lab on reliable wifi!
     - If you hit a snag, bring the issues to lab and we can help you resolve.
 
+What to bring to lab:
+- The laptop you will be using this quarter with cable/charger/battery if needed
+
 ## Lab exercises
 <a name="step1"></a>
 
