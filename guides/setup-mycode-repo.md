@@ -177,14 +177,13 @@ What does that mean? If we needed to, we could refer to the `cs107e` folder ever
 
 When opening a new shell, the environment is initialized by reading a configuration file in your home directory. Editing the configuration file allows you to set the initial state of your shell to have this nickname. Here are the steps to do that:
 
-1. Determine the name of the configuration file for your shell. The name depends on which shell you are using. Use the command `echo $SHELL` to see your shell. Your shell is likely `bash`, although it might be `zsh` if using a more recent macOS.
+1. Determine the name of the configuration file for your shell. The name depends on which shell you are using. Use the command `echo $SHELL` to see your shell. Your shell is likely `zsh`, although it might be `bash` if your account was created on an older macOS.
     ```console
     $ echo $SHELL
-    /bin/bash
+    /bin/zsh
     ```
 
-    If your shell is `bash`, the configuration file is named `.bashrc`.  If your shell is `zsh`, the configuration file is named `.zshrc`.  For any other shell, please ask a CA for help.
-
+    If your shell is `zsh`, the configuration file is named `.zshrc`.  If your shell is `bash`, the configuration file is named `.bashrc`.  For any other shell, please ask a CA for help.
 2. Find out if you already have an existing configuration file or create it if needed. Change to your home directory and list the files. Filenames starting with a dot are hidden in a directory listing by default. Use the command `ls -a` to list all files, including hidden ones:
     ```console
     $ cd ~
@@ -195,7 +194,7 @@ When opening a new shell, the environment is initialized by reading a configurat
 (The filenames listed in your directory may be somewhat different, don't worry!) Look through list to see if there is already a configuration file for your shell. 
     If not listed, use `touch` to create an empty file with the appropriate name:
     ```console
-    $ touch .bashrc
+    $ touch ~/.zshrc     # OR touch ~/.bashrc if your shell is bash fron step 1
     ```
 
 3. Open the configuration file in a text editor and append the following two lines verbatim:
@@ -208,7 +207,7 @@ When opening a new shell, the environment is initialized by reading a configurat
 
 4. Use the `source` command to read the updated configuration file into your current shell:
     ```console
-    $ source ~/.bashrc
+    $ source ~/.zshrc    # OR source ~/.bashrc
     ```
 
 {% include checkstep.html content="confirm current shell is properly configured" %}
