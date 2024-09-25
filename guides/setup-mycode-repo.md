@@ -13,7 +13,7 @@ In CS107e, we distribute course materials as git repos and you will use git to a
 ### Introduction
 Each student has their own `mycode` repo, which manages all of the code for the coures assignments and labs.
 
-We create a personal repository for each student on GitHub. This repo will be named `https://github.com/cs107e/{{page.quarterprefix}}-[YOUR-GITHUB-USERNAME]`, where [YOUR-GITHUB-USERNAME] is replaced with your actual github username.
+We create a personal repository for each student on GitHub. This repo will be named `https://github.com/cs107e/{{page.quarterprefix}}-[YOUR-GITHUB-USERNAME]`, where the text `[YOUR-GITHUB-USERNAME]` is replaced with your actual github username.
 
 Your personal repository that resides on GitHub 
 is your __remote__ `mycode` repo. After we have set up your remote repo, you will connect it to a __local__ `mycode` repo on your  on your laptop. You will work on your code in the local repo and use git commands to exchange code between the local and remote repos.
@@ -21,22 +21,22 @@ is your __remote__ `mycode` repo. After we have set up your remote repo, you wil
 Follow the steps below to set up your `mycode` repo.
 
 
-### Step 1: Accept GitHub invitations
+### Step 1: Accept both GitHub invitations
 
-You should have received two email invitations from GitHub: an invitation for read-only access to the code mirror repo <https://github.com/cs107e/code-mirror.git> and another invitation for read-write access to your personal repo `{{page.quarterprefix}}-[YOUR-GITHUB-USERNAME]`. Once you receive and accept both invitations, you're ready to proceed.
+You should have received __two__ email invitations from GitHub: an invitation for read-only access to the code mirror repo <https://github.com/cs107e/code-mirror.git> and another invitation for read-write access to your personal repo `{{page.quarterprefix}}-[YOUR-GITHUB-USERNAME]`. Once you receive and accept both invitations, you're ready to proceed.
 
 ### Step 2: Create SSH key and add to GitHub account
 
-To streamline interacting with GitHub, you'll need to add an SSH
-    key on your GitHub account. An SSH key authenticates your identity.
+To streamline interacting with GitHub, you'll add an SSH
+    key to your GitHub account. An SSH key authenticates your identity.
     To create an SSH key, enter the following
-    command in your shell:
+    command in your terminal:
 
 ```console
 $ ssh-keygen -t rsa -b 4096 -C "<your_email>"
 ```
 
-After you press enter, you'll be prompted to choose a filename in which to save your
+It will prompt you to choose a filename in which to save your
 key. Accept the default by pressing enter. Next, you'll be prompted to enter a
 passphrase for a key. If you want no passphrase, press enter. Otherwise, enter
 your passphrase. If you choose to add a passphrase, you must enter that passphrase each time you push to or pull from GitHub .
@@ -52,11 +52,11 @@ You should see two files: `id_rsa` and `id_rsa.pub`. SSH uses public-key
 cryptography, which requires a private key and a public key. `id_rsa` is your
 private key and should never be shared. `id_rsa.pub` is your public key and can be shared to validate your identity.
 
-Follow [these instructions from Github](https://docs.github.com/en/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account) to add your SSH key to your GitHub account.
+Follow [these instructions from Github](https://docs.github.com/en/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account) to add your SSH key to your GitHub account as an authorization key.
 
 
 ### Step 3: Configure git identity
-Use the commands below to configure your git identity so that your git actions are properly recorded. Be sure to replace `Pat Hanrahan` and `pmh@stanford.edu` with your own name and address. The last command just specifies that you want your repositories to merge on a git pull by default.
+Use the commands below to configure your git identity so that your git actions are properly recorded. Be sure to replace `Pat Hanrahan` and `pmh@stanford.edu` with your own name and address. The last command sets a reasonable default behavior when merging new content into your repo.
 
 ```console
 $ git config --global user.name "Pat Hanrahan"
@@ -158,7 +158,7 @@ is `code-mirror`, which is a shorthand way of referring to the code mirror
 repo on GitHub. The second `git remote -v` should show you both remotes:
 `origin` and `code-mirror` and the URLs that they represent.
 
-Before we move on, we actually need to pull some code from the `code-mirror` remote repo. If you look at <https://github.com/cs107e/code-mirror> (which we call `code-mirror`), you'll see that it contains a folder called `cs107e`. That folder, if you look inside, contains a number of folders (like `bin`, `include`, and `src`) filled with files. Those files will serve as the base code for CS107e, and the code you write will sometimes reference those files (for example, all the `.h` files you'll reference in this class are located in the `include` folder). To update your local `mycode` repo to include the `cs107e` folder, use the following command:
+Let's pull some code from the `code-mirror` remote repo. If you look at <https://github.com/cs107e/code-mirror> (which we call `code-mirror`), you'll see that it contains a folder called `cs107e`. In that folder are a number of subfolders (like `bin`, `include`, and `src`) filled with files. Those files will serve as the base code for CS107e, and the code you write will sometimes reference those files (for example, all the `.h` files you'll reference in this class are located in the `include` folder). To update your local `mycode` repo to include the `cs107e` folder, use the following command:
 ```console
 $ git pull code-mirror master
 ```
@@ -168,33 +168,29 @@ $ cd ~/cs107e_home/mycode
 $ ls cs107e
 bin  extras include  lib  other sample_build  src
 ```
-You should now see a list of the folders inside the `cs107e` folder.
-    
+Above confirms that the `cs107e` directory in your `mycode` repo is populated with the correct files.
+
 ### Step 8: Edit shell configuration file
-While we now have the `cs107e` folder (filled with all of its goodies) safely tucked away in our `mycode` folder, we need to tell our shell environment that it exists so that we can reference it easily when we make our code later. 
+The `cs107e` folder (filled with all of its goodies) is safely tucked away in the `mycode` repo. We will configure our shell environment to know where this folder is to make it easy to later reference it.
 
 What does that mean? If we needed to, we could refer to the `cs107e` folder every time by its location: `~/cs107e_home/mycode/cs107e`. But that's so long---and if I made my path any different than yours, then suddenly all of my code would break. So instead, we can use a nickname for the `cs107e` folder, since we're going to need to refer to it frequently.
 
 When opening a new shell, the environment is initialized by reading a configuration file in your home directory. Editing the configuration file allows you to set the initial state of your shell to have this nickname. Here are the steps to do that:
 
-1. Determine the name of the configuration file for your shell. The name depends on which shell you are using. Use the command `echo $SHELL` to see your shell. Your shell is likely `zsh`, although it might be `bash` if your account was created on an older macOS.
+1. Determine the name of your configuration file. The name depends on which shell you are using. Use the command `echo $SHELL` to see your shell. If on macOS, your shell is likely `zsh`. On WSL or older versions of macOS, your shell will be `bash`.
     ```console
     $ echo $SHELL
     /bin/zsh
     ```
 
-    If your shell is `zsh`, the configuration file is named `.zshrc`.  If your shell is `bash`, the configuration file is named `.bashrc`.  For any other shell, please ask a CA for help.
+    For the `zsh` shell, the configuration filename is `.zshrc`.  For `bash`, the configuration filename is `.bashrc`.  For any other shell, please ask a CA for help.
 
-    In the steps below when we refer to "configuration file", this means the file named `.zshrc`  or `.bashrc` depending on your shell.
-2. Find out if you already have an existing configuration file or create it if needed. Change to your home directory and list the files. Filenames starting with a dot are hidden in a directory listing by default. Use the command `ls -a` to list all files, including hidden ones:
+    When we refer to "configuration file", we mean the file named `.zshrc`  or `.bashrc`. The commands below demonstrate use of `.zshrc` because that is more common name, but if your shell is bash, be sure to replace `.zsrhc` with `.bashrc`.
+2. Use the command `ls` to check if you already have an existing configuration file.
     ```console
-    $ cd ~
-    $ ls -a
-    .    .bash_history   .bashrc     cs107e_home     .python_history 
-    ..   .bash_logout    .config     .profile        .viminfo
+    $ ls ~/.zshrc   # OR ls ~/.bashrc
     ```
-(The filenames listed in your directory may be somewhat different, don't worry!) Look through list to see if there is already a configuration file for your shell. 
-    If not listed, use `touch` to create an empty file with the appropriate name:
+    If `ls` reports there is no such file, use the `touch` command to create a new empty file.
     ```console
     $ touch ~/.zshrc     # OR touch ~/.bashrc
     ```
@@ -205,7 +201,7 @@ When opening a new shell, the environment is initialized by reading a configurat
     export PATH=$PATH:$CS107E/bin
     ```
 
-    The first line sets the environment variable `CS107E` to the path to where the class files are stored. The second line adds our `bin` subdirectory to your executable path. 
+    The first line sets the environment variable `CS107E` to the path to cs107e folder. The second line adds the `bin` subdirectory to your executable path.
 
 4. Use the `source` command to read the updated configuration file into your current shell:
     ```console
@@ -227,7 +223,7 @@ The configuration file is persistent and should be automatically read when creat
 {% include checkstep.html content="confirm shell configuration is persistent and future shells properly configured" %}
 Close your current shell and open a new one. Repeat the check step above in the new shell and confirm the new shell is also properly configured.
 
-If you confirm your configuration is persistent, skip the step below. If it is not persistent and you are using  `bash` and the macOS Terminal, use the additional customization below to add persistence.
+If you confirm your configuration is persistent, skip the step below. If it is not persistent and you are using the  `bash` shell and the macOS Terminal, add persistence with this additional customization.
 
 {: start="5"}
 5. (only if needed) Find the file named `.bash_profile` in your home directory. If no such file exists, use the `touch` command to create an empty file with that name. Open that file in a text editor and append the following line verbatim:

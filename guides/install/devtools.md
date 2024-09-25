@@ -34,31 +34,16 @@ Connected to the simulator.
 (gdb) quit
 ```
 
-{% include checkstep.html content="confirm __xfel__ and __mango-run__ " %}
-```console
+{% include checkstep.html content="confirm __xfel__  " %}
+```console?prompt=$
 $ xfel
 xfel(v1.3.2) - https://github.com/xboot/xfel
 usage:
-    xfel version                                    - Show chip version
-    xfel hexdump address length                     - Dumps memory region in hex
+    xfel version                                        - Show chip version
+    xfel hexdump <address> <length>                     - Dumps memory region in hex
+    xfel dump <address> <length>                        - Binary memory dump to stdout
     ... blah blah blah ...
-$ mango-run
-Usage: /Users/julie/cs107e_home/mycode/cs107e/bin/mango-run <binary-file>
-
-  Simple script to run a program on the Mango Pi using xfel as bootloader.
-  (xfel ddr d1, xfel write, xfel exec)
-
-xfel version
-ERROR: No devices connected to USB.
 ```
 
-{% comment %}
-> __got abort?__ If you run `xfel` when there are no USB devices connected to your laptop, rather than report a helpful error about not finding anything to talk to, `xfel` drops an unceremonious assert (see below). Re-connecting your Pi should fix it. If not, change to a different USB port on your laptop to jigger things, or if USB just seems wedged, restart your laptop.
-{: .callout-danger}
 
-```console
-Assertion failed: (count > 0), function main, file main.c, line 60.
-fish: Job 1, 'xfel version' terminated by signal SIGABRT (Abort)
-```
-{% endcomment %}
 

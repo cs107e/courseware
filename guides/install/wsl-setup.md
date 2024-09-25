@@ -1,5 +1,5 @@
 ---
-title: 'Guide: Install Windows WSL'
+title: 'Guide: Set up Windows WSL'
 toc: true
 ---
 
@@ -21,7 +21,7 @@ Confirm that you are running an appropriate version of Windows 11. To find the v
 {: .w-75}
 
 When we updated our installation instructions for __Fall 2024__, we tested on __Version 23H2__ of Windows 11 and recommend that your version match ours.
-> __Old Windows version: stop here!__ If your version of Windows version is earlier than what we tested (23H2); you should not proceed with the installation instructions. Update to a compatible OS version first. If you need help, reach out to the staff.
+> __Old Windows version? Stop here!__ If your version of Windows version is earlier than what we tested (23H2); do not proceed with the installation instructions. Update to a compatible OS version first. If you need help, reach out to the staff.
 {: .callout-danger-invert}
 
 ### Enable WSL Windows feature
@@ -45,16 +45,20 @@ Windows OS does not natively support the development tools used in this course. 
 
 1. The `ubuntu` application is now launched and opens a new WSL terminal window. The terminal prints the message "Installing, this may take a few minutes...", be patient while it works.
 1. When complete, it prompts you to create a new username and password for your Ubuntu account. __Be sure to remember the name and password__, you'll need them later for sudo/administrator privileges.
-1. Bring the Ubuntu packages up to date by running the command below in your WSL terminal window:
+1. Bring the Ubuntu packages up to date by running the commands below in your WSL terminal window:
 
     ```console
     $ sudo dpkg-divert --rename --add /usr/bin/systemd-sysusers
     $ sudo ln -sf /usr/bin/true /usr/bin/systemd-sysusers
     $ sudo apt update && sudo apt upgrade
     ```
+{% comment %}
+REMINDER TO SELF: systemd is janked under WSL version 1. Call to systemd-sysusers will fail which errors out on package install. systemd isn't even used in WSL 1, safe to disregard, the trick is to do in a way that doesn't generate a bunch of scary warnings and/or block other installs. We use dpkg-divert to redirect future updates to systemd-sysuers, then replace systemd-sysusers with a no-op.  This clever solution brought to you by Michael Chang.
+{% endcomment %}
 The update procedure is very chatty, expect a lot of long-winded unix-babble to go by. Be patient and wait to confirm that the process eventually completes with no errors.
 
 {% include checkstep.html content="confirm Ubuntu and WSL version 1" %}
+Use the commands below to confirm the correct versions of WSL and ubuntu.
 ```console
 $ lsb_release -a
 No LSB modules are available.
@@ -81,7 +85,7 @@ You now have an up-to-date version of Ubuntu running in WSL on top of your Windo
 <a name="files"></a>
 ### Accessing WSL files from Windows
 
-An important detail to note about WSL is that it hosts its own file system. The files you access within the WSL terminal are separate from your regular Windows file system. You can access the WSL files in the Windows File Explorer by changing to a particular directory in the WSL terminal and run the command below:
+It is important to recognize that WSL hosts its own file system. The files you access within the WSL terminal are separate from your regular Windows file system. You can access the WSL files in the Windows File Explorer by changing to a particular directory in the WSL terminal and run the command below:
 
 ```console
 $ explorer.exe .
@@ -89,6 +93,6 @@ $ explorer.exe .
 
 This command opens a window in File Explorer that shows the files in the current WSL directory (whose shortname name is dot). Windows applications can now access these files, such as to edit a WSL text file using your favorite Windows text editor. Nifty!
 
-## WSL installation complete
+## WSL setup complete
 
 Nice job! Interested in becoming even more productive with WSL? The Windows-savvy folks on the teaching team highly recommend using [Windows Terminal](https://github.com/microsoft/terminal), which wraps around the basic Ubuntu default terminal to make it both pretty & full of very useful features like tabs, rich text, and split terminals. If you have questions and want to do this, feel free to reach out during office hours!

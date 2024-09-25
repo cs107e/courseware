@@ -1,7 +1,7 @@
 ---
 title: "Guide: Git workflow for CS107e"
 toc: true
-quarterprefix: winter24
+quarterprefix: fall24
 attribution: Written by Maria Paula Hernandez, incorporating work of past TAs
 ---
 
@@ -31,7 +31,7 @@ Your typical workflow will be to change to the subfolder for the particular lab 
 you are currently working on. Within that subfolder, you edit files, build and run your code, make git commits, and so on.
 
 In the instructions for the workflows we give below, we use `assignX` or `labX` as a generic
-placeholder. When you issue the command, be sure to use the specific name for the assign or lab you intend to work on, e.g. `assign1` or `lab2`.
+placeholder. When you issue the command, be sure to replace the placeholer with the specific name you are intend to work on, e.g. `assign1` or `lab2`.
 
 ## Lab workflow
 

@@ -17,10 +17,12 @@ We prepared these guides on various topics relevant to CS107E students. Hope you
 - [Soldering guide](soldering-guide.pdf) for soldering pins onto the MangoPi 
 
 ## Installation
-- [Install WSL](install/wsl-setup) (Windows users only)
-- [Setup of git and mycode repo](setup-mycode-repo)
+- [Setup WSL](install/wsl-setup) (only on Windows)
 - [Install developer tools](install/devtools) (riscv toolchain and xfel)
+- [Setup git and mycode repo](setup-mycode-repo)
+{% comment %}
 - [Install CP2102 driver](install/cp2102) and [Minicom](install/minicom) for USB-serial device
+{% endcomment %}
 
 ## Mango Pi
 - [Powering the Mango Pi](power)

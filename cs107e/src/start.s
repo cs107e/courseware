@@ -25,7 +25,12 @@ _start_gdb:                 # entry for gdb will skip csr as not avail in sim
     addi    fp,zero,0       # init fp
     la      sp,__stack_top  # init sp (stack grows down)
     jal     _cstart
-
+.globl _exit_to_FEL
+_exit_to_FEL:
+    la      t0,0x02001d00
+    li      t1,0x301
+    sw      t1,0(t0)
+    la      t0,0x20
+    jr      t0
 hang: j hang
-    ret
 .cfi_endproc

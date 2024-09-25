@@ -43,17 +43,30 @@ void mango_reboot(void) {
 
 #define DOT_MS 120
 
+static void check_reboot(void) {
+    if (uart_haschar()) {
+        int ch = uart_recv();
+        if (ch == 3) { // ctrl-c
+            printf("\n^C received. Rebooting...");
+            mango_reboot();
+        }
+    }
+}
+
 static void on_dot(int ndot) {
+    check_reboot();
     mango_actled(LED_ON);
     timer_delay_ms(ndot * DOT_MS);
 }
 static void off_dot(int ndot) {
+    check_reboot();
     mango_actled(LED_OFF);
     timer_delay_ms(ndot * DOT_MS);
 }
 
 void mango_abort(void) {
     // Timing from https://en.wikipedia.org/wiki/SOS
+    printf("\n *** In mango_abort(), type control-C to reboot. ");
     while (1) {  // S-O-S
         on_dot(1); off_dot(1); on_dot(1); off_dot(1); on_dot(1);
         off_dot(3);

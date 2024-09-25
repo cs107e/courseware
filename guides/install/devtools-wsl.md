@@ -18,7 +18,9 @@ You may need to restart your computer a few times throughout this process, so it
 > __Got WSL?__ By now you should already have installed WSL, if you don't, please first follow the [WSL installation guide](../wsl-setup) first and then come back here to install the developer tools.
 {: .callout-warning}
 
-Run the commands below in your WSL terminal to confirm that you are running an appropriate version of Ubuntu and WSL.
+__Note: all terminal commands below should be entered in the WSL terminal__!
+
+Before starting, confirm that you are running an appropriate version of Ubuntu and WSL.
 
 {% include checkstep.html content="confirm Ubuntu and WSL version 1" %}
 ```console
@@ -36,8 +38,7 @@ $ powershell.exe "wsl --list --verbose"
 > WSL version 2 is not compatible with the tools we use in this course.
 {: .callout-warning}
 
-## Install developer tools
-Run the commands below in your WSL terminal.
+## Install riscv-unknown-elf toolchain and prerequisites
 
 1. Install prerequisites and base toolchain.
 ```console
@@ -70,33 +71,28 @@ Connected to the simulator.
 
 Next, we need to install xfel (<https://github.com/xboot/xfel>), which is the tool that we use to communicate with your Pi (i.e., send code and other nifty tricks).
 
-Here are the steps:
-
-Note that all terminal commands below are to be entered in the __wsl__ terminal.
-
-1. Run these commands to download our xfel package.
+1. Change to the proper directory, download the xfel archive, and unpack it. Replace `[YOUR-WINDOWS-USERNAME]` with the name of your __Windows__ login account.
     ```console 
-    $ cd /mnt/c/Users/[your Windows user name]
+    $ cd /mnt/c/Users/[YOUR-WINDOWS-USERNAME]
     $ wget https://github.com/cs107e/homebrew-cs107e/raw/master/xfelWin32.tar.gz
-    $ sudo tar -xvf xfelWin32.tar.gz # sudo here to gain permissions to modify the file time
-    $ rm xfelWin32.tar.gz # remove archive, not needed
+    $ sudo tar -xvf xfelWin32.tar.gz      # sudo to permit update file modtime
+    $ rm xfelWin32.tar.gz                 # done with archive, remove
     ```
-2. Use the command below to run "zadig-2.8.exe". When alert pops up to ask that the application is allowed to make changes to your device, click "yes".
+2. Run the "zadig-2.8.exe" to install the USB device drive. When application launches, it will pop up an alert that asks you to confirm it can make changes to your drivers, be sure to click "yes".
     ```console
     $ powershell.exe "./xfel/zadig-2.8.exe"
     ```
 
-3. Find the window that looks like screenshot below. Click "Create New Device" under the "Device" menu. Add "Mango Pi" as the description text and enter `1F3A` `EFEB` for the USB ID.  Click "Install Driver". You should see a progress meter that says "Installing Driver..." and once that finishes running, confirm there is a message that says the driver was installed successfully. Close zadig. If instead there are errors, call over a staff member for help.
+3. In the Zadig window that looks like screenshot below, choose `Create New Device` from the `Device` menu. Use `Mango Pi` as the description text and enter `1F3A` `EFEB` for the USB ID and then click the button `Install Driver`. You should see a progress meter that says "Installing Driver...". Wait to comfirm the installation successfully completes and close zadig.
 
     ![zadig.exe popup](../images/zadig.png){: .w-90}
 
-4. Now we will create a symbolic link for the xfel executable. This allows us to keep the xfel executable in the Windows file system while still being able to call it from WSL (this arrangement avoids Windows Defender doing a painfully long antivirus scan everytime you run xfel!). Run the following commands:
+4. Now we will create a symbolic link for the xfel executable. This allows us to keep the executable in the Windows file system while still being able to call it from WSL (this arrangement is needed to avoid a painfully long antivirus scan by Windows Defender on every invocation of xfel).
     ```console
-    $ cd xfel 
-    $ sudo ln -s /mnt/c/Users/[your-Windows-username]/xfel/xfel /usr/local/bin
+    $ sudo ln -s /mnt/c/Users/[YOUR-WINDOWS-USERNAME]/xfel/xfel /usr/local/bin
     ```
 
-    If this worked, xfel will be findable on your path from the wsl side:
+    If this worked, xfel will be findable on your wsl path:
     ```console
     $ which xfel
     $ /usr/local/bin/xfel
@@ -104,16 +100,16 @@ Note that all terminal commands below are to be entered in the __wsl__ terminal.
 
 {% include checkstep.html content="confirm xfel" %}
 
-You can confirm xfel is properly installed by running the command below.
+Confirm xfel is properly installed by running the command below.
 
-```console
+```console?prompt=$
 $ xfel
 xfel(v1.3.2) - https://github.com/xboot/xfel
 usage:
-    xfel version                            - Show chip version
-    xfel hexdump address length             - Dumps memory region in hex
-    xfel dump address length                - Binary memory dump to stdout
-    ...
+    xfel version                                        - Show chip version
+    xfel hexdump <address> <length>                     - Dumps memory region in hex
+    xfel dump <address> <length>                        - Binary memory dump to stdout
+    ... blah blah blah ...
 ```
 
 ## Installation complete
