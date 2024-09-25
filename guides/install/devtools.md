@@ -24,13 +24,7 @@ Follow the installation instructions for your OS
 ## Final check steps
 After completing the installation instructions, use these final check steps below to confirm your developer tools.
 
-{% include checkstep.html content="confirm $CS107E, cross-compile build and debug simulator" %}
-```console
-$ cd $CS107E/sample_build
-$ make clean && make all
-rm -f *.o *.bin *.elf *.list *~
-riscv64-unknown-elf-gcc ... blah blah blah ...
-```
+{% include checkstep.html content="confirm $CS107E, cross-compile debug simulator" %}
 ```console?prompt=(gdb),$
 $ riscv64-unknown-elf-gdb
 GNU gdb (GDB) 13.2
@@ -55,7 +49,7 @@ Usage: /Users/julie/cs107e_home/mycode/cs107e/bin/mango-run <binary-file>
   (xfel ddr d1, xfel write, xfel exec)
 
 xfel version
-ERROR: Did not find a FEL device connected to USB.
+ERROR: No devices connected to USB.
 ```
 
 {% comment %}
