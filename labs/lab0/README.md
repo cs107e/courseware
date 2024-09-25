@@ -163,7 +163,7 @@ No matter which editor you decide to make your home base, we think it's a worthw
 
 First, let's try out Emacs. Change directory into the subfolder named `editors` within `lab0` in your `mycode` repo. The folder contains two text files, `emacs_is_better.txt`and `vim_is_better.txt`.  Use the command below to open a file in the emacs editor. (Note: on recent macOS versions, use `mg` in place of `emacs`. `mg` is a lightweight emacs-style editor that comes pre-installed. You can also install full emacs via homebrew.)
 ```console
-$ emacs emacs_is_better.txt
+$ emacs emacs_is_better.txt  # OR mg emacs_is_better.txt on macOS
 ```
 If that worked, type away! Once you're finished, hit `ctrl+x` and then `ctrl+s` to save your document. To exit, hit `ctrl+x`  and then `ctrl+c`.
 

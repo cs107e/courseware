@@ -72,37 +72,39 @@ Next, we need to install xfel (<https://github.com/xboot/xfel>), which is the to
 
 Here are the steps:
 
-1. Run the following command in **wsl** to download our version of xfel and its dependencies.
+Note that all terminal commands below are to be entered in the __wsl__ terminal.
+
+1. Run these commands to download our xfel package.
     ```console 
     $ cd /mnt/c/Users/[your Windows user name]
     $ wget https://github.com/cs107e/homebrew-cs107e/raw/master/xfelWin32.tar.gz
     $ sudo tar -xvf xfelWin32.tar.gz # sudo here to gain permissions to modify the file time
     $ rm xfelWin32.tar.gz # remove archive, not needed
     ```
-2. Now we will run the "zadig-2.8.exe", when you enter the following command you will be asked if you want to allow the application to make changes to your device, click "yes".
+2. Use the command below to run "zadig-2.8.exe". When alert pops up to ask that the application is allowed to make changes to your device, click "yes".
     ```console
     $ powershell.exe "./xfel/zadig-2.8.exe"
     ```
 
-4. By now, you should see a pop-up that looks like the below image. **Make sure your Mango Pi is plugged in for this part.** Click "Install Driver". You should get a pop-up on top that says "Installing Driver..." and once that finishes running, make sure you get a message that the driver was installed successfully. If not, make sure you call over a staff member. If so, you're good to go on!
+3. Find the window that looks like screenshot below. Click "Create New Device" under the "Device" menu. Add "Mango Pi" as the description text and enter `1F3A` `EFEB` for the USB ID.  Click "Install Driver". You should see a progress meter that says "Installing Driver..." and once that finishes running, confirm there is a message that says the driver was installed successfully. Close zadig. If instead there are errors, call over a staff member for help.
 
     ![zadig.exe popup](../images/zadig.png){: .w-90}
 
-5. Close zadig. Now we are going to create a symbolic link to the xfel executable, this allows us to keep the xfel executable in the Windows file system while still being able to call it from WSL (this way it avoids Windows Defender doing a very lengthy antivirus scan everytime you run xfel!). Run the following commands and copy the final output 
+4. Now we will create a symbolic link for the xfel executable. This allows us to keep the xfel executable in the Windows file system while still being able to call it from WSL (this arrangement avoids Windows Defender doing a painfully long antivirus scan everytime you run xfel!). Run the following commands:
     ```console
     $ cd xfel 
-    $ sudo ln -s /mnt/c/Users/[your Windows user name]/xfel/xfel /usr/local/bin
+    $ sudo ln -s /mnt/c/Users/[your-Windows-username]/xfel/xfel /usr/local/bin
     ```
 
-    If this worked, xfel should be findable on your path:
+    If this worked, xfel will be findable on your path from the wsl side:
     ```console
     $ which xfel
     $ /usr/local/bin/xfel
     ```
 
-8. Time to check if that worked! Go back to your `mycode` folder, and try running xfel.
-
 {% include checkstep.html content="confirm xfel" %}
+
+You can confirm xfel is properly installed by running the command below.
 
 ```console
 $ xfel

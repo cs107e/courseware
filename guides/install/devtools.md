@@ -24,7 +24,7 @@ Follow the installation instructions for your OS
 ## Final check steps
 After completing the installation instructions, use these final check steps below to confirm your developer tools.
 
-{% include checkstep.html content="confirm $CS107E, cross-compile debug simulator" %}
+{% include checkstep.html content="confirm cross-compile debug with simulator" %}
 ```console?prompt=(gdb),$
 $ riscv64-unknown-elf-gdb
 GNU gdb (GDB) 13.2

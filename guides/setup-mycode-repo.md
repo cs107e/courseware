@@ -184,6 +184,8 @@ When opening a new shell, the environment is initialized by reading a configurat
     ```
 
     If your shell is `zsh`, the configuration file is named `.zshrc`.  If your shell is `bash`, the configuration file is named `.bashrc`.  For any other shell, please ask a CA for help.
+
+    In the steps below when we refer to "configuration file", this means the file named `.zshrc`  or `.bashrc` depending on your shell.
 2. Find out if you already have an existing configuration file or create it if needed. Change to your home directory and list the files. Filenames starting with a dot are hidden in a directory listing by default. Use the command `ls -a` to list all files, including hidden ones:
     ```console
     $ cd ~
@@ -194,7 +196,7 @@ When opening a new shell, the environment is initialized by reading a configurat
 (The filenames listed in your directory may be somewhat different, don't worry!) Look through list to see if there is already a configuration file for your shell. 
     If not listed, use `touch` to create an empty file with the appropriate name:
     ```console
-    $ touch ~/.zshrc     # OR touch ~/.bashrc if your shell is bash fron step 1
+    $ touch ~/.zshrc     # OR touch ~/.bashrc
     ```
 
 3. Open the configuration file in a text editor and append the following two lines verbatim:
