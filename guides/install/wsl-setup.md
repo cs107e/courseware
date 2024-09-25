@@ -75,9 +75,9 @@ $ powershell.exe "wsl --list --verbose"
 {: .callout-warning}
 
 {%- comment %}
-NOTE: WSL2 now supports serial ports
-TODO: see if we need https://github.com/dorssel/usbipd-win
-The rightmost column of the last command reports the version of WSL. It is critical that you are using WSL version 1, not 2, as serial port support is not available in WSL2.
+2024: we hear that WSL2 should now support serial ports, but we couldn't get xfel/minicom on board with it
+Continue with strategy of WSL1 + access to USB on the Windows side.
+FUTURE TODO?  https://github.com/dorssel/usbipd-win
 {%- endcomment %}
 
 You now have an up-to-date version of Ubuntu running in WSL on top of your Windows OS.
