@@ -166,7 +166,7 @@ $ git pull code-mirror master
 ```console
 $ cd ~/cs107e_home/mycode
 $ ls cs107e
-bin  include  lib  sample_build  src
+bin  extras include  lib  other sample_build  src
 ```
 You should now see a list of the folders inside the `cs107e` folder.
     
