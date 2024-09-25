@@ -91,14 +91,13 @@ Here are the steps:
 5. Close zadig. Now we are going to create a symbolic link to the xfel executable, this allows us to keep the xfel executable in the Windows file system while still being able to call it from WSL (this way it avoids Windows Defender doing a very lengthy antivirus scan everytime you run xfel!). Run the following commands and copy the final output 
     ```console
     $ cd xfel 
-    $ ln -s /mnt/c/Users/[your Windows user name]/xfel/xfel $CS107E/bin/ 
+    $ sudo ln -s /mnt/c/Users/[your Windows user name]/xfel/xfel /usr/local/bin
     ```
 
-    If this worked, the following files should appear in your respository:
+    If this worked, xfel should be findable on your path:
     ```console
-    $ cd $CS107E/bin
-    $ ls
-    blink-actled.bin  mango-run  pinout.py  xfel
+    $ which xfel
+    $ /usr/local/bin/xfel
     ```
 
 8. Time to check if that worked! Go back to your `mycode` folder, and try running xfel.
