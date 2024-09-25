@@ -76,7 +76,7 @@ Here are the steps:
     ```console 
     $ cd /mnt/c/Users/[your Windows user name]
     $ wget https://github.com/cs107e/homebrew-cs107e/raw/master/xfelWin32.tar.gz
-    $ tar -xvf xfelWin32.tar.gz
+    $ sudo tar -xvf xfelWin32.tar.gz # sudo here to gain permissions to modify the file time
     $ rm xfelWin32.tar.gz # remove archive, not needed
     ```
 2. Now we will run the "zadig-2.8.exe", when you enter the following command you will be asked if you want to allow the application to make changes to your device, click "yes".
