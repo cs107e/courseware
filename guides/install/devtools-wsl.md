@@ -91,7 +91,7 @@ Here are the steps:
 5. Close zadig. Now we are going to create a symbolic link to the xfel executable, this allows us to keep the xfel executable in the Windows file system while still being able to call it from WSL (this way it avoids Windows Defender doing a very lengthy antivirus scan everytime you run xfel!). Run the following commands and copy the final output 
     ```console
     $ cd xfel 
-    $ ln -s /mnt/c/Users/[your Windows user name]/xfel/xfel $CS107E/bin 
+    $ ln -s /mnt/c/Users/[your Windows user name]/xfel/xfel $CS107E/bin/ 
     ```
 
     If this worked, the following files should appear in your respository:
