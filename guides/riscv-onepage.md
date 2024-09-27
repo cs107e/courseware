@@ -30,7 +30,7 @@ Below is a brief summary of common RISC-V instructions. See the [Resources](/res
 ## Registers
 There are 32 registers indexed from `x0` to `x31`. Each register has an alias that aids as mnemonic for the register's intended use. We will typically refer to registers by alias name.
 
-| Register |  Alias | Purpose
+| Register |  Alias | Conventional use
 |:--------|:------|:------|
 | x0  | zero | fixed zero value
 | x1  | ra | return address
@@ -102,7 +102,7 @@ There are 32 registers indexed from `x0` to `x31`. Each register has an alias th
 {: .table .table-sm .table-striped .insn }
 
 ## Pseudo instructions
-These are accepted by the assembler as a convenience and converted into actual instruction(s).
+These convenience forms are accepted by the assembler and converted into actual instruction(s).
 
 | Mnemonic | Example | Translation | Notes |
 |:--------|:------|:--------|:--------|
