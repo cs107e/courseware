@@ -28,10 +28,10 @@ The `xfel` tool runs on your laptop and communicates with the bootloader.
 {: .callout-warning}
 
 ## Connect through OTG
-FEL listens for commands over USB. The connection from your laptop to the OTG port that is [powering the Pi](/guides/power) is the same connection your laptop will use to communicate with the bootloader.  Be sure that your usb cable/hub supports both charge and data, needed for power and communication, respectively.
+FEL listens for commands over USB. The connection from your laptop to the OTG port that is [powering the Pi](/guides/power) is the same connection your laptop will use to communicate with the bootloader. Your usb cable/hub must support both charge and data, needed for power and communication, respectively.
 
 ![usb otg power](../images/power-otg.png)
-{: .w-25 .mx-auto }
+{: .w-50 .mx-auto }
 
 
 Invoking `xfel` with no arguments shows the available commands. The commands `xfel ddr`, `xfel write` and `xfel exec` are the ones we will use most.
@@ -74,14 +74,14 @@ If the Pi is not powered on or is not connected, `xfel` cannot find the device a
 
 ```console
 $ xfel version
-ERROR: Can't found any FEL device
+ERROR: xfel found no connected FEL device.
 ```
 
 If the Pi is powered on and connected but the bootloader is not running, `xfel` will find the device and attempt to communicate with it, but since the bootloader is not listening, the message will fall on deaf ears. After a few unacknowledged retries, it will give up and report this error:
 
 ```console
 $ xfel version
-usb bulk send error
+ERROR: xfel had timeout comunicating with device (device not listening, needs reset?)
 ```
 
 ## Use xfel read32/write32 to peek and poke
@@ -114,7 +114,7 @@ $ xfel hexdump 0x02000000 100
 ## Use xfel to load and execute a program
 Before loading a program, we must first bring up the memory controller. This requires a finely-tuned bit of hardware wizardry that is supplied by `xfel`. We will use the command `xfel ddr d1` to properly initialize the memory for the D1. You must always initialize the memory controller after reset and before running a program.
 
-Once the memory system is operationg, use the command `xfel write` to send a binary file from your laptop to the bootloader. The bootloader will receive the file and writes it to memory at the address you specify. The command `xfel exec` will start execution at that address. We load our programs to address `0x40000000`, the standard start location for RISC-V.
+After the memory system has been initialized, use the command `xfel write` to send a binary file from your laptop to the bootloader. The bootloader will receive the file and write it to memory at the address you specify. The command `xfel exec` will start execution at that address. We load our programs to address `0x40000000`, the standard start location for RISC-V.
 
 Try these commands out now. Change to the CS107E bin directory and send the blink-actled program:
 ```console
@@ -127,7 +127,7 @@ $ xfel exec  0x40000000
 ```
 The blink-actled program sits in an endless loop blinking the blue on-board led.
 
-To load and run a different program, your must first reset the Pi by briefly interrupting power. This step is necessary to reset the Pi and reenter the bootloader so it is ready to receive a new program.
+To load and run a different program, your must first reset the Pi by briefly interrupting power. This step is necessary to reset the Pi and reenter the bootloader so it is ready to receive a new program. Your parts kit includes a usb cable with a rocker switch so you can perform a reset by a quick switch to off then back on.
 
 ## Pro-tip: `mango-run`
 You will need to re-play these commands (`xfel ddr d1; xfel write; xfel exec`) so often that we wrote a small script to package this command sequence into the single command `mango-run`.
@@ -163,14 +163,14 @@ There you have it, a simple way to execute programs on your Pi. Nifty!
 Some suggestions of how to diagnose and resolve troubles with the bootloader.
 
 Use `xfel version` (or `mango-run` with no arguments) to test communication with the bootloader.
-- If response is chip id `AWUXBFEX ID=...`, you are good to go! It found the connection to the pi, the bootloader is running, and the Pi responded with the id. All's right in your world.
-- If response is `ERROR: Can't found any FEL device`, it could not find the Pi to connect.
+- If response is chip id `AWUXBFEX ID=...`, you are good to go! It found the connection to the Pi, the bootloader is running, and the Pi responded with its id. All's right in your world.
+- If response is `ERROR: xfel found no connected FEL device.`, it could not find the Pi to connect.
 	- Double-check the Pi is powered up, that your laptop is connected to the Mango OTG port, and the cable you are using supports both charge and data.
-	- In some situations, a cable/connection that were working perfectly fine a moment ago can suddenly stop working. This can happen if your laptop's usb system went a bit wonky and suspended the port. Try unplug from your laptop usb port and replug to prompt your laptop to resume. In some cases, you may need to reboot your laptop to set things right.
-- If response is `usb bulk send error`, it found the connection to Pi, but was not able to communicate with the bootloader.
-	- This generally means the bootloader is not running/listening. The most common cause would be that you have already bootloaded a program and it is executing, thus the bootloader is no longer running. To re-enter the bootloader, you must restart the Pi. Reset by briefly cutting power to it by unplug/replug or use the switch on your hub/cable.
+	- In some situations, a connection that was fine a moment ago can stop working. This can happen if your laptop's usb system went a bit wonky and suspended the port. Unplugging from your laptop usb port and replug may prompt your laptop to reset the port, if not, reboot your laptop to set things right.
+- If response is `ERROR: xfel had timeout comunicating with device (device not listening, needs reset?)`, it found the connection to Pi, but was not able to communicate with the bootloader.
+	- This generally means the bootloader is not running/listening. If you previously bootloaded a different program and it is now executing on the Pi, the bootloader is no longer running. To re-enter the bootloader, you must restart the Pi. Reset by briefly cutting and restoring power using the switch on your usb cable.
 
 ## Resources
-- The `xfel` source code is published on github <https://github.com/xboot/xfel>
+- The `xfel` source code is published on github, we maintain a custom fork at <https://github.com/cs107e/xfel>
 - Documentation on `xfel` is available at <https://xboot.org/xfel/>
 - The `mango-run` script is available in `$CS107E/bin`.
