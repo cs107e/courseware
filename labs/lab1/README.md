@@ -316,7 +316,7 @@ Show us your annotated version of `button.s` and talk us through your understand
 - Remember the goal of the lab is not to rush through to finish fastest -- it's to work through the material and build understanding.
 
 ### Submit exit form
-- Each of you should fill out our [exit form](exit_form) to let us how the lab went for you and note any issues for us to followup with you.
+- Each of you should fill out our [exit form](https://docs.google.com/forms/u/1/d/1x9hkLr0Y7qOHYkIEQr6MbGH63C__heiKa4AFE8hPTmU/edit?usp=drive_web) to let us how the lab went for you and note any issues for us to followup with you.
 - It's okay if you don't fully complete all exercises during
 lab; your sincere participation for the full lab period is sufficient
 for credit.  However, if you don't finish, we highly encourage you to
