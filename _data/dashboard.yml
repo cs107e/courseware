@@ -26,5 +26,5 @@ tools:
     description: (Ref card)
   - title: Compiler Explorer
     icon: godbolt.png
-    link: https://gcc.godbolt.org/z/Eod3jo3bb
+    link: https://godbolt.org/z/9YsrErKoM
     description: (C to Asm)
