@@ -40,7 +40,7 @@ these headers cannot be included or used.
 In hosted mode, the `main` function must adhere to a rigid specification.
  Execution begins at the function named `main` and its signature must typically match:
 
-    int main(int argv, char *argv[], char *env[])   // main in hosted env
+    int main(int argv, char *argv[])   // main in hosted env
 
 The compiler will issue warnings if you define `main` differently for a hosted program.
 
