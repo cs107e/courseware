@@ -143,6 +143,8 @@ was successful by browsing your repo on GitHub and
 confirming that your newly created tag shows up in the __Tags__ section of the branches
 dropdown menu.
 
+<A name="resubmit"></a>
+#### Move tag for resubmit
 If you need to update your previously tagged submission with additional changes, you can move the tag to a different commit with the following command
 (note that you need to push `--force` when moving a tag that already exists).
 
