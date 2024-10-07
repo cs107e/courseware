@@ -202,10 +202,10 @@ When working on the extension, follow the same git workflow as core (edit on dev
 
 ## Grading
 
-Our general process for grading assignments focuses on evaluating the __functionality__ and __quality__ of your submission. For functionality, we assess the completeness and correctness of the implementation of required features. We run tests against the code for a variety of situations and report results to you in terms of passed and failed test cases. Quality comprises an evaluation of the design of your implementation, style and readability of your code, and thoroughness of your test cases.  We evaluate quality through an individual review and provide qualitative and constructive feedback.
+Our general process for grading assignments focuses on evaluating the __functionality__ and __quality__ of your submission. For functionality, we assess the completeness and correctness of the implementation of required features. We run tests against the code for a variety of situations and report results to you in terms of passed and failed test cases. Quality comprises an evaluation of the design of your implementation and the style and readability of your code. We will also review your test cases for thoroughness, if the assignment has a required testing component. We evaluate quality through an individual review and provide qualitative and constructive feedback.
 
-To grade your Larson scanner, your beloved CAs will invoke `make` to build your `larson.bin`
-file and test it on a Pi with the LEDs connected to the PB group pins. For this process to go smoothly,
+To test your Larson scanner, the grading CA will invoke `make` to build your `larson.bin`
+file and execute on a Pi with the LEDs connected to the PB group pins. For this process to go smoothly,
 please ensure the following:
 
 - A `make` will successfully build your program with no warnings or errors.
