@@ -227,7 +227,9 @@ Below is the pinout for the display unit. Note that the `DIG.1`,
 
 Safety first! Don a pair of safety glasses to protect your eyes from flying leads.
 
-Start by connecting all of the breadboard power and ground rails to make accessing power and ground more convenient. Custom-fit a red wire that connects the upper power rail to the lower power rail and a black wire for the ground rails. The breadboards we are using as of Fall 2024 divide the side rails into halves, so also connect over those gaps with short red and black wires. The end result should be one fully connected rail for power and another for ground. (Note that the breadboard we have used in previous quarters did not have a break at half-rail, thus our photos below will look a little different than yours.)
+Start by connecting all of the breadboard power and ground rails to make accessing power and ground more convenient. Custom-fit a red wire that connects the upper power rail to the lower power rail and a black wire for the ground rails. If your breadboard has a mid-rail gap, connect over those with short red and black wires. The end result should be one fully connected rail for power and another for ground.
+
+How do you know if your breadboard has a mid-rail gap? Check whether rail marking is a continuous line or has a break at mid-rail. The breadboard in the photo below has a gap. Click the image to zoom to see the markings. Note that the breadboard used in previous quarters did not have a gap, the photos in the rest of the guide use that board and it may look a little different than yours.
 
 ![Breadboard with tied rails](images/breadboard.rails.jpg){: .zoom }
 
