@@ -7,41 +7,52 @@ Our goal is to give you a fun way to build on the work you put into your gpio/ti
 sprout a few inspirations that resurface in final projects.
 
 
-Here are some notes on the devices that you might find helpful.
+Here are some notes on the devices that you might find helpful.  The datasheet from the manufacturer sometimes leaves a
+lot to be desired, so we have some suggested tutorials as well.
 
 
 ### Inputs
-- Rotary encoder knob
-  - Can turn clockwise or counterclockwise, and press. You can also turn while pressing. Satisfying mechanical feel.
-  - Seat in breadboard with a little bit of prodding.
-  - We have lots of these.  I also have a handful of a different type without center press where knob has LED that turns on/off.
-- 5-way navigation switch
-  - Like a mini-joystick, rock to compass points (NSEW), press in center. Buttons are exclusive.
-  - I have just a few of these and they have sad, spindly legs don't seat well in a breadboard - Boo!
-  - However, I ordered some from different manufacturer to arrive on Friday that may be better. Also building a breakout on perfboard might help. Stay tuned.
-- Membrane keybpad
-  - Reports press of single and multiple concurrent buttons.
-  - Number pad gives clear affordance to user, but fewer options for creativity.
+- __Rotary encoder knob__
+  - Can turn clockwise or counterclockwise, and press. You can also turn while pressing. Satisfying clicky mechanical feel.
+  - Possibilities: turn slow one-click-at-time to fine tune, quick sweep to make large change? use press in conjunction with turn?
+  - Will seat in breadboard with a little bit of prodding.
+  - We have lots of these.  I also have a handful of a different type without center press where shalft has LED that turns on/off.
+  - The manufacturer [datasheet](../datasheets/EC11.pdf) is pretty primitive, lighted shaft [version](../datasheets/LightedPEL12S.pdf) is easier to read (has similar design). An [overview of how encoder works](https://learn.adafruit.com/rotary-encoder/overview) from Adafruit.
+- __5-way navigation switch__
+  - Like a mini-joystick, rock to compass points (NSEW), push in center. Buttons are exclusive (can only activate one at a time).
+  - Possibilities: press and release once to fine-tune, press and hold to make large change? move between minutes/seconds and set separately?
+  - I have just a few of these and their sad, spindly legs don't seat well in a breadboard - Boo!
+  - However, I ordered some from different supplier to arrive on Friday that may be better. Also building a breakout on perfboard might help. Stay tuned.
+  - Manufacturer [datasheet](../datasheets/SKQUCAA010-ALPS.pdf). This is basically 5 push buttons bundled into one component.
+- __Membrane keypad__
+  - Reports press of single button and multiple concurrent buttons.
+  - Possibilities: uh, it's a number pad... clear affordance, fewer options for creativity. Error-check user input (too large, out of bounds)?
   - Has dupont connector, easy to run jumpers to breadboard.
   - I have a half-dozen of these.
+  - The datasheet for this particular keypad was nowhere to be found, but here is a [summary](https://protosupplies.com/product/membrane-keypad-4x3-matrix/) provided by the supplier (ProtoSupplies).
 
 ![input devices](../images/ext_input.jpeg){: .zoom}
 
 ### Outputs
 
-- Passive buzzer
+- __Passive buzzer__
   - Tiny little speaker, sound quality not bad.
-  - Fun for playing notes or making sound effects
+  - Possibilities: play notes/melody, make sound effects (sci fi laser gun, sad trombone), fun!
   - Seats like a champ on a breadboard
   - I have a ton of these
-- Common cathode RGB LED
+  -  [Specs](https://www.amazon.com/dp/B07GBTJP9F) from supplier, an [overview of passive buzzer](https://protosupplies.com/product/passive-buzzer-5v-module/) from ProtoSupplies
+- __Common cathode RGB LED__
+  - Possibilities: ramp up/down, color cycle, S-O-S, ?
   - Perfect on a breadboard
   - Tweaking resistor value per individual RGB may help with achieving a more balanced white (R dominates otherwise)
   - I have plenty of these
-- Vibrating disc motor
-  - Tiny lead wires not great for direct connect to breadboard (wiggles out when vibrating). Recommend soldering a graft to wire/jumper for sturdier connection.
+  - Manufacturer [datasheet](../datasheets/YSL-R1047CR4G3BW-F8.pdf), an [overview of RGB led](https://protosupplies.com/product/led-rgb-5mm-clear-cc/) from ProtoSupplies
+- __Vibrating disc motor__
+  - Possibilities: buzzy patterns, ramp up/down, S-O-S, ?
+  - Tiny wires not good for direct connect to breadboard (wiggles out when vibrating). Recommend soldering a graft to wire/jumper for sturdier connection.
   - Motor is plucky for its size. Try attaching to a coin and sit on a desk to further amplify the motion.
   - I have about 20 of these
+  - Manufacturer [datasheet](../datasheets/P1012.pdf), general [info](https://www.adafruit.com/product/1201) from vendor
 
 ![output devices](../images/ext_output.jpeg){: .zoom}
 
