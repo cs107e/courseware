@@ -203,7 +203,7 @@ Next turn your attention to the hardware for your clock display.
    button. Here is the schematic from lab (click to enlarge):
   ![](/labs/lab2/images/schematic.full.png){: .zoom .w-75 }
   The assigned GPIOs appear to be random, but if you compare it to the [refcard](/guides/refcard), I think you'll see the method to our madness.
-- The dots in the upper right of the schematic control the segments. Add male-to-female jumpers connecting the seven header pins for gpios `{PD17, PB6, PB12, PB11, PB10, PE17, PB0}` to the 1K current-limiting
+- The dots in the upper right of the schematic control the segments. Add male-to-female jumpers connecting the seven header pins for gpios `{PD17, PB6, PB12, PB11, PB10, PE17, PD11}` to the 1K current-limiting
   resistors on your breadboard that connect to segments A - G of the display unit. GPIO PD17 controls segment A, GPIO PB6 controls segment B, and so on.
 - The dots in the lower left of the schematic are for the digits. Add male-to-female jumpers connecting the four header pins for gpios `{PB4, PB3, PB2, PC0}` to the 1K resistors at the base of the transistors controlling digits 1 through 4.
   GPIO PB4 controls the first digit, GPIO PB3 the second digit, and so on.
@@ -212,9 +212,9 @@ Next turn your attention to the hardware for your clock display.
 - Here's a photo of our clock breadboard connected to the Mango Pi.
   ![clock connected](images/clock_connected.jpg){: .zoom}
 
-After wiring up your breadboard, you want to test all those connections and your shiny new gpio and timer modules are just what you need. In the `test_gpio_timer.c` there is a `test_breadboard` function. This test calls your gpio functions to configure the pins, and goes into a loop which flashes the segments one by one, exiting the loop when the button is pressed. Uncomment the call to `test_breadboard` and use `make test` to build and run the test program and visually confirm the operation of your display and fix any missed connections. Give yourself a pat on the back for your marvelous gpio module -- imagine how much harder it would be to manually test each of these connections!
+After wiring up your breadboard, you want to test all those connections and your shiny new gpio and timer modules are just what you need. In the `test_gpio_timer.c` there is a `test_breadboard` function. This test calls your gpio functions to configure the pins, and goes into a loop which flashes the segments one by one, exiting the loop when the button is pressed. Uncomment the call to `test_breadboard` and use `make test` to build and run the test program and visually confirm the operation of your display. The diagram below labels each segment/digit with the controlling gpio which is helpful if you need to track down any missed connections. ![clock gpio label](images/clock_gpio_labeled.png){: .zoom}
 
-Snap a photo of your finished hardware setup, copy the file to the `assign2` directory in your repo. Add and commit the file to include it with your submission. We want to see your beautiful handiwork!
+Give yourself a pat on the back for your marvelous gpio module -- imagine how much harder it would be to manually test each of these connections! Snap a photo of your finished hardware setup, copy the file to the `assign2` directory in your repo. Add and commit the file to include it with your submission so we can see your beautiful handiwork.
 
 ### 4. Display a digit
 
