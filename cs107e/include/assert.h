@@ -31,8 +31,7 @@
         uart_start_error(); \
         uart_putstring("File " __FILE__ ", line " AS_STRING(__LINE__) ", in function "); \
         uart_putstring(__func__); \
-        uart_putstring("()\nERROR: "); \
-        uart_putstring(STR); \
+        uart_putstring("()\nERROR: " STR "\n"); \
         uart_end_error(); \
         mango_abort(); \
     } while (0);

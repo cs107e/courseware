@@ -9,28 +9,22 @@
 
 .attribute arch, "rv64im_zicsr"
 
-# Identify this section as the one to go first in binary image
+# Identify this section to linker script memmap.ld
 .section ".text.start"
 
 .globl _start
 _start:
 .cfi_startproc
-.cfi_undefined ra           # tell gdb this is start routine
+.cfi_undefined ra           # tell gdb this is entry point, has no caller
 
     csrc    mstatus, 1<<3   # global disable interrupts, mstatus.mie = 0
     la      t0,_trap_handler
     csrw    mtvec,t0        # install trap handler
 .globl _start_gdb
-_start_gdb:                 # entry for gdb will skip csr as not avail in sim
-    addi    fp,zero,0       # init fp
+_start_gdb:                 # gdb entry set here to skip over csr insns that are unavail in sim
+    li      fp,0            # init fp
     la      sp,__stack_top  # init sp (stack grows down)
     jal     _cstart
-.globl _exit_to_FEL
-_exit_to_FEL:
-    la      t0,0x02001d00
-    li      t1,0x301
-    sw      t1,0(t0)
-    la      t0,0x20
-    jr      t0
-hang: j hang
+
+    hang: j hang            # backstop at end of instructions
 .cfi_endproc

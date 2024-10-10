@@ -57,6 +57,25 @@ typedef enum { // ids for PLL registers
     CCU_PLL_AUDIO1_CTRL_REG = 0x0080,
 } pll_id_t;
 
+typedef enum {
+    PARENT_NONE = 0,
+    PARENT_HOSC = 1,
+    PARENT_32K,
+    PARENT_DDR,
+    PARENT_PERI,
+    PARENT_PERI_2X,
+    PARENT_VIDEO0,
+    PARENT_VIDEO0_4X,
+    PARENT_VIDEO1,
+    PARENT_VIDEO1_4X,
+    PARENT_AUDIO0,
+    PARENT_AUDIO1,
+    PARENT_AUDIO1_DIV5,
+    PARENT_AHB0,
+    PARENT_APB0,
+    PARENT_APB1,
+    PARENT_PSI,
+} parent_id_t;
 
 /*
  * `ccu_config_pll_dividers`: Update settings and enable pll
@@ -71,7 +90,8 @@ typedef enum { // ids for PLL registers
  * @return         pll rate of new configuration
  */
 long ccu_config_pll_dividers(pll_id_t id, uint32_t n, uint32_t m);
-long ccu_config_pll_audio0(uint32_t n, uint32_t p, uint32_t m1, uint32_t m0);
+//long ccu_config_pll_audio0(uint32_t n, uint32_t p, uint32_t m1, uint32_t m0);
+long ccu_config_pll_rate(pll_id_t id, uint32_t rate);
 
 /*
  * `ccu_config_module_clock`: Update settings and enable module clock
@@ -85,6 +105,7 @@ long ccu_config_pll_audio0(uint32_t n, uint32_t p, uint32_t m1, uint32_t m0);
  * @return          rate of module clock
  */
 long ccu_config_module_clock(module_clk_id_t id, uint32_t src, uint32_t factor_n, uint32_t factor_m);
+long ccu_config_module_clock_rate(module_clk_id_t id, parent_id_t parent, uint32_t rate);
 
 /*
  * `ccu_ungate_bus_clock`: Ungate bus clock

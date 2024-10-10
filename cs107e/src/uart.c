@@ -213,5 +213,5 @@ void uart_start_error(void) {
 }
 
 void uart_end_error(void) {
-    uart_putstring("\033[0m\n"); // normal
+    uart_putstring("\033[0m"); // normal
 }

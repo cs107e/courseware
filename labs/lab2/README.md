@@ -19,7 +19,7 @@ __To prep for lab2:__
 - [ ] See private/answers and private/staff_notes for advice saved from past
 - [ ] Forum announcement for students to bring their own tools (also repeated in prelab)
 - [ ] Confirm lab cabinet has plenty of hookup wire and hand tools
-- [ ] Make copies of 7-segment pinout diagram to distribute in lab
+- [ ] Bring printed copies of ref sheet (private/refsheet_to_print.pdf)
 
 {% endcomment %}
 

@@ -17,6 +17,7 @@ SECTIONS
     }
 }
 
-/* Force link of _start and verify correct position */
-ENTRY(_start_gdb)
-ASSERT(_start == ADDR(.text), "_start symbol must be placed first in text section")
+PROVIDE(_start_gdb = _start);  /* iff no symbol for _start_gdb, provide as alias to _start */
+ENTRY(_start_gdb)              /* control entry point, ensure _start symbol is linked */
+ASSERT(_start == ADDR(.text),  /* error if _start not at correct address */
+       "_start symbol must be placed first in text section")

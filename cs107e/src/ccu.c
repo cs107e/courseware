@@ -20,6 +20,8 @@
 static long debug_rate_pll(pll_id_t id);
 static long debug_rate_clk(module_clk_id_t id);
 static long debug_rate_bgr(bgr_id_t id);
+static long debug_rate_parent(parent_id_t id);
+static int get_parent_src_index(module_clk_id_t id, parent_id_t parent);
 
 typedef union {
     struct {
@@ -71,6 +73,72 @@ static volatile uint32_t *reg_for_id(uint32_t raw_offset) {
     return (uint32_t *)(module->raw + raw_offset);
 }
 
+// list of recommended dividers for commonly used pll rates
+// if you need an additional rate config, simply add to this table
+static const struct pll_config_t {
+    pll_id_t pll_id;
+    uint32_t rate;
+    struct { uint8_t P; uint8_t N; uint8_t M1; uint8_t M0; };
+} pll_table[] = {
+    {CCU_PLL_VIDEO0_CTRL_REG,  297000000, {        .N= 99,  .M1= 2 }},          // recommended dividers 99,2 p.43 D-1 manual
+    {CCU_PLL_VIDEO0_CTRL_REG,  120000000, {        .N= 20,  .M1= 1 }},
+    {CCU_PLL_AUDIO0_CTRL_REG,   22545454, {.P= 33, .N= 124, .M1= 1, .M0= 1 }},  // base rate for audio 22.1Khz
+    {CCU_PLL_AUDIO1_CTRL_REG, 3072000000, {        .N= 128, .M1= 1 }},          // base rate for audio 24Khz
+    {0}
+};
+
+static const struct pll_config_t *get_pll_config_for_rate(pll_id_t id, uint32_t rate) {
+    for (const struct pll_config_t *cfg = pll_table; cfg->rate != 0; cfg++) {
+        if (cfg->pll_id == id && cfg->rate == rate) return cfg;
+    }
+    error("No matching pll config found in rate table\n");
+    return NULL;
+}
+
+#define ASSERT_IN_RANGE(val, lo, hi) assert((val) >= lo && (val) <= hi)
+#define BITS_N_M1(n, m1) ((pll_reg_t){.factor_n=n, .factor_m1=m1}).bits
+#define BITS_P_N_M1_M0(p, n, m1, m0) ((pll_reg_t){ .factor_p=p, .factor_n=n, .factor_m1=m1, .factor_m0=m0 }).bits;
+
+static void get_pll_bits(pll_id_t id, uint32_t rate, uint32_t *factor_mask, uint32_t *new_factors) {
+    const struct pll_config_t *cfg = get_pll_config_for_rate(id, rate);
+    uint32_t out_mhz;
+
+    switch(cfg->pll_id) {
+    case CCU_PLL_VIDEO0_CTRL_REG: // N, M1
+    case CCU_PLL_VIDEO1_CTRL_REG:
+        ASSERT_IN_RANGE(cfg->N, 13, 255);
+        ASSERT_IN_RANGE(cfg->M1, 1, 2);
+        *factor_mask = BITS_N_M1(-1,-1);
+        *new_factors = BITS_N_M1(cfg->N-1,cfg->M1-1);
+        return;
+    case CCU_PLL_AUDIO0_CTRL_REG:   // P, N, M1, M0
+        ASSERT_IN_RANGE(cfg->P, 1, 64);
+        ASSERT_IN_RANGE(cfg->N, 13, 255);
+        ASSERT_IN_RANGE(cfg->M1, 1, 2);
+        ASSERT_IN_RANGE(cfg->M0, 1, 2);
+        out_mhz = (cfg->N/cfg->M0/cfg->M1)*24;
+        ASSERT_IN_RANGE(out_mhz, 180, 3000); // valid output freq range is 180M-3G
+        *factor_mask = BITS_P_N_M1_M0(-1,-1,-1,-1);
+        *new_factors = BITS_P_N_M1_M0(cfg->P-1,cfg->N-1,cfg->M1-1,cfg->M0-1);
+        return;
+    case CCU_PLL_AUDIO1_CTRL_REG: // N, M1
+        ASSERT_IN_RANGE(cfg->N, 13, 255);
+        ASSERT_IN_RANGE(cfg->M1, 1, 2);
+        out_mhz = (cfg->N/cfg->M1)*24;
+        ASSERT_IN_RANGE(out_mhz, 180, 3500); // valid output freq range is 180M-3.5G
+        *factor_mask = BITS_N_M1(-1,-1);
+        *new_factors = BITS_N_M1(cfg->N-1,cfg->M1-1);
+        return;
+
+    case CCU_PLL_PERI_CTRL_REG:
+
+    case CCU_PLL_CPU_CTRL_REG:
+    case CCU_PLL_DDR_CTRL_REG:
+    case CCU_PLL_VE_CTRL_REG:
+        assert(!"Attempt to change PLL that should not be modified");
+    }
+}
+
 // Procedure to update PLL from p46 of D-1 user manual
 // NOTE: code explicitly sets and clears bits using bitwise ops!
 // This ensures it acts exactly as required in spec
@@ -92,7 +160,7 @@ static void update_pll_bits(volatile uint32_t *reg, uint32_t factor_mask, uint32
 }
 
 long ccu_config_pll_dividers(pll_id_t id, uint32_t n, uint32_t m) {
-    const pll_reg_t factor_mask = { .factor_m1 = 1,   .factor_n = 255 };
+    const pll_reg_t factor_mask = { .factor_m1 = -1,   .factor_n = -1 };
     pll_reg_t new_factors =       { .factor_m1 = m-1, .factor_n = n-1 };
     assert(n >= 13 && n <= 255); // confirm dividers within spec
     assert(m >= 1 && m <= 2);
@@ -100,17 +168,42 @@ long ccu_config_pll_dividers(pll_id_t id, uint32_t n, uint32_t m) {
     return debug_rate_pll(id);
 }
 
-long ccu_config_pll_audio0(uint32_t n, uint32_t p, uint32_t m1, uint32_t m0) {
-    const pll_reg_t factor_mask = { .factor_m1 = 1,    .factor_n = 255, .factor_p = 63,  .factor_m0 = 1 };
-    pll_reg_t new_factors =       { .factor_m1 = m0-1, .factor_n = n-1, .factor_p = p-1, .factor_m0 = m0-1 };
-    pll_id_t id = CCU_PLL_AUDIO0_CTRL_REG;
-    assert(p >= 1 && p <= 64);  // confirm dividers within spec
-    assert(n >= 13 && n <= 255);
-    assert(m0 >= 1 && m0 <= 2 && m1 >= 1 && m1 <= 2);
-    uint32_t n_div_m0_m1 = n/m0/m1;
-    assert(n_div_m0_m1 >= 8 && n_div_m0_m1 <= 125); // required to keep out freq within range 180M-3G
-    update_pll_bits(reg_for_id(id), factor_mask.bits, new_factors.bits);
-    return debug_rate_pll(id);
+long ccu_config_pll_rate(pll_id_t id, uint32_t rate) {
+    uint32_t factor_mask, new_factors;
+    get_pll_bits(id, rate, &factor_mask, &new_factors);
+    update_pll_bits(reg_for_id(id), factor_mask, new_factors);
+    uint32_t set_rate = debug_rate_pll(id);
+    assert(rate == set_rate);
+    return set_rate;
+}
+
+static uint32_t get_module_clk_bits(module_clk_id_t id, parent_id_t parent, uint32_t rate) {
+    uint32_t parent_rate = debug_rate_parent(parent);
+    int src = get_parent_src_index(id, parent);
+    ASSERT_IN_RANGE(src, 0, 3);
+    module_clk_reg_t new_settings = { .src= src, .factor_n= 0, .factor_m= 0 };
+
+    if (parent_rate == rate) { // no dividers needed, src parent at desired rate
+        return new_settings.bits;
+    }
+    int factor_goal = parent_rate/rate;
+    assert(parent_rate % rate == 0);
+    assert(factor_goal <= 32*8);
+    if (factor_goal <= 32) {
+        new_settings.factor_m = factor_goal-1;
+    } else if (factor_goal % 8 == 0) {
+        new_settings.factor_n = 3;
+        new_settings.factor_m = factor_goal/8 - 1;
+    } else if (factor_goal % 4 == 0) {
+        new_settings.factor_n = 2;
+        new_settings.factor_m = factor_goal/4 - 1;
+    } else if (factor_goal % 2 == 0) {
+        new_settings.factor_n = 1;
+        new_settings.factor_m = factor_goal/2 - 1;
+    } else {
+        error("No compatible factors between parent and module rate\n");
+    }
+    return new_settings.bits;
 }
 
 /* From p47 D-1 user manual:
@@ -131,6 +224,13 @@ long ccu_config_module_clock(module_clk_id_t id, uint32_t src, uint32_t factor_n
     update_clock_bits(reg_for_id(id), new_settings.bits);
     return debug_rate_clk(id);
 }
+
+long ccu_config_module_clock_rate(module_clk_id_t id, parent_id_t parent, uint32_t rate) {
+    uint32_t new_bits = get_module_clk_bits(id, parent, rate);
+    update_clock_bits(reg_for_id(id), new_bits);
+    return debug_rate_clk(id);
+}
+
 
 /*
  *  From p47 D-1 user manual:
@@ -155,25 +255,7 @@ long ccu_ungate_bus_clock(bgr_id_t id) {
 
 /****  DEBUG INFO from here down ***/
 
-typedef enum {
-    NOT_IN_MODEL = 0,
-    PARENT_HOSC = 1,
-    PARENT_32K,
-    PARENT_DDR,
-    PARENT_PERI,
-    PARENT_PERI_2X,
-    PARENT_VIDEO0,
-    PARENT_VIDEO0_4X,
-    PARENT_VIDEO1,
-    PARENT_VIDEO1_4X,
-    PARENT_AUDIO0,
-    PARENT_AUDIO1,
-    PARENT_AUDIO1_DIV5,
-    PARENT_AHB0,
-    PARENT_APB0,
-    PARENT_APB1,
-    PARENT_PSI,
-} parent_id_t;
+#define NOT_IN_MODEL PARENT_NONE
 
 struct debug_info {
     long (*fn)(uint32_t);
@@ -222,15 +304,24 @@ static struct debug_info info_table[] = {
     {0},
   };
 
-static struct debug_info *info_for_id(uint32_t id) {
-    for (struct debug_info *i = info_table; i->name; i++) {
-        if (!i->fn) continue;
-        if (i->reg_id == id) {
-            return i;
+static int get_parent_src_index(module_clk_id_t id, parent_id_t parent) {
+    for (struct debug_info *info = info_table; info->name; info++) {
+        if (info->reg_id == id) {
+            for (int i = 0; i < sizeof(info->parents)/sizeof(*info->parents); i++) {
+                if (info->parents[i] == parent) return i;
+            }
         }
     }
-    printf("No such reg id 0x%x\n", id);
-    assert(0);
+    return -1;
+}
+static struct debug_info *info_for_id(uint32_t id) {
+    for (struct debug_info *info = info_table; info->name; info++) {
+        if (!info->fn) continue;
+        if (info->reg_id == id) {
+            return info;
+        }
+    }
+    error("No such clock reg id\n");
     return NULL;
 }
 

@@ -43,8 +43,8 @@ void mango_reboot(void) __attribute__ ((noreturn));
 /*
  * `mango_abort`
  *
- * Goes into an infininte loop that flashes an SOS
- * pattern on the act led. This function does not return.
+ * Goes into an infinite loop that fast flashes
+ * the act led. This function does not return.
  */
 void mango_abort(void) __attribute__ ((noreturn));
 
