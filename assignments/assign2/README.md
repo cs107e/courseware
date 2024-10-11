@@ -199,7 +199,7 @@ Next turn your attention to the hardware for your clock display.
 - Complete the breadboard circuit for the 4-digit 7-segment display you started in
   [Lab 2](/labs/lab2). Test your breadboard with jumper cables so that you know the
   wiring is correct before you connect it to the Mango Pi.
-- In total, you will use 13 GPIOs on the Pi: seven to control the segments, four to control the digits, and one to read the state of the
+- In total, you will use 12 GPIOs on the Pi: seven to control the segments, four to control the digits, and one to read the state of the
    button. Here is the schematic from lab (click to enlarge):
   ![](/labs/lab2/images/schematic.full.png){: .zoom .w-75 }
   The assigned GPIOs appear to be random, but if you compare it to the [refcard](/guides/refcard), I think you'll see the method to our madness.
