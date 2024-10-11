@@ -13,8 +13,9 @@
 
 /*
  * Models the D-1 clock tree as diagrammed on p.39 of D-1 manual
- * (with some simplifications to support clocks we use)
- * See debug info below for more info on what is modeled.
+ * (with some simplifications to only consider clocks we are using)
+ * The implementation borrows design elements from linux clock tree
+ * (e.g. clock parent)
  */
 
 static long debug_rate_pll(pll_id_t id);
@@ -22,6 +23,9 @@ static long debug_rate_clk(module_clk_id_t id);
 static long debug_rate_bgr(bgr_id_t id);
 static long debug_rate_parent(parent_id_t id);
 static int get_parent_src_index(module_clk_id_t id, parent_id_t parent);
+static void validate_pll(pll_id_t id);
+static void validate_module_clk(module_clk_id_t id);
+static void validate_bgr(bgr_id_t id);
 
 typedef union {
     struct {
@@ -61,7 +65,6 @@ typedef struct {
 } ccu_t;
 
 #define CCU_BASE ((ccu_t *)0x02001000)
-_Static_assert(&CCU_BASE->raw[0]                ==  (uint8_t *)0x02001000, "CCU pll cpu reg must be at address 0x02001000");
 _Static_assert(&CCU_BASE->regs[0]               == (uint32_t *)0x02001000, "CCU pll cpu reg must be at address 0x02001000");
 _Static_assert(&CCU_BASE->raw[CCU_APB0_CLK_REG] ==  (uint8_t *)0x02001520, "CCU apb0 reg must be at address 0x02001520");
 
@@ -73,7 +76,9 @@ static volatile uint32_t *reg_for_id(uint32_t raw_offset) {
     return (uint32_t *)(module->raw + raw_offset);
 }
 
-// list of recommended dividers for commonly used pll rates
+// Converting PLL rate into appropriate set of dividers on the fly
+// is messy. Rather, take from manual the recommended dividers for
+// commonly used PLL rates and list in this table for easy access.
 // if you need an additional rate config, simply add to this table
 static const struct pll_config_t {
     pll_id_t pll_id;
@@ -87,21 +92,21 @@ static const struct pll_config_t {
     {0}
 };
 
-static const struct pll_config_t *get_pll_config_for_rate(pll_id_t id, uint32_t rate) {
+static const struct pll_config_t *get_pll_config_for_rate(pll_id_t id, long rate) {
     for (const struct pll_config_t *cfg = pll_table; cfg->rate != 0; cfg++) {
         if (cfg->pll_id == id && cfg->rate == rate) return cfg;
     }
-    error("No matching pll config found in rate table\n");
     return NULL;
 }
 
-#define ASSERT_IN_RANGE(val, lo, hi) assert((val) >= lo && (val) <= hi)
-#define BITS_N_M1(n, m1) ((pll_reg_t){.factor_n=n, .factor_m1=m1}).bits
+#define ASSERT_IN_RANGE(val, lo, hi) assert(val >= lo && val <= hi)
+#define BITS_N_M1(n, m1)             ((pll_reg_t){ .factor_n=n, .factor_m1=m1 }).bits
 #define BITS_P_N_M1_M0(p, n, m1, m0) ((pll_reg_t){ .factor_p=p, .factor_n=n, .factor_m1=m1, .factor_m0=m0 }).bits;
 
-static void get_pll_bits(pll_id_t id, uint32_t rate, uint32_t *factor_mask, uint32_t *new_factors) {
-    const struct pll_config_t *cfg = get_pll_config_for_rate(id, rate);
+static void get_pll_bits(pll_id_t id, long rate, uint32_t *factor_mask, uint32_t *new_factors) {
     uint32_t out_mhz;
+    const struct pll_config_t *cfg = get_pll_config_for_rate(id, rate);
+    if (!cfg) error("No matching pll config found in rate table.");
 
     switch(cfg->pll_id) {
     case CCU_PLL_VIDEO0_CTRL_REG: // N, M1
@@ -131,11 +136,10 @@ static void get_pll_bits(pll_id_t id, uint32_t rate, uint32_t *factor_mask, uint
         return;
 
     case CCU_PLL_PERI_CTRL_REG:
-
     case CCU_PLL_CPU_CTRL_REG:
     case CCU_PLL_DDR_CTRL_REG:
     case CCU_PLL_VE_CTRL_REG:
-        assert(!"Attempt to change PLL that should not be modified");
+        error("Attempt to change PLL that should not be modified.");
     }
 }
 
@@ -159,51 +163,38 @@ static void update_pll_bits(volatile uint32_t *reg, uint32_t factor_mask, uint32
     *reg |= OUT_ENA;            // re-enable output
 }
 
-long ccu_config_pll_dividers(pll_id_t id, uint32_t n, uint32_t m) {
-    const pll_reg_t factor_mask = { .factor_m1 = -1,   .factor_n = -1 };
-    pll_reg_t new_factors =       { .factor_m1 = m-1, .factor_n = n-1 };
-    assert(n >= 13 && n <= 255); // confirm dividers within spec
-    assert(m >= 1 && m <= 2);
-    update_pll_bits(reg_for_id(id), factor_mask.bits, new_factors.bits);
-    return debug_rate_pll(id);
-}
-
-long ccu_config_pll_rate(pll_id_t id, uint32_t rate) {
+long ccu_config_pll_rate(pll_id_t id, long rate) {
+    validate_pll(id);
     uint32_t factor_mask, new_factors;
     get_pll_bits(id, rate, &factor_mask, &new_factors);
     update_pll_bits(reg_for_id(id), factor_mask, new_factors);
-    uint32_t set_rate = debug_rate_pll(id);
+    long set_rate = debug_rate_pll(id);
     assert(rate == set_rate);
     return set_rate;
 }
 
-static uint32_t get_module_clk_bits(module_clk_id_t id, parent_id_t parent, uint32_t rate) {
-    uint32_t parent_rate = debug_rate_parent(parent);
+static uint32_t get_module_clk_bits(module_clk_id_t id, parent_id_t parent, long rate) {
     int src = get_parent_src_index(id, parent);
-    ASSERT_IN_RANGE(src, 0, 3);
+    if (src == -1) error("Parent id is not valid for module clock")
+    long parent_rate = debug_rate_parent(parent);
     module_clk_reg_t new_settings = { .src= src, .factor_n= 0, .factor_m= 0 };
 
     if (parent_rate == rate) { // no dividers needed, src parent at desired rate
         return new_settings.bits;
     }
-    int factor_goal = parent_rate/rate;
+    assert(parent_rate >= rate);
     assert(parent_rate % rate == 0);
-    assert(factor_goal <= 32*8);
-    if (factor_goal <= 32) {
-        new_settings.factor_m = factor_goal-1;
-    } else if (factor_goal % 8 == 0) {
-        new_settings.factor_n = 3;
-        new_settings.factor_m = factor_goal/8 - 1;
-    } else if (factor_goal % 4 == 0) {
-        new_settings.factor_n = 2;
-        new_settings.factor_m = factor_goal/4 - 1;
-    } else if (factor_goal % 2 == 0) {
-        new_settings.factor_n = 1;
-        new_settings.factor_m = factor_goal/2 - 1;
-    } else {
-        error("No compatible factors between parent and module rate\n");
+    ASSERT_IN_RANGE(parent_rate/rate, 1, 256); // 32*8
+    int divider_needed = parent_rate/rate;
+    for (int exp = 3; exp >= 0; exp--) {
+        int power_of_two = 1 << exp;
+        if (divider_needed % power_of_two == 0 && divider_needed/power_of_two <= 31) {
+            new_settings.factor_n = exp;
+            new_settings.factor_m = divider_needed/power_of_two - 1;
+            return new_settings.bits;
+        }
     }
-    return new_settings.bits;
+    error("No compatible factors between parent and module rate.");
 }
 
 /* From p47 D-1 user manual:
@@ -217,20 +208,12 @@ static void update_clock_bits(volatile uint32_t *reg, uint32_t bits) {
     *reg |= ENA;    // re-enable
 }
 
-long ccu_config_module_clock(module_clk_id_t id, uint32_t src, uint32_t factor_n, uint32_t factor_m) {
-    module_clk_reg_t new_settings = { .src= src, .factor_n= factor_n, .factor_m= factor_m };
-    assert(src <= 7);
-    assert(factor_n <= 3 && factor_m <= 31);
-    update_clock_bits(reg_for_id(id), new_settings.bits);
-    return debug_rate_clk(id);
-}
-
-long ccu_config_module_clock_rate(module_clk_id_t id, parent_id_t parent, uint32_t rate) {
+long ccu_config_module_clock_rate(module_clk_id_t id, parent_id_t parent, long rate) {
+    validate_module_clk(id);
     uint32_t new_bits = get_module_clk_bits(id, parent, rate);
     update_clock_bits(reg_for_id(id), new_bits);
     return debug_rate_clk(id);
 }
-
 
 /*
  *  From p47 D-1 user manual:
@@ -239,6 +222,7 @@ long ccu_config_module_clock_rate(module_clk_id_t id, parent_id_t parent, uint32
  *  caused by the asynchronous release of the reset signal.
  */
 long ccu_ungate_bus_clock_bits(bgr_id_t id, uint32_t gating_bits, uint32_t reset_bits) {
+    validate_bgr(id);
     volatile uint32_t *reg = reg_for_id(id);
     *reg |= reset_bits;      // de-assert reset
     *reg |= gating_bits;     // enable
@@ -249,13 +233,11 @@ long ccu_ungate_bus_clock_bits(bgr_id_t id, uint32_t gating_bits, uint32_t reset
 // general function above allow other use cases
 long ccu_ungate_bus_clock(bgr_id_t id) {
     const uint32_t standard_gating_bits = 1 << 0;
-    const uint32_t standard_reset_bits = 1 << 16;
+    const uint32_t standard_reset_bits  = 1 << 16;
     return ccu_ungate_bus_clock_bits(id, standard_gating_bits, standard_reset_bits);
 }
 
 /****  DEBUG INFO from here down ***/
-
-#define NOT_IN_MODEL PARENT_NONE
 
 struct debug_info {
     long (*fn)(uint32_t);
@@ -268,6 +250,8 @@ struct debug_info {
 #define INFO_PLL(x) debug_rate_pll, x, STRINGIFY(x)
 #define INFO_CLK(x) debug_rate_clk, x, STRINGIFY(x)
 #define INFO_BGR(x) debug_rate_bgr, x, STRINGIFY(x)
+
+#define NOT_IN_MODEL PARENT_NONE
 
 static struct debug_info info_table[] = {
     { .name= "PLL" },
@@ -321,7 +305,6 @@ static struct debug_info *info_for_id(uint32_t id) {
             return info;
         }
     }
-    error("No such clock reg id\n");
     return NULL;
 }
 
@@ -396,3 +379,19 @@ static long debug_rate_bgr(bgr_id_t id) {
     struct debug_info *i = info_for_id(id);
     return (val & 0xff) ? debug_rate_parent(i->parents[0]) : 0;
 }
+
+static void validate_pll(pll_id_t id) {
+    struct debug_info *info = info_for_id(id);
+    if (!info || info->fn != debug_rate_pll) error("PLL id is not valid");
+}
+
+static void validate_module_clk(module_clk_id_t id) {
+    struct debug_info *info = info_for_id(id);
+    if (!info || info->fn != debug_rate_clk) error("Module clock id is not valid");
+}
+
+static void validate_bgr(bgr_id_t id) {
+    struct debug_info *info = info_for_id(id);
+    if (!info || info->fn != debug_rate_bgr) error("Bus clock id is not valid");
+}
+

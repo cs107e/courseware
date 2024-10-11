@@ -76,19 +76,13 @@ struct display_timing {
         uint32_t pixels, front_porch, sync_pulse, back_porch;
     } horiz, vert;
     struct {
-        uint32_t clock_rate;
-        uint32_t n, m; // dividers
-    } pll; // PLL VIDEO0
+        long rate;
+        pll_id_t id;
+    } pll;
     struct {
-        uint32_t clock_rate;
-        uint32_t factor_n, factor_m;
-        uint32_t src;
-    } tcon;     // TCONTV clock
-    struct {
-        uint32_t clock_rate;
-        uint32_t factor_n, factor_m;
-        uint32_t src;
-    } de;       // DE clock
+        long rate;
+        parent_id_t parent;
+    } tcon_clk, de_clk;     // TCONTV and DE clocks
 };
 
 #define HDMI_FC   ((hdmi_frame_composer_t *)0x5501000)
@@ -115,15 +109,28 @@ static struct {
      .config.id = HDMI_INVALID,
 };
 
-enum { SRC_PLL_VIDEO0 = 0b00, SRC_PLL_VIDEO0_4X = 0b01 };
+/*
+ * https://electronics.stackexchange.com/questions/14828/how-do-i-calculate-needed-pixel-clock-frequency
+ * If I want to have a resolution of X * Y pixels, updating in frequency f.
+ * How do I calculate the pixel clock speed?
+ * Ex: 1280 x 1024 @ 85Hz usually have a pixel clock of 157.5 MHz
+ * Pixel clock = Horizontal_Active_Resolution X Vertical_Active_Resolution X Refresh_Rate X (1+ Blanking Period %).
+ *
+ *  Sample pixel clock rates
+ *
+ *   640x480 (VGA): ~25-30 MHz
+ *   800x600 (SVGA): ~40-50 MHz
+ *   1280x720 (720p): ~74-85 MHz
+ *   1920x1080 (1080p @ 30Hz): ~148-165 MHz
+ *   1920x1080 (1080p @ 60Hz): ~296-330 MHz
+ */
 
-// using fixed standard timings (should use edid to negotiate with monitor instead?)
+// support these fixed standard timings (should use edid to negotiate with monitor instead?)
 static const struct display_timing avail_resolutions[] = {
-           //     {horiz}                {vert}            {pll clock},        {tcon clock},                      {de clock}
-    {HDMI_1080P,  {1920,  88,  44, 148}, {1080, 4, 5, 36}, {297000000, 99, 2}, {148500000, 0, 1, SRC_PLL_VIDEO0}, {297000000, 0, 3, SRC_PLL_VIDEO0_4X}},
-                                                        // recommended PLL 29700000 factors 99,2 from p.43 D-1 manual
-    {HDMI_HD,     {1280, 110,  40, 220}, { 720, 5, 5, 20}, {297000000, 99, 2}, { 74250000, 0, 3, SRC_PLL_VIDEO0}, {297000000, 0, 3, SRC_PLL_VIDEO0_4X}},
-    {HDMI_SVGA,   { 800,  40, 128,  88}, { 600, 1, 4, 23}, {120000000, 20, 1}, { 40000000, 0, 2, SRC_PLL_VIDEO0}, {480000000, 0, 0, SRC_PLL_VIDEO0_4X}},
+           //     {horiz}                {vert}            {pll video0},                         {tcon clk},                 {de clk}
+    {HDMI_1080P,  {1920,  88,  44, 148}, {1080, 4, 5, 36}, {297000000, CCU_PLL_VIDEO0_CTRL_REG}, {148500000, PARENT_VIDEO0}, {297000000, PARENT_VIDEO0_4X}},
+    {HDMI_HD,     {1280, 110,  40, 220}, { 720, 5, 5, 20}, {297000000, CCU_PLL_VIDEO0_CTRL_REG}, { 74250000, PARENT_VIDEO0}, {297000000, PARENT_VIDEO0_4X}},
+    {HDMI_SVGA,   { 800,  40, 128,  88}, { 600, 1, 4, 23}, {120000000, CCU_PLL_VIDEO0_CTRL_REG}, { 40000000, PARENT_VIDEO0}, {480000000, PARENT_VIDEO0_4X}},
     {HDMI_INVALID, {0}}
 };
 
@@ -153,9 +160,9 @@ void hdmi_init(hdmi_resolution_id_t id) {
 }
 
 static bool select_resolution(hdmi_resolution_id_t id) {
-   for (int i = 0; avail_resolutions[i].id != HDMI_INVALID; i++) {
-        if (avail_resolutions[i].id == id) {
-            module.config = avail_resolutions[i];
+    for (const struct display_timing *p = avail_resolutions; p->id != HDMI_INVALID; p++) {
+        if (p->id == id) {
+            module.config = *p;
             return true;
         }
     }
@@ -165,9 +172,9 @@ static bool select_resolution(hdmi_resolution_id_t id) {
 hdmi_resolution_id_t hdmi_best_match(int width, int height) {
     hdmi_resolution_id_t chosen = HDMI_INVALID;
     // resolutions listed in order from largest to smallest, choose "tightest" (i.e. smallest that fits)
-    for (int i = 0; avail_resolutions[i].id != HDMI_INVALID; i++) {
-        if (width <= avail_resolutions[i].horiz.pixels && height <= avail_resolutions[i].vert.pixels) {
-            chosen = avail_resolutions[i].id;
+    for (const struct display_timing *p = avail_resolutions; p->id != HDMI_INVALID; p++) {
+        if (width <= p->horiz.pixels && height <= p->vert.pixels) {
+            chosen = p->id;
         }
     }
     return chosen;
@@ -184,23 +191,16 @@ int hdmi_get_screen_height(void) {
 
 // enable all clocks needed for HDMI+TCON+DE2
 static void enable_display_clocks(void) {
-    long rate;
-
-    rate = ccu_config_pll_dividers(CCU_PLL_VIDEO0_CTRL_REG, module.config.pll.n, module.config.pll.m);
-    assert(rate == module.config.pll.clock_rate);
-    // hdmi clock, both sub and main (bits 16 and 17)
+                                // video0 PLL
+    ccu_config_pll_rate(module.config.pll.id, module.config.pll.rate);
+                                // hdmi clock, both sub and main (bits 16 and 17)
     ccu_ungate_bus_clock_bits(CCU_HDMI_BGR_REG, 1 << 0, (1 << 16)|(1 << 17) );
-    ccu_config_module_clock(CCU_HDMI_24M_CLK_REG, 0, 0, 0);
-    // tcon top clock
-    ccu_ungate_bus_clock(CCU_DPSS_TOP_BGR_REG);
-    // tcon tv clock
-    ccu_ungate_bus_clock(CCU_TCONTV_BGR_REG);
-    rate = ccu_config_module_clock(CCU_TCONTV_CLK_REG, module.config.tcon.src, module.config.tcon.factor_n, module.config.tcon.factor_m);
-    assert(rate == module.config.tcon.clock_rate);
-    // de clock
-    ccu_ungate_bus_clock(CCU_DE_BGR_REG);
-    rate = ccu_config_module_clock(CCU_DE_CLK_REG, module.config.de.src, module.config.de.factor_n, module.config.de.factor_m);
-    assert(rate == module.config.de.clock_rate);
+    ccu_config_module_clock_rate(CCU_HDMI_24M_CLK_REG, PARENT_HOSC, 24000000);
+    ccu_ungate_bus_clock(CCU_DPSS_TOP_BGR_REG);  // tcon top clock
+    ccu_ungate_bus_clock(CCU_TCONTV_BGR_REG);    // tcon tv clock
+    ccu_config_module_clock_rate(CCU_TCONTV_CLK_REG, module.config.tcon_clk.parent, module.config.tcon_clk.rate);
+    ccu_ungate_bus_clock(CCU_DE_BGR_REG);        // de clock
+    ccu_config_module_clock_rate(CCU_DE_CLK_REG, module.config.de_clk.parent, module.config.de_clk.rate);
 }
 
 // HDMI controller registers must be written in 8-bit chunks
@@ -265,6 +265,8 @@ static void tcon_init(void) {
     module.tcon_top->regs.gate |= (0x1 << 28) | (0x1 << 20); // from Linux
     module.tcon_top->regs.port_sel &= ~((0x3 << 4) | (0x3 << 0)); // clear bits @[5-4], @[1-0]
     module.tcon_top->regs.port_sel |= (2 << 0); // config mixer0 -> tcon_tv
+
+    //module.tcon_tv->regs.ctl |= (1 << 1);      // enable blue test data
 }
 
 /*

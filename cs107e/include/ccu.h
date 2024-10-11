@@ -57,6 +57,11 @@ typedef enum { // ids for PLL registers
     CCU_PLL_AUDIO1_CTRL_REG = 0x0080,
 } pll_id_t;
 
+/*
+ * Type: `parent_id_t`
+ *
+ * Enum type used to identify a clock's parent clock.
+ */
 typedef enum {
     PARENT_NONE = 0,
     PARENT_HOSC = 1,
@@ -78,39 +83,35 @@ typedef enum {
 } parent_id_t;
 
 /*
- * `ccu_config_pll_dividers`: Update settings and enable pll
+ * `ccu_config_pll_rate`: Update settings and enable pll
  *
- * Update settings of pll to match requested dividers.
- * Will disable output on PLL, apply new factors,
+ * Update settings of pll to match requested rate.
+ * Will disable PLL output, apply new factors,
  * reacquire lock, wait for stable, then reenable output
- * (special case for PLL AUDIO0 to config additional p divider)
  *
  * @param id       id of pll from pll enum above
- * @param n,m,p    dividers (refer to D-1 manual for info on dividers)
+ * @param rate     desired rate in hz
  * @return         pll rate of new configuration
  */
-long ccu_config_pll_dividers(pll_id_t id, uint32_t n, uint32_t m);
-//long ccu_config_pll_audio0(uint32_t n, uint32_t p, uint32_t m1, uint32_t m0);
-long ccu_config_pll_rate(pll_id_t id, uint32_t rate);
+long ccu_config_pll_rate(pll_id_t id, long rate);
 
 /*
- * `ccu_config_module_clock`: Update settings and enable module clock
+ * `ccu_config_module_clock_rate`: Update settings and enable module clock
  *
- * Update settings to use parent src and given factors, enable clock.
- * Pass 0 for unused src and/or factors.
+ * Update settings to use parent src and and rate, enable clock.
  *
- * @param id        id of module clock from clk enum above
- * @param src       parent clock (refer to manual for appropriate settings for this clock)
- * @param factor_   factors (refer to manual for appropriate settings for this clock)
+ * @param id        id of module clock from module_clk enum above
+ * @param src       id of parent clock from parent_id enum above
+ * @param rate      desired rate in hz
  * @return          rate of module clock
  */
-long ccu_config_module_clock(module_clk_id_t id, uint32_t src, uint32_t factor_n, uint32_t factor_m);
-long ccu_config_module_clock_rate(module_clk_id_t id, parent_id_t parent, uint32_t rate);
+long ccu_config_module_clock_rate(module_clk_id_t id, parent_id_t parent, long rate);
 
 /*
  * `ccu_ungate_bus_clock`: Ungate bus clock
  *
- * Enable bus clock.
+ * Reset/enable bus clock. (Alternate version allows control of which gating/reset bits to use,
+ * otherwise uses default bit 0 and bit 16)
  *
  * @param id    id of bgr from bgr enum above
  * @return      rate of bus clock
