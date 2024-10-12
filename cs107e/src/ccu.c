@@ -17,7 +17,14 @@
  * The implementation borrows design elements from linux clock tree
  * (e.g. clock parent)
  */
-
+struct debug_info {
+    long (*fn)(uint32_t);
+    uint32_t reg_id;
+    const char *name;
+    parent_id_t parents[4];
+    uint32_t ncount, mcount;
+};
+static struct debug_info *info_for_id(uint32_t id);
 static long debug_rate_pll(pll_id_t id);
 static long debug_rate_clk(module_clk_id_t id);
 static long debug_rate_bgr(bgr_id_t id);
@@ -182,15 +189,20 @@ static uint32_t get_module_clk_bits(module_clk_id_t id, parent_id_t parent, long
     if (parent_rate == rate) { // no dividers needed, src parent at desired rate
         return new_settings.bits;
     }
+    struct debug_info *info = info_for_id(id);
+    int n_exp_max = (1 << info->ncount) - 1;
+    int m_max = (1 << info->mcount);
+    int divisor_max = m_max * (1 << n_exp_max);
     assert(parent_rate >= rate);
     assert(parent_rate % rate == 0);
-    ASSERT_IN_RANGE(parent_rate/rate, 1, 256); // 32*8
+    ASSERT_IN_RANGE(parent_rate/rate, 1, divisor_max);
     int divider_needed = parent_rate/rate;
-    for (int exp = 3; exp >= 0; exp--) {
+    for (int exp = n_exp_max; exp >= 0; exp--) {
         int power_of_two = 1 << exp;
-        if (divider_needed % power_of_two == 0 && divider_needed/power_of_two <= 31) {
+        if (divider_needed % power_of_two == 0 && divider_needed/power_of_two <= m_max) {
             new_settings.factor_n = exp;
             new_settings.factor_m = divider_needed/power_of_two - 1;
+            //printf("Choosing factors n %d m %d to reach rate %ld\n", new_settings.factor_n,new_settings.factor_m, rate);
             return new_settings.bits;
         }
     }
@@ -212,7 +224,9 @@ long ccu_config_module_clock_rate(module_clk_id_t id, parent_id_t parent, long r
     validate_module_clk(id);
     uint32_t new_bits = get_module_clk_bits(id, parent, rate);
     update_clock_bits(reg_for_id(id), new_bits);
-    return debug_rate_clk(id);
+    long set_rate = debug_rate_clk(id);
+    assert(rate == set_rate);
+    return set_rate;
 }
 
 /*
@@ -239,12 +253,7 @@ long ccu_ungate_bus_clock(bgr_id_t id) {
 
 /****  DEBUG INFO from here down ***/
 
-struct debug_info {
-    long (*fn)(uint32_t);
-    uint32_t reg_id;
-    const char *name;
-    parent_id_t parents[4];
-};
+
 
 #define STRINGIFY(x) #x
 #define INFO_PLL(x) debug_rate_pll, x, STRINGIFY(x)
@@ -264,15 +273,15 @@ static struct debug_info info_table[] = {
     { INFO_PLL(CCU_PLL_AUDIO0_CTRL_REG) },
     { INFO_PLL(CCU_PLL_AUDIO1_CTRL_REG) },
     { .name= "Module Clock" },       // parent not listed defaults to NOT_IN_MODEL
-    { INFO_CLK(CCU_PSI_CLK_REG),      {PARENT_HOSC, PARENT_32K, NOT_IN_MODEL, PARENT_PERI} },
-    { INFO_CLK(CCU_APB0_CLK_REG),     {PARENT_HOSC, PARENT_32K, PARENT_PSI, PARENT_PERI} },
-    { INFO_CLK(CCU_APB1_CLK_REG),     {PARENT_HOSC, PARENT_32K, PARENT_PSI, PARENT_PERI} },
-    { INFO_CLK(CCU_DRAM_CLK_REG),     {PARENT_DDR, NOT_IN_MODEL, PARENT_PERI_2X} },
-    { INFO_CLK(CCU_DE_CLK_REG),       {PARENT_PERI_2X, PARENT_VIDEO0_4X, PARENT_VIDEO1_4X} },
-    { INFO_CLK(CCU_TCONTV_CLK_REG),   {PARENT_VIDEO0, PARENT_VIDEO0_4X } },
-    { INFO_CLK(CCU_HDMI_24M_CLK_REG), {PARENT_HOSC} },
-    { INFO_CLK(CCU_SPI0_CLK_REG),     {PARENT_HOSC, PARENT_PERI, PARENT_PERI_2X } },
-    { INFO_CLK(CCU_I2S2_CLK_REG),     {PARENT_AUDIO0, NOT_IN_MODEL, NOT_IN_MODEL, PARENT_AUDIO1_DIV5} },
+    { INFO_CLK(CCU_PSI_CLK_REG),      {PARENT_HOSC, PARENT_32K, NOT_IN_MODEL, PARENT_PERI}, .ncount=2,.mcount=2 },
+    { INFO_CLK(CCU_APB0_CLK_REG),     {PARENT_HOSC, PARENT_32K, PARENT_PSI, PARENT_PERI}, .ncount=2,.mcount=5 },
+    { INFO_CLK(CCU_APB1_CLK_REG),     {PARENT_HOSC, PARENT_32K, PARENT_PSI, PARENT_PERI}, .ncount=2,.mcount=5  },
+    { INFO_CLK(CCU_DRAM_CLK_REG),     {PARENT_DDR, NOT_IN_MODEL, PARENT_PERI_2X}, .ncount=2,.mcount=2 },
+    { INFO_CLK(CCU_DE_CLK_REG),       {PARENT_PERI_2X, PARENT_VIDEO0_4X, PARENT_VIDEO1_4X}, .ncount=0,.mcount=5 },
+    { INFO_CLK(CCU_TCONTV_CLK_REG),   {PARENT_VIDEO0, PARENT_VIDEO0_4X}, .ncount=2,.mcount=4 },
+    { INFO_CLK(CCU_HDMI_24M_CLK_REG), {PARENT_HOSC}, .ncount=0,.mcount=0  },
+    { INFO_CLK(CCU_SPI0_CLK_REG),     {PARENT_HOSC, PARENT_PERI, PARENT_PERI_2X}, .ncount=2,.mcount=4 },
+    { INFO_CLK(CCU_I2S2_CLK_REG),     {PARENT_AUDIO0, NOT_IN_MODEL, NOT_IN_MODEL, PARENT_AUDIO1_DIV5}, .ncount=0,.mcount=5},
     { .name= "Bus Clock" },
     { INFO_BGR(CCU_DE_BGR_REG),       {PARENT_AHB0} },
     { INFO_BGR(CCU_DPSS_TOP_BGR_REG), {PARENT_AHB0} },
