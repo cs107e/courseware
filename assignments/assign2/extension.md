@@ -23,6 +23,9 @@ lot to be desired, so we have some suggested tutorials as well.
   - Possibilities: press and release once to fine-tune, press and hold to make large change? move between minutes/seconds and set separately?
   - I have just a few of these and their sad, spindly legs don't seat well in a breadboard - Boo!
   - However, I ordered some from different supplier to arrive on Friday that may be better. Also building a breakout on perfboard might help. Stay tuned.
+    - Friday update: new parts are better construction, though joystick is extra tiny. This switch needs mount on perfboard. Here is a photo of the one I made.
+    ![nav breakout](../images/5way_breakout.jpg){: .zoom .w-25}
+    Fun soldering practice to build your own! When you pick up a switch, also get perfboard and headers from us. Lab has soldering iron and supplies. Ask one of the staff for a demo if you are new to soldering!
   - Manufacturer [datasheet](../datasheets/SKQUCAA010-ALPS.pdf). This is basically 5 push buttons bundled into one component.
 - __Membrane keypad__
   - Reports press of single button and multiple concurrent buttons.
