@@ -150,7 +150,9 @@ What other cases can you think of to add to the above? As you add each new test 
 Your functions should also be robust against client error. If given an invalid pin or function, do not blunder on to sadness. The function documentation in the gpio.h header file gives specific guidance on the expected handling for improper calls. Once you have implemented that handling, add further test cases that confirm it is working as intended on such calls.
 
 >__Pins with special function__ When writing test cases, take note that certain GPIO pins have specialized operation.
-  - `GPIO_PD18` controls the blue ACT LED on the Mango Pi board. If you manipulate `GPIO_PD18`, expect the blue LED to be affected.
+  - `GPIO_PD18` controls the blue ACT LED on the Mango Pi board. If you manipulate this gpio, expect the blue LED to be affected.
+  - `GPIO_PB8` and `GPIO_PB9` are configured for UART send and receive. Their initial function will be Alt 6. Manipulating these gpios will disrupt communication, so best to skip these in your testing.
+  - Four gpios of the F group (`GPIO_PF0`, `GPIO_PF1`, `GPIO_PF3`, `GPIO_PF5`) are configured for JTAG control. Their initial function will be Alt 4. Okay to reconfigure and manipulate these gpios for testing.
 {: .callout-warning}
 
 The `gpio_write` and `gpio_read` functions read and write the current pin state. To set a pin's state to high or low, write a 1 or 0 to the corresponding bit in the `DAT` register for the group. To read a pin's state, you read the corresponding bit from the group's  `DAT` register.
