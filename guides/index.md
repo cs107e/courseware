@@ -20,9 +20,7 @@ We prepared these guides on various topics relevant to CS107E students. Hope you
 - [Setup WSL](install/wsl-setup) (only on Windows)
 - [Install developer tools](install/devtools) (riscv toolchain and xfel)
 - [Setup git and mycode repo](setup-mycode-repo)
-{% comment %}
-- [Install CP2102 driver](install/cp2102) and [Minicom](install/minicom) for USB-serial device
-{% endcomment %}
+- [Install tio](install/tio) for USB-serial device
 
 ## Mango Pi
 - [Powering the Mango Pi](power)
@@ -41,7 +39,7 @@ We prepared these guides on various topics relevant to CS107E students. Hope you
 - [Using `git` for version control](git)
 - [Bare metal programming using `gcc`](gcc)
 - [`make` and `Makefiles`](make)
-{%- comment %}- [Using `gdb` in simulation mode](gdb){% endcomment %}
+- [Using `gdb` in simulation mode](gdb)
 - [Binary utilities (`binutils`)](binutils)
 - [Advice on software testing](testing)
 

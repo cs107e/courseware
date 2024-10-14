@@ -12,11 +12,11 @@
 #include "gpio.h"
 #include "gpio_extra.h"
 #include "interrupts.h"
+#include "_system.h"
 
 #define LCR_DLAB            (1 << 7)
 #define USR_BUSY            (1 << 0)
 #define USR_TX_NOT_FULL     (1 << 1)
-#define USR_TX_NOT_EMPTY    (1 << 2)
 #define USR_RX_NOT_EMPTY    (1 << 3)
 
 /*
@@ -66,6 +66,7 @@ typedef struct {
 static struct {
     volatile uart_t *uart_base, *uart;
     uart_config_t config;
+    bool running_in_simulator;
 } module = { .uart_base = UART_BASE,
              .uart = NULL, // will be set in uart_init
 };
@@ -93,7 +94,7 @@ void uart_reinit_custom(int uart_id, gpio_id_t tx, gpio_id_t rx, unsigned int gp
     // gating bits [0:5], reset bits [16:21]
     uint32_t bit = 1 << module.config.index;
     uint32_t reset = bit << 16;
-    ccu_ungate_bus_clock_bits(CCU_UART_BGR_REG, bit, reset);
+    long sys_clock_rate = ccu_ungate_bus_clock_bits(CCU_UART_BGR_REG, bit, reset);
 
     // configure GPIOs
     gpio_set_function(module.config.tx, module.config.fn);
@@ -105,8 +106,6 @@ void uart_reinit_custom(int uart_id, gpio_id_t tx, gpio_id_t rx, unsigned int gp
     uint32_t baud = 115200;
     module.uart->regs.fcr = 1;      // enable TX/RX fifo
     module.uart->regs.halt = 1;     // temporarily disable TX transfer
-
-    uint32_t sys_clock_rate = 24 * 1000000;
     uint32_t udiv = sys_clock_rate / (16 * baud);
     module.uart->regs.lcr |= LCR_DLAB;  // set DLAB = 1 to access DLL/DLH
     module.uart->regs.dll = udiv & 0xff;        // low byte of divisor -> DLL
@@ -133,7 +132,9 @@ void uart_init(void) {
     module.uart = NULL;
     // default to UART0 on pins PB8+9
     uart_reinit_custom(0, GPIO_PB8, GPIO_PB9, GPIO_FN_ALT6);
-    uart_putstring("\n\n\n\n");
+    if (!(module.running_in_simulator = sys_running_in_simulator())) {
+        uart_putstring("\e[2J");// if on Pi, uart_init attempt to clear terminal
+    }
 }
 
 void uart_use_interrupts(handlerfn_t handler, void *client_data) {
@@ -150,10 +151,14 @@ unsigned char uart_recv(void) {
     return module.uart->regs.rbr & 0xFF;
 }
 
-void uart_send(unsigned char byte) {
+void uart_send(char byte) {
     if (module.uart == NULL) error("uart_init() has not been called!\n");
-    while ((module.uart->regs.usr & USR_TX_NOT_FULL) == 0) ;
-    module.uart->regs.thr = byte & 0xFF;
+    if (module.running_in_simulator) {
+        syscall_write(1, &byte, 1); // divert iff under gdb sim
+    } else {
+        while ((module.uart->regs.usr & USR_TX_NOT_FULL) == 0) ;
+        module.uart->regs.thr = byte;
+    }
 }
 
 void uart_flush(void) {

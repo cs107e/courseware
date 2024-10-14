@@ -7,6 +7,7 @@
 
 #include "mango.h"
 #include "timer.h"
+#include "_system.h"
 #include "uart.h"
 
 // structs defined to match layout of hardware registers
@@ -33,6 +34,9 @@ static struct {
 };
 
 void mango_reboot(void) {
+    if (sys_running_in_simulator()) {
+        syscall_exit(0);  // divert iff in gdb sim
+    }
     timer_delay_ms(100); // give output time to flush (needed if using uart)
     const int cycles = 1;
     module.wdog->regs.config = 1; // config watchdog for whole system reset
@@ -43,6 +47,9 @@ void mango_reboot(void) {
 
 
 void mango_abort(void) {
+    if (sys_running_in_simulator()) {
+        syscall_exit(1);
+    }
     uart_start_error(); // will force init uart if needed
     uart_putstring("\n    *** In mango_abort(), type r to reboot: ");
     uart_end_error();

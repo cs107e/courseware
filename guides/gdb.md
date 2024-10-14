@@ -16,11 +16,10 @@ Under simulation, you can single-step through your code, set breakpoints, print 
 Using the debugger is largely the same whether in simulation mode or not, but some programs may execute differently under simulation than when running on the actual Pi. Be sure to read the section below on those [differences due to simulation](#simulation).
 
 ## Sample gdb session
-Let's try out the gdb simulator on the following simple C program. NOTE - you can use the `simple.c` file in the folder `simple` of lab3 to follow along, some of the line numbers and code are slightly different so use your best judgement to adjust. 
+Let's try out the gdb simulator on the following simple `sum` program. The code is availble in the folder `$CS107E/sample_build` if you want to follow along.
 
 ```c
-int sum(int n)
-{
+int sum(int n) {
     int result = 0;
     
     for (int i = 1; i <= n; i++)
@@ -28,80 +27,65 @@ int sum(int n)
     return result;
 }
 
-int main(void) 
-{
+int main(void)  {
     int a = sum(10);
     int b = sum(5);
     return a + b;
 }
 ```
 
-The `program.elf` file is typically the penultimate step in our build, right 
-before we extract the raw binary instructions into the `program.bin` that is
+The `sum.elf` file is typically the penultimate step in our build, right
+before we extract the raw binary instructions into the `sum.bin` that is
 sent to the Pi.  The `elf` version of the file is the one used by the gdb simulator.
 
-Run `gdb` on the `program.elf` file:
+Run `make debug` to start gdb on the `sum.elf` file
 
 ```console?prompt=(gdb),$
-$ riscv64-unknown-elf-gdb program.elf
-GNU gdb (GDB) 9.2
-Copyright (C) 2020 Free Software Foundation, Inc.
-License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
-Type "show copying" and "show warranty" for details.
-This GDB was configured as "--host=x86_64-apple-darwin19.6.0 --target=riscv64-unknown-elf".
-Type "show configuration" for configuration details.
-For bug reporting instructions, please see:
-<http://www.gnu.org/software/gdb/bugs/>.
-Find the GDB manual and other documentation resources online at:
-    <http://www.gnu.org/software/gdb/documentation/>.
-For help, type "help".
-Type "apropos word" to search for commands related to "word"...
-Reading symbols from program.elf...
+$ make debug
+riscv64-unknown-elf-gdb -q --command=$CS107E/other/gdbsim.commands sum.elf
+Reading symbols from sum.elf...
+Auto-loading commands from $CS107E/other/gdbsim.commands...
+Connected to the simulator.
+Loading section .text, size 0x510c lma 40000000
+Loading section .rodata, size 0x2510 lma 40005110
+Loading section .eh_frame, size 0x2c lma 40007620
+Loading section .data, size 0x1648 lma 40020000
+Start address 40000010
+Transfer rate: 287872 bits in <1 sec.
+Breakpoint 1 at 0x400009b0
 (gdb)
-```
-
-In gdb, we first connect to the simulator and load the program:
-```console?prompt=(gdb)
-(gdb) target sim
-Connected to the simulator
-(gdb) load
-Loading section .text, size 0x5b4 lma 0x8000
-Start address 0x8000
-Transfer rate: 11680 bits in <1 sec.
 ```
 
 Let's review the code for `main`. Note that `gdb` knows about the source file and line numbers because our Makefile compiles the code with the debugging flag `-g`.
 
 ```console?prompt=(gdb)
 (gdb) list main
-6           result += i;
-7       return result;
-8   }
-9   
-10  int main(void) 
-11  {
-12      int a = sum(10);
-13      int b = sum(5);
-14      return a + b;
-15  }
+4       for (int i = 1; i <= n; i++)
+5           result += i;
+6       return result;
+7   }
+8
+9   int main(void)  {
+10      int a = sum(10);
+11      int b = sum(5);
+12      return a + b;
+13  }
 ```
 
-Set a breakpoint on line 13 of this file:
+Set a breakpoint on line 11 of this file:
 ```console?prompt=(gdb)
-(gdb) break 13
-Breakpoint 1 at 0x805c: file program.c, line 13.
+(gdb) break 11
+Breakpoint 2 at 0x4000005c: file sum.c, line 11.
 ```
 The `run` command starts executing the program in the simulator. It will quickly hit the breakpoint we set:
 
 ```console?prompt=(gdb)
 (gdb) run
-Starting program: program.elf
-Breakpoint 1, main () at program.c:13
-13      int b = sum(5);
+Starting program: sum.elf
+Breakpoint 2, main () at sum.c:11
+11      int b = sum(5);
 ```
-The program is stopped at line 13. This is _before_ this line of C has executed.
+The program is stopped at line 11. This is _before_ this line of C has executed.
 
 The gdb `print` command can be used to view a variable or evaluate an expression.
 
@@ -115,7 +99,7 @@ The program has not yet executed the statement that assigns `b` and its value is
 
 ```console?prompt=(gdb)
 (gdb) next
-14      return a + b;
+12      return a + b;
 (gdb) print b
 $3 = 15
 ```
@@ -125,20 +109,10 @@ Use `continue` to let the program resume execution.  The main function should fi
 ```console?prompt=(gdb)
 (gdb) continue
 Continuing.
-```
-Use `Control-C` to interrupt the running program and return control to the debugger. Use the `backtrace` command to see where the program was executing when it was interrupted:
-
-```console?prompt=(gdb)
-^C
-Program received signal SIGINT, Interrupt.
-0x0000800c in hang ()
-(gdb) backtrace
-#0  0x0000800c in hang ()
-#1  0x0000800c in _start ()
-Backtrace stopped: previous frame identical to this frame (corrupt stack?)
+[Inferior 1 (process 42000) exited normally]
 ```
 
-The above information tells you that the program is stopped in `hang` which is called from `_start`. Review the code in `start.s` and `cstart.c` to remind yourself of what happens in a C program before and after `main()`. If currently in `hang`, the program has finished and is in the final "holding pattern". This is the normal behavior for a C program that has successfully run to completion. 
+The above information tells you that the program exited normally. This is the expected behavior for a C program that has successfully run to completion.
 
 <A name="simulation"></A>
 ## Differences due to simulation 
@@ -175,7 +149,7 @@ Here is a list of useful `gdb` commands. Many command names can be abbreviated. 
 
 |__Command__&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|__Use to__|
 |`run`|start program executing from beginning
-|`Control-C`| interrupt the executing program, give control back to gdb
+|`control-C`| interrupt the executing program, give control back to gdb
 |`continue`|resume program execution
 |`break WHERE`|set breakpoint to stop at, `WHERE` is name of function or line number or address of instruction
 |`info break`|list all breakpoints
@@ -199,58 +173,10 @@ Here is a list of useful `gdb` commands. Many command names can be abbreviated. 
 {: .table-striped .w-75 .mx-auto}
 
 
-<p></p>
-## Using gdb command files
-
-A gdb command file is used to set a startup sequence for gdb that can be used to configure the debugger or automate common actions. For example, I find it annoying that gdb asks for confirmation on many commands and does not remember command history by default.  I put the following in a command file named `.gdbinit` in my home directory:
-
-```console
-$ cat ~/.gdbinit 
-set confirm off
-set history expansion
-```
-
-Whenever you start gdb, the commands from your user `~/.gdbinit` config 
-file are read and executed. The user config file is good for any gdb commands or defaults that you want applied to every use of gdb.
-
-<a name=autoload></a>
-You can also add a local `.gdbinit` file in a project directory that applies settings specific to this project. For example, given a project that runs only in simulation mode, a local config file could automate the gdb commands to set the target and load the program. For this, 
-add a `.gdbinit` file in the project directory:
-
-```console
-$ cat ./.gdbinit
-target sim
-load
-```
-
-Whenever you start gdb in this directory, these commands will run to set the simulator target and load the program
-automatically.
-
-<A name="faq"></A>
-## Common questions
-
-### When I start gdb, it gives a long warning about auto-loading being declined. What's wrong?
-```console
-warning: File ".gdbinit" auto-loading has been declined by your `auto-load safe-path' set to "$debugdir:$datadir/auto-load".
-To enable execution of this file add
-... blah blah blah ...
-```
-
-This indicates that gdb is configured to disallow auto-loading. If auto-loading is disallowed and you start gdb in a directory that contains a `.gdbinit` file, gdb prints message "auto-loading has been declined" to alert you that the local `gdbinit` file is being ignored. Here is how to edit your user config file to allow auto-loading:
-
-- Open your user config file `~/.gdbinit` in an editor. If file doesn't yet exist, you will need to create it. 
-- Append this line verbatim:
-    ```
-    set auto-load safe-path /
-    ```
-- Save the file and exit your editor. 
-- Run gdb again. The previous warning should be gone and and the local config file is now auto-loaded.
-
-You will only need to make this edit once, gdb is now configured to always allow auto-load in future.
 
 ## Additional resources
 
-- CS107's [guide to gdb](https://web.stanford.edu/class/archive/cs/cs107/cs107.1186/guide/gdb.html) is a good introduction.
+- CS107's [guide to gdb](https://cs107.stanford.edu/resources/gdb.html) is a good introduction.
 - Watch Chris Gregg's [video tutorial on gdb](https://www.youtube.com/watch?v=uhIt8YqtmuQ&feature=youtu.be).
 -  Looking to learn some fancier tricks? See these articles Julie wrote for a 
 programming journal: [Breakpoint Tricks](https://web.stanford.edu/class/archive/cs/cs107/cs107.1186/resources/gdb_coredump1.pdf) 

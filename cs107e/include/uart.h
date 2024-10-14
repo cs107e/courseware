@@ -88,7 +88,7 @@ int uart_putstring(const char *str);
  *
  * @param byte   the byte to write to the serial port
  */
-void uart_send(unsigned char byte);
+void uart_send(char byte);
 
 /*
  * `uart_recv`
