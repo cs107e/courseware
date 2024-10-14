@@ -48,10 +48,10 @@ void mango_reboot(void) {
 
 void mango_abort(void) {
     if (sys_running_in_simulator()) {
-        syscall_exit(1);
+        syscall_exit(1); // divert iff in gdb sim
     }
     uart_start_error(); // will force init uart if needed
-    uart_putstring("\n    *** In mango_abort(), type r to reboot: ");
+    uart_putstring("\n *** In mango_abort(), type r to reboot: ");
     uart_end_error();
     while (1) {
         mango_actled(LED_TOGGLE);

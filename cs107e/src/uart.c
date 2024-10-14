@@ -132,9 +132,8 @@ void uart_init(void) {
     module.uart = NULL;
     // default to UART0 on pins PB8+9
     uart_reinit_custom(0, GPIO_PB8, GPIO_PB9, GPIO_FN_ALT6);
-    if (!(module.running_in_simulator = sys_running_in_simulator())) {
-        uart_putstring("\e[2J");// if on Pi, uart_init attempt to clear terminal
-    }
+    module.running_in_simulator = sys_running_in_simulator();
+    uart_putchar('\f'); // clear terminal window on init
 }
 
 void uart_use_interrupts(handlerfn_t handler, void *client_data) {
@@ -189,7 +188,11 @@ int uart_getchar(void) {
 
 int uart_putchar(int ch) {
     if (module.uart == NULL) error("uart_init() has not been called!\n");
-    // convert newline to CR LF sequence by inserting CR
+    if (ch == '\f' && !module.running_in_simulator) { // if formfeed on actual Pi
+        uart_putstring("\e[2J"); // remap to clear screen sequence
+        return ch;
+    }
+    // convert newline to CR LF sequence by inserting CR first
     if (ch == '\n') {
         uart_send('\r');
     }
@@ -214,9 +217,9 @@ void uart_start_error(void) {
         // (otherwise lack of output is ultra mysterious)
         uart_reinit_custom(0, GPIO_PB8, GPIO_PB9, GPIO_FN_ALT6);
     }
-    uart_putstring("\033[31;1m"); // red-bold
+    uart_putstring("\e[31;1m"); // red-bold
 }
 
 void uart_end_error(void) {
-    uart_putstring("\033[0m"); // normal
+    uart_putstring("\e[0m"); // normal
 }
