@@ -78,7 +78,7 @@ Insert the USB-serial adapter into a USB port on your laptop. Use our [find-dev.
 $ tio /dev/YOUR_DEVICE_PATH
 ```
 
-Type some characters in the tio window. They should be echoed by tio. Try manually sending a line feed `LF` by typing `control-j` and a carriage return `CR` by typing `control-m`. What is the difference in behavior of `LF` versus `CR`? When you hit the enter/return key on your keyboard, does it seem to send a `LF`, a `CR`, or both?
+Type some characters in the tio window. They should be echoed by tio. Try manually sending a line feed `LF` by typing `control-j` (hold down `control` key and type `j`) and a carriage return `CR` by typing `control-m`. What is the difference in behavior of `LF` versus `CR`? When you hit the enter/return key on your keyboard, does it seem to send a `LF`, a `CR`, or both?
 
 Keep on typing while your neighbor reaches over and gently disconnects one end of the loopback jumper. Where are the characters going now?
 

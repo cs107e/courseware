@@ -18,7 +18,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
     # use pyserial to look up by VID/PID
     DEV=$(python3 -m serial.tools.list_ports -q "VID:PID=10C4:EA60")
 fi
-if [ ! -z $DEV ]; then
+if [ ! -z "$DEV" ]; then
     echo $DEV
     exit 0
 else

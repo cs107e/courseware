@@ -40,7 +40,7 @@ Rather than re-type all these flags each time, you can store these settings in y
 
 ```
 [mango]
-device = /dev/tty.usbserial-0001
+device = /dev/YOUR_DEVICE_PATH
 baudrate = 115200
 databits = 8
 parity = none
