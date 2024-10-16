@@ -84,7 +84,7 @@ Keep on typing while your neighbor reaches over and gently disconnects one end o
 
 Reconnect the jumper and type some more.  Your characters are echoed again.
 
-You might think typing a character on the keyboard comes with an entitlement to seeing it drawn on the screen, but in fact, the tio program and the CP2102 are essential components of that communication. Tio observes the typed character, sends it out over the serial TX line, and is listening on the serial RX line and echoing what it receives. In loop back mode, tio happens to only be talking to itself, but it doesn't know this. If you disconnect the loopback jumper, characters are no longer echoed because they were never received.
+You might think typing a character on the keyboard comes with an entitlement to seeing it drawn on the screen, but in fact, the tio program and the CP2102 device are essential components of that communication. Tio observes the typed character, sends it out over the serial TX line, and is listening on the serial RX line and echoing what it receives. In loop back mode, tio happens to only be talking to itself, but it doesn't know this. If you disconnect the loopback jumper, characters are no longer echoed because they were never received.
 
 When you connect the TX and RX to the Mango Pi, tio is bridging the communication between your laptop and the Pi. Tio sends what you type to the Pi and displays what is received from the Pi. Neat!
 

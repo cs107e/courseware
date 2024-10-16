@@ -29,16 +29,19 @@
  *   %p    pointer
  *   %%    used to output a single percent character
  *
- * The %c %s %d %x formats support an optional field width.
- * The field width enforces a minimum number of characters for the
+ * The %c %s %d %x formats also allow an optional field width,
+ * such as %7s or %08x.
+ *
+ * The field width enforces a minimum number of characters for this
  * conversion. The output is left-padded with spaces up to the
  * field width. If the field width is specified with a leading zero,
- * padding uses `'0'` characters instead of spaces.
+ * padding uses '0' characters instead of spaces.
  *
- * The fancier printf features (justification left/right, precision, etc.)
- * are not supported. All format conversions other than the supported
- * ones listed above are considered invalid. The function's behavior for
- * an invalid format conversion is undefined.
+ * This version of printf does not support the many fancy features of
+ * the standard library printf (no justification, no precision, no octal,
+ * no floating point, etc.). Format conversions other than the supported
+ * list are considered invalid. The behavior of printf for an invalid
+ * format is undefined.
  */
 
 /*
