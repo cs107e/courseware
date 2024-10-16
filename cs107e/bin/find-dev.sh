@@ -17,9 +17,16 @@ if [ ! -z $HAS_POWERSHELL ]; then   # has powershell -> on WSL
 elif [[ "$OSTYPE" == "darwin"* ]]; then
     # use pyserial to look up by VID/PID
     DEV=$(python3 -m serial.tools.list_ports -q "VID:PID=10C4:EA60")
+    if [ $? -ne 0 ]; then
+        echo "python3/pyserial failed. Possibly need pip3 install pyserial?"
+        exit 1
+    fi
+else
+    echo "Do not understand this OS.  Use ls /dev/tty* to list all?"
+    exit 1
 fi
 if [ ! -z "$DEV" ]; then
-    echo $DEV
+    printf "%s\n" $DEV
     exit 0
 else
     echo "Could not find CP2102 serial device."
