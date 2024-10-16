@@ -4,7 +4,7 @@ title: 'Guide: Install Tio'
 
 ## What is Tio?
 
-To communicate with your Pi over the USB-serial, you wil need to run a terminal communication program on your laptop. There are a number of programs that support communication with a tty device to choose from (`screen`, `minicom`, `putty`, etc.)  The `screen` program is the lowest common denominator; its one advantage is being universally available without having to install anything extra, but it provides only the most basic functionality and has a beastly UI.  We think you'll do better with something more user-friendly. Our favorite of the bunch is `tio` for its simple interface and nice features, so this is our strong recommendation. (If you already very comfortable with another program, ok to keep using instead).
+To communicate with your Pi over the USB-serial, you will need to run a terminal communication program on your laptop that can interface with a tty device. There are a variety of communication programs that can work: `screen`, `minicom`, `putty`, and `tio`, among others.  The `screen` program is the lowest common denominator; its one advantage is that is  universally available without having to install anything extra, but it provides only the most basic functionality and has a beastly UI.  We think you'll do better with something more user-friendly. Our favorite of the bunch is `tio` for its simple interface and nice features, so this is our strong recommendation. (If you already very comfortable with another communication program, ok to keep using instead).
 
 ## Install tio
 Use your package manager to install `tio`
@@ -36,7 +36,7 @@ for your CP2102 device.
 
 To exit tio, use the sequence `control-t q`.
 
-Rather than re-type all these flags each time, you can store these settings in your tio configuration file and then retrieve them by name. Create a new file `~/.tioconfig`. Open the file in your editor and paste in the text below which defines a new configuration named `mango`.
+Rather than re-type all these flags each time, you can store these settings in your tio configuration file and then retrieve them by name. Create a new file `~/.tioconfig`. Open the file in your editor and paste in the text below which defines a new configuration named `mango`.  Change `device` setting to __your__ device path.
 
 ```
 [mango]
@@ -47,7 +47,7 @@ parity = none
 stopbits = 1
 ```
 
-Save the file and exit your editor. Now when you invoke `tio mango`, tio will look in your `.tioconfig` file to find the the settings for `mango`, no additional flags needed!
+Save the file and exit your editor. Now when you invoke `tio mango`, tio will look in your `.tioconfig` file to use the settings for `mango`, no additional flags needed!
 
 ## Do a loopback test
 
@@ -71,8 +71,10 @@ When you disconnect or reset your Pi (by unplugging or flipping the switch), an 
 Open a separate window/tab to run `tio` and always keep it running. No need to exit and restart `tio`. When you disconnect or reset your Pi, it will simply pause (prints "Disconnected, Waiting for tty device"). When your Pi resets, tio will automatically reconnect and resume communication.
 {: .callout-info}
 
-<a name="troubleshooting"></a>
-## Troubleshooting
-- If you try to connect and receive the error `Device file is locked by another process`, this typically means that `tio` is already running and connected to the device. Look through your windows to find your existing connnection instead of trying to start another one.
-- If your OS is Windows, your settings may be configured to play a alert sound each time a USB device connects or disconnects. If you find the sound irksome, it is possible to disable.  Go to `Sounds` > `Program Events` > `Device Connect/Device Disconnect` and change selected sound to `None`.
+## Other handy info
+- If you try to connect and receive the error `Device file is locked by another process`, this typically means that `tio` is already running and connected to the device. Look through your windows to find your existing connection instead of trying to start another one.
+    - I like to set a distinctive background on terminal window that is running `tio` (mango orange, yeah!). This makes my tio window easier to spot. Set the background color of a macOS terminal via `Edit Background Color` in Shell menu (or `Show Inspector` for additional customization options).
+
+- If you are running Windows, your settings may be configured to play a alert sound each time a USB device connects or disconnects. You can disable this if you find the sound irksome.  Go to `Sounds` > `Program Events` > `Device Connect/Device Disconnect` and change its sound to `none`.
+
 
