@@ -24,18 +24,21 @@
  * The supported format conversions are
  *   %c    single character
  *   %s    string
- *   %d    signed decimal integer
- *   %x    unsigned hexadecimal integer (hex letters in lowercase)
- *   %p    pointer (printed as a hex address)
+ *   %d    signed decimal integer (%ld long decimal)
+ *   %x    unsigned hexadecimal integer (%lx long hex)
+ *   %p    pointer
  *   %%    used to output a single percent character
  *
- * The %d and %x formats support an optional field width.
+ * The %c %s %d %x formats support an optional field width.
+ * The field width enforces a minimum number of characters for the
+ * conversion. The output is left-padded with spaces up to the
+ * field width. If the field width is specified with a leading zero,
+ * padding uses `'0'` characters instead of spaces.
  *
- * The fancier printf features (padding with spaces, justification
- * left/right, precision, etc.) are not supported.
- * All format conversions other than the supported ones listed above
- * are considered invalid. The function's behavior for an invalid
- * format conversion is undefined.
+ * The fancier printf features (justification left/right, precision, etc.)
+ * are not supported. All format conversions other than the supported
+ * ones listed above are considered invalid. The function's behavior for
+ * an invalid format conversion is undefined.
  */
 
 /*

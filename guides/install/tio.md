@@ -45,25 +45,34 @@ baudrate = 115200
 databits = 8
 parity = none
 stopbits = 1
-color = 10
 ```
 
 Save the file and exit your editor. Now when you invoke `tio mango`, tio will look in your `.tioconfig` file to find the the settings for `mango`, no additional flags needed!
 
-> __Pro-tip__
-Open a separate window/tab to run `tio` and always keep it running. No need to exit and restart `tio`. When you disconnect or reset your Pi, it will simply pause (prints "Disconnected, Waiting for tty device"). When your Pi resets, tio will automatically reconnect and resume communication.
-{: .callout-info}
-
-## Loopback test
+## Do a loopback test
 
 Grab your USB-serial adapter and a female-female jumper to test out tio now. Connect TX to RX on the USB-serial adapter in loop back mode, as shown in this photo:
 
 ![loop back](/labs/lab3/images/loopback.jpg){: .zoom}
 
-Now start tio and type characters in the tio window to see that they are echoed back.
+Start tio on your device and type characters in the tio window. The characters should be echoed back.
 ```console
 $ tio /dev/YOUR_DEVICE_PATH
 ```
 In loop back mode, the signals sent out on the TX pin are wired straight to the RX pin. Reading from the RX pin will read the characters sent over TX.
 
 When you connect the TX and RX to the Mango Pi, tio is bridging the communication from your laptop to the Pi and back. Tio sends what you type to the Pi and displays what is received from the Pi. Neat!
+
+## Connect and disconnect
+
+When you disconnect or reset your Pi (by unplugging or flipping the switch), an open tio connection will pause. It will print a status message  `Disconnected, Waiting for tty device` to let you know the connection is currently paused. When the Pi is ready again, tio will automatically reconnect and resume communication.
+
+> __Pro-tip__
+Open a separate window/tab to run `tio` and always keep it running. No need to exit and restart `tio`. When you disconnect or reset your Pi, it will simply pause (prints "Disconnected, Waiting for tty device"). When your Pi resets, tio will automatically reconnect and resume communication.
+{: .callout-info}
+
+<a name="troubleshooting"></a>
+## Troubleshooting
+- If you try to connect and receive the error `Device file is locked by another process`, this typically means that `tio` is already running and connected to the device. Look through your windows to find your existing connnection instead of trying to start another one.
+- If your OS is Windows, your settings may be configured to play a alert sound each time a USB device connects or disconnects. If you find the sound irksome, it is possible to disable.  Go to `Sounds` > `Program Events` > `Device Connect/Device Disconnect` and change selected sound to `None`.
+

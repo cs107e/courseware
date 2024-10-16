@@ -154,10 +154,10 @@ Here is a list of useful `gdb` commands. Many command names can be abbreviated. 
 |`break WHERE`|set breakpoint to stop at, `WHERE` is name of function or line number or address of instruction
 |`info break`|list all breakpoints
 |`delete [N]`|remove n'th breakpoint, with no argument removes all breakpoints
-|`stepi`|execute next assembly instruction
-|`step`|execute the next line of C source, step into function call
-|`next`|execute the next line of C source, step over function calls
-|`where`|show stack backtrace up to current execution
+|`stepi`|execute one assembly instruction
+|`step`|execute one line of C source, step into function call
+|`next`|execute one line of C source, step over function calls
+|`backtrace`|show stack backtrace up to current execution
 |`disassemble [WHAT]`|disassemble instructions, `WHAT` can be function name or address, if no arg disassemble currently executing function
 |`info registers`|show contents of all registers
 |`print/d EXPR`|eval expression, print result in decimal

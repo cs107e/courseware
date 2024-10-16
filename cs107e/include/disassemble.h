@@ -37,4 +37,15 @@ int disassemble_insn(char *buf, size_t bufsize, uintptr_t addr);
  */
 int disassemble_is_valid_insn(uintptr_t addr);
 
+/*
+ * `disassemble_decode_address`
+ *
+ * Return address of static buffer containing decoded contents
+ * at given address.  The format parameter indicates whether to
+ * decode contents as instruction ('I'), word ('W'),
+ * half-word ('H'), or label ('L').
+ */
+const char *disassemble_decode_address(char format, void *address);
+
+
 #endif
