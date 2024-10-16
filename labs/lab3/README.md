@@ -141,21 +141,22 @@ In Assignment 3, you will implement your own version of `printf`.  With a workin
 
 Open `hello.c` in your text editor and edit the `main` function to try out `printf`:
 
-1. Add a call to `printf` inside the loop body that prints the value of `i` on each loop iteration.
+1. Add a `printf` statement inside the loop body to output the value of `i` on each loop iteration.
 
-1. Outside the loop, use `printf` to print the value from `*PB_CFG0` in hex format.
+1. After the loop, add a `printf` statement to output the value of `*pb_config0` in hex format with field width 8.
 
-2. Use `gpio_set_output` to make pins PB0 and PB1 output pins.
+1. Add code to configure GPIO_PB3 and GPIO_PB7 as output using `gpio_set_output` and printf `*pb_config0` again.
 
-3. Print the value of `*PB_CFG0` again.
+1. Add code to reconfigure GPIO_PB3 and GPIO_PB7 as input using `gpio_set_input` and printf `*pb_config0` again.
 
-Reset your Pi, and run `make run` again to see your program's output. How does the hex value stored in `PB_CFG0` change after changing the pin functions?
+
+Use `make run` and view the program's output. The print statements you added allow you to observe that `gpio_set_function` is correctly doing its job-- neat!
 
 ### 2. Debugging with gdb
 
 #### 2a) Use `gdb` in simulation mode
 
-This exercise is to practice using the `gdb` debugger and the RISC-V simulatior.
+This exercise is to practice using the `gdb` debugger and the RISC-V simulator.
 A debugger allows you to observe and manipulate a running program and its program state.
 Running a debugger on the actual bare-metal hardware is challenging, so we instead will use
  `gdb` on our local computer, running on program on RISC-V emulation layer built-in to gdb.
@@ -296,7 +297,6 @@ When debugging a function, a common workflow is to
   1. If the next line of code is a call to a subroutine and you suspect the problem could be inside that call, use `step` to drop down into it.  If you `next` through a call and realize that you wish you had used `step` instead, use `run` to start over from the beginning and get another chance.
   1. Recursively apply rules 2-3 until you find the bug.
 
-<a name="2c"></a>
 #### 2c) Use `gdb` to access stack frames
 There are gdb commands that allow you to trace function calls and view stack frames.  Let's try them out!
 
@@ -556,7 +556,7 @@ __Test your understanding__. On a hosted system, executing an incorrect call to 
 
 #### The dangers of C-strings
 
-The fact that a C-string depends on a properly-placed NULL terminator to mark the end puts the responsibilty on the programmer's shoulders. If you forget to write the terminator or forgot to account for that extra byte when allocating space, nothing will stop you or give a helpful error message. Instead, the assembly code will simply walk off the string end and access the neighboring memory. For example, consider this code:
+The fact that a C-string depends on a properly-placed NULL terminator to mark the end puts the responsibility squarely on the programmer's shoulders. If you forget to write the terminator or forgot to account for that extra byte when allocating space, nothing will stop you or give a helpful error message. Instead, the assembly code will simply walk off the string end and access the neighboring memory. For example, consider this code:
 
 ```c
 struct request {

@@ -73,7 +73,7 @@ Open a separate window/tab to run `tio` and always keep it running. No need to e
 
 ## Other handy info
 - If you try to connect and receive the error `Device file is locked by another process`, this typically means that `tio` is already running and connected to the device. Look through your windows to find your existing connection instead of trying to start another one.
-    - I like to set a distinctive background on terminal window that is running `tio` (mango orange, yeah!). This makes my tio window easier to spot. Set the background color of a macOS terminal via `Edit Background Color` in Shell menu (or `Show Inspector` for additional customization options).
+    - I like to set a distinctive background on terminal window that is running `tio` (mango orange, yeah!). This makes my tio window easier to spot. Set the background color of a macOS terminal via `Edit Background Color` in Shell menu (or `Show Inspector` for additional customization options). In WSL, you can set tab color by right-clicking on title and choose `Change tab color` from menu.
 
 - If you are running Windows, your settings may be configured to play a alert sound each time a USB device connects or disconnects. You can disable this if you find the sound irksome.  Go to `Sounds` > `Program Events` > `Device Connect/Device Disconnect` and change its sound to `none`.
 
