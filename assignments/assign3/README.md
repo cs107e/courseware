@@ -168,18 +168,18 @@ Your implementation must handle these formatting codes for converting arguments:
 For formatting codes `%c` and `%s`, no processing is needed to "convert" characters
 and strings, the character or string argument is copied as-is to the output string.
 
-For the integer formatting codes `%d` and `%x`, the argument to be converted is of `int` type; for `%ld` and `%lx` the argument is `long` type, which is just a wider integer (64-bit).  A number is converted to string representation using the `decimal_string` or `hex_string` helper function and then copied to the output string.
+For the integer formatting codes `%d` and `%x`, the argument is of type `int`; for `%ld` and `%lx`, the argument is type `long` which is just a wider integer (64-bit).  The numeric value is converted to string representation using the `decimal_string` or `hex_string` convenience function and copied to the output string.
 
-All formatting codes except `%p` support an optional field width. The field width enforces a minimum number of characters in the output for this conversion. Space characters are inserted as necessary to pad up to the minimum width. If the field width is specified with a leading zero, the padding character is `'0'` instead of blank. In all cases, the padding chars are inserted on the left.
+Formatting codes support an optional field width. The field width enforces a minimum number of characters in the output for this conversion. Space characters are inserted as necessary to pad up to the minimum width. For formatting codes that output in hexadecimal, the padding character is a '0' instead of space. In all cases, padding chars are inserted on the left.
 
 Some examples:
 
 - `"%3c"`     char argument, output is space-padded width-3
 - `"%12s"`    string argument, output is space-padded width-12
-- `"%08x"`    unsigned int argument, output is zero-padded width-8
+- `"%8x"`     unsigned int argument, output is zero-padded width-8
 - `"%7ld"`    long argument, output is space-padded width-7
 
-The `%p` format is basically a variant of `%lx` used for pointers.  A pointer automatically uses the format zero-padded width-8 hexadecimal prefixed with 0x, e.g. `0x02000040`. Any field width manually specified with `%p` is ignored.
+The `%p` format is a variant of `%lx` used for pointers.  A pointer uses a default conversion format of zero-padded width-8 hexadecimal prefixed with 0x, e.g. `0x02000040`. If a field width is specified, e.g. `%16p`, it overrides the default width of 8.
 
 The `snprintf`and `printf` functions take a variable number of arguments, one argument for each formatting code in the format string. To access those additional arguments, you use C's `<stdarg.h>` interface. Read more about [Variadic functions](#varargs) below.
 
@@ -190,13 +190,13 @@ Some examples:
 - `snprintf(buf, 20, "%3s", "hello")` writes 6 chars to buf `h` `e` `l` `l` `o` `\0` and returns 5
     - Explanation: string, no padding needed for field width 3, fits in bufsize 20, no truncation
 - `snprintf(buf, 20, "%2c", 'M')` writes 3 chars to buf <code>&nbsp;</code> `M` `\0` and returns 2
-    - Explanation: char, inserts 1 space char to pad to field width 3, fits in bufsize 20, no truncation
-- `snprintf(buf, 20, "%04x", 27)` writes 5 chars to buf `0` `0` `1` `b` `\0` and returns 4.
-    - Explanation: hex, inserts 2 zero char to pad to field width 4, fits in bufsize 20, no truncation
+    - Explanation: char, inserts 1 space char to pad to field width 2, fits in bufsize 20, no truncation
+- `snprintf(buf, 20, "%4x", 27)` writes 5 chars to buf `0` `0` `1` `b` `\0` and returns 4.
+    - Explanation: hex, inserts 2 __zero__ chars to pad to field width 4, fits in bufsize 20, no truncation
 - `snprintf(buf,  5, "%7d", -9999)` writes 5 chars to buf <code>&nbsp;</code> <code>&nbsp;</code> `-` `9` `\0` and returns 7.
     - Explanation: decimal, inserts 2 space chars to pad to field width 7, does not fit in bufsize 5, truncates to first 4 that fit, returns count that would have been written if not truncated
 - `snprintf(buf,  0, "%p", ptr)` writes __nothing__ to buf and returns 10.
-    - Explanation: pointer, output form `0xXXXXXXXX`, no chars fit in bufsize 0, writing `0xXXXXXXXX` would have been 10 chars
+    - Explanation: pointer, default output form `0xXXXXXXXX`, no chars fit in bufsize 0, writing `0xXXXXXXXX` would have been 10 chars
 
 > __bufsize and memory corruption: here be dragons!__
 One of the most critical requirements for `snprintf` is that it must always respect `bufsize`. `bufsize` communicates the hard upper limit on how much space is available to store the output string, but there is no guarantee that the entirety of the converted output will fit within `bufsize`.  In all cases `bufsize` wins: not writing past the end of `buf` and not corrupting memory is more important than writing out the string requested by the arguments. If `bufsize` is too small to fit all of the output, even if the minimum field width says you should go past it, you must truncate the output and store a null-terminator in `buf[bufsize - 1]`.  Finally, `bufsize` can be zero: if so, you should not write anything to `buf`, not even a null-terminator.
@@ -340,12 +340,11 @@ You are now ready to tackle `snprintf`. The most important advice is __do not tr
   - Add tests that produce more output than fits into a small-size buffer and confirm proper truncation at bufsize.
 - The number formatting codes `%d`, `%x`, `%ld`, `%lx` are fairly straightforward due to the fully-tested code you already wrote converts a number into a hex or decimal string. Enjoy that victory lap!
 - The last big hurdle is to add handling of the field width.
-  - A good first task is to add code that insert space chars on left as padding to match minimum field width when appending a conversion. Temporarily hard-code so that every conversion uses a fixed field width of 12, say, and test to confirm that proper number of spaces are inserted as needed.
+  - A good first task is to add code that inserts pad chars on left up to minimum field width when appending a conversion. Hexadecimal outputs use `'0`' as the pad char, all others use `' '` (space).
+  - Temporarily hard-code so that every conversion uses a fixed field width of 12, say, and test to confirm that appropriate pad chars are inserted. Also include tests to confirm that padding plays nicely with truncation and properly respects bufsize.
   - Next up: obtain field width from formatting code and apply to the individual conversion. To parse a number out of the format string, recall that handy function you wrote in strings module to convert a string of digits to a number (hint!).
-  - Lastly, add logic to use `'0'` as pad char when the field width was specified with leading zero.
-  - The field width applies to formatting codes `%c` `%s` `%d` `%ld` `%x` `%lx` in both space-pad and zero-pad forms. This sounds it would create a lot of combinations to test, but if you work to gather the common code into one unified path, it will significantly cut down on the testing burden.
-    - There is one oddball situation (zero-pad of negative decimal) where inserting pad zeros to left of negative sign comes out weirdly: `printf("%04d", -1)` results in `"00-1"`. Ugh. To fix this would require making an irritating special case, we do not want you to muddy up your code for it. Please just ignore, __our grading will not test on these inputs.__
-- The final formatting code pointer `%p` is easy-peasy remix of things you already have conquered: unsigned hex long zero-padded to width-8 and prefixed with "0x".
+  - The field width applies to formatting codes `%c` `%s` `%d` `%ld` `%x` `%lx` `%p`, padding with `'0'` for hexademical and `' '` for all others, all while respecting bufsize.  This sounds it would create a lot of combinations to test, but if you work to gather the common code into a unified path, it will significantly cut down on the testing burden.
+- The final formatting code pointer `%p` is a just a remix of things you already have conquered: unsigned long value in hexadecimal zero-padded to width-8 and prefixed with "0x".
 
 
 Achieving a working `snprintf` is the big hill to get over in this assignment. Once you have that, all that remains is re-factoring and layering. You are in the homestretch!

@@ -15,13 +15,13 @@
 /*
  * The functions vnsprintf, snprintf, and printf construct a
  * formatted output from an input format string and arguments.
- * These functions support same conversion options in format
- * string, but differ slightly in how the function is called
+ * All three functions support same conversion options in format
+ * string, but differ slightly in how each function is called
  * or what it does with the output string, e.g., whether it is
  * sent to the UART peripheral (printf) or written into the
  * destination buffer (snprintf, vsnprintf).
  *
- * The supported format conversions are
+ * The supported format conversion codes are
  *   %c    single character
  *   %s    string
  *   %d    signed decimal integer (%ld long decimal)
@@ -29,13 +29,11 @@
  *   %p    pointer
  *   %%    used to output a single percent character
  *
- * The %c %s %d %x formats also allow an optional field width,
- * such as %7s or %08x.
- *
- * The field width enforces a minimum number of characters for this
- * conversion. The output is left-padded with spaces up to the
- * field width. If the field width is specified with a leading zero,
- * padding uses '0' characters instead of spaces.
+ * Each formatting code also allows an optional field width, such
+ * as %25s or %8lx. The field width enforces a minimum number of
+ * characters for this conversion. The output will be left-padded
+ * with spaces up to the field width. If the output of the conversion
+ * is hexadecimal, character '0' is used as pad instead of space char.
  *
  * This version of printf does not support the many fancy features of
  * the standard library printf (no justification, no precision, no octal,
