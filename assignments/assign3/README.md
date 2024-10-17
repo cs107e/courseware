@@ -26,7 +26,7 @@ __To prep for assign3:__
 
 Libraries are critical in software development. They enable you to build
 on existing abstractions that are well-designed and well-tested.
-Many of the C standard libraries are large and complex. Because we copy our entire program over a slow line to the bootloader each time, we want a smaller, simpler library of only the essentials. The curated subset in our library contains those features selected for their utility and relevance to our particular needs.
+Many of the C standard libraries are large and complex. Because we copy our entire program over a slow line to the bootloader each time, we want a smaller, simpler library of only the essentials. The curated subset in our library contains features selected for their utility and relevance to our particular needs.
 
 A library for outputting formatted text is particularly powerful,
 since printing program state is a valuable form of debugging. The C function to output formatted text is `printf`. The standard version of `printf` has extensive features and a large code size.  You will implement a
