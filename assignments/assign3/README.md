@@ -183,18 +183,20 @@ The `%p` format is basically a variant of `%lx` used for pointers.  A pointer au
 
 The `snprintf`and `printf` functions take a variable number of arguments, one argument for each formatting code in the format string. To access those additional arguments, you use C's `<stdarg.h>` interface. Read more about [Variadic functions](#varargs) below.
 
-The return value is the number of characters written if all fit in buf or the number of characters that would have been written if there were sufficient space.
+The characters of the converted output are written to `buf`, truncated if necessary to fit in `bufsize`. The return value is the number of characters (not including the null-terminator) in the fully expanded output (i.e. number of characters that would have been written).
 
 Some examples:
 
-- `snprintf(buf, 20, "%d", 13)` writes 3 chars to buf `1` `3` `\0` and returns 2.
-    - Explanation: decimal, no field width, fits in bufsize, no truncation
-- `snprintf(buf, 20, "%03x", 13)` writes 4 chars to buf `0` `0` `d` `\0` and returns 3.
-    - Explanation: hex, inserts 2 zero chars to pad up to field width of 3, fits in bufsize, no truncation
+- `snprintf(buf, 20, "%3s", "hello")` writes 6 chars to buf `h` `e` `l` `l` `o` `\0` and returns 5
+    - Explanation: string, no padding needed for field width 3, fits in bufsize 20, no truncation
+- `snprintf(buf, 20, "%2c", 'M')` writes 3 chars to buf <code>&nbsp;</code> `M` `\0` and returns 2
+    - Explanation: char, inserts 1 space char to pad to field width 3, fits in bufsize 20, no truncation
+- `snprintf(buf, 20, "%04x", 27)` writes 5 chars to buf `0` `0` `1` `b` `\0` and returns 4.
+    - Explanation: hex, inserts 2 zero char to pad to field width 4, fits in bufsize 20, no truncation
 - `snprintf(buf,  5, "%7d", -9999)` writes 5 chars to buf <code>&nbsp;</code> <code>&nbsp;</code> `-` `9` `\0` and returns 7.
-    - Explanation: decimal, inserts 2 space chars to pad up to field width of 7, does not fit in bufsize, truncates to first 4, returns count that would have been written if not truncated
+    - Explanation: decimal, inserts 2 space chars to pad to field width 7, does not fit in bufsize 5, truncates to first 4 that fit, returns count that would have been written if not truncated
 - `snprintf(buf,  0, "%p", ptr)` writes __nothing__ to buf and returns 10.
-    - Explanation: bufsize always wins, `0xXXXXXXXX` would have been 10 chars
+    - Explanation: pointer, output form `0xXXXXXXXX`, no chars fit in bufsize 0, writing `0xXXXXXXXX` would have been 10 chars
 
 > __bufsize and memory corruption: here be dragons!__
 One of the most critical requirements for `snprintf` is that it must always respect `bufsize`. `bufsize` communicates the hard upper limit on how much space is available to store the output string, but there is no guarantee that the entirety of the converted output will fit within `bufsize`.  In all cases `bufsize` wins: not writing past the end of `buf` and not corrupting memory is more important than writing out the string requested by the arguments. If `bufsize` is too small to fit all of the output, even if the minimum field width says you should go past it, you must truncate the output and store a null-terminator in `buf[bufsize - 1]`.  Finally, `bufsize` can be zero: if so, you should not write anything to `buf`, not even a null-terminator.
