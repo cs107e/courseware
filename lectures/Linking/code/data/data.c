@@ -1,21 +1,21 @@
 #include "uart.h"
 #include "printf.h"
 
-                  // uninitialized
+                // uninitialized
 int gNum;
 static int sgNum;
 
-                       // initialized
-int iNum = 1;
-static int siNum = 2;
+                // initialized
+int iNum = 0x1;
+static int siNum = 0x22;
 
-                       // const
-const int cNum = 3;
-static const int scNum = 4;
+                // const
+const int cNum = 0x333;
+static const int scNum = 0x4444;
 
 
 static void show_var(const int *p, const char *name) {
-    printf("Variable %8s at address %p value %d\n", name, p, *p);
+    printf("Variable %8s at address %p value 0x%x\n", name, p, *p);
 }
 
 void main(void) {
@@ -30,5 +30,5 @@ void main(void) {
     show_var(&cNum, "cNum");
     show_var(&scNum, "scNum");
     show_var(&local[0], "local[0]");
-    show_var(&local[2], "local[2]");
+    show_var(&local[1], "local[1]");
 }

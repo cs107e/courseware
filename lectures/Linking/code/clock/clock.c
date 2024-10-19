@@ -1,3 +1,5 @@
+/* Here is a comment */
+
 #include "gpio.h"
 #include "timer.h"
 
@@ -5,8 +7,9 @@
 #define NUM_DIGITS 4
 #define DELAY (1000/3)
 
+
 static void blink(gpio_id_t pin) {
-    gpio_write(pin, 1);
+    gpio_write(pin, 1); // here is another comment
     timer_delay_ms(DELAY);
     gpio_write(pin, 0);
     timer_delay_ms(DELAY);
