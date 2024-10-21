@@ -146,8 +146,14 @@ void uart_use_interrupts(handlerfn_t handler, void *client_data) {
 
 unsigned char uart_recv(void) {
     if (module.uart == NULL) error("uart_init() has not been called!\n");
-    while (!uart_haschar()) ; // wait for char to arrive
-    return module.uart->regs.rbr & 0xFF;
+    if (module.running_in_simulator) {
+        char byte;
+        syscall_read(0, &byte, 1); // divert iff under gdb sim
+        return byte;
+    } else {
+        while (!uart_haschar()) ; // wait for char to arrive
+        return module.uart->regs.rbr & 0xFF;
+    }
 }
 
 void uart_send(char byte) {

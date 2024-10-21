@@ -3,8 +3,8 @@ STACK_SIZE = 0x100000; /* 1 MB */
 SECTIONS
 {
     .text  0x40000000     :  { *(.text.start) *(.text*) }
-    .rodata               :  { *(.rodata*) *(.srodata*) }
     __text_end            = .;
+    .rodata               :  { *(.rodata*) *(.srodata*) }
     .data  ALIGN(0x20000) :  { *(.sdata*) }
     __bss_start           = .;
     .bss                  :  { *(.bss*)  *(.sbss*) *(COMMON) }
@@ -15,6 +15,7 @@ SECTIONS
         . = . + STACK_SIZE;
         __stack_top = .;
     }
+    __elf_start = .;
 }
 
 PROVIDE(_start_gdb = _start);  /* iff no symbol for _start_gdb, provide as alias to _start */

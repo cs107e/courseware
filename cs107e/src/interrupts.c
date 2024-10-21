@@ -90,7 +90,11 @@ __attribute__((interrupt("machine"))) void _trap_handler(void) {
         module.handlers[source].fn(module.handlers[source].aux_data); // dispatch to registered handler
         module.plic->regs.claim_complete = source;   // write claim_complete to "complete"
     } else {
-        sys_report_error("EXCEPTION: %s (mtval 0x%lx, mepc 0x%lx)\n", description(interrupts_get_mcause()), interrupts_get_mtval(), interrupts_get_mepc());
+        sys_report_error("EXCEPTION: %s\n", description(interrupts_get_mcause()));
+        long mtval = interrupts_get_mtval();
+        sys_report_error("Invalid value (mtval) %8ld   0x%lx \n", mtval, mtval);
+        void *mepc = (void *)interrupts_get_mepc();
+        sys_report_error("Faulting insn (mepc)   [%pW] %pI at %p %pL\n", mepc, mepc, mepc, mepc);
         mango_abort();
     }
 }

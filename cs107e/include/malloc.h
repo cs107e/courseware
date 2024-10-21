@@ -57,4 +57,16 @@ void free(void *ptr);
  */
 void *sbrk(size_t nbytes);
 
+/*
+ * `malloc_report`
+ *
+ * Prints a summary of malloc statistics at end of program execution.
+ * The report includes the number of calls to `malloc` and `free`
+ * and the aggregate total number of bytes requested, along with a
+ * list of any memory leaks (allocations not freed at time of program exit).
+ *
+ * You can leave this function unimplemented if not doing the extension.
+ */
+void malloc_report(void);
+
 #endif

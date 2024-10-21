@@ -23,8 +23,8 @@ typedef struct {
 /*
  * `symtab_symbol_for_name`
  *
- * Search for a symbol matching `name`. If match found, store
- * symbol data into parameter `*p_symbol`.
+ * Search for a function symbol matching `name`. If match found,
+ * store symbol data into parameter `*p_symbol`.
  *
  * @param name      name of function to search for
  * @param p_symbol  pointer to where to store symbol data
@@ -35,8 +35,8 @@ bool symtab_symbol_for_name(const char *name, symbol_t *p_symbol);
 /*
  * `symtab_symbol_for_addr`
  *
- * Search for a symbol that contains `addr`. If match found, store
- * symbol data into parameter `*p_symbol`.
+ * Search for a function symbol that contains `addr`. If match found,
+ * store symbol data into parameter `*p_symbol`.
  *
  * @param addr      address to search for
  * @param p_symbol  pointer to where to store symbol data
@@ -47,10 +47,10 @@ bool symtab_symbol_for_addr(uintptr_t addr, symbol_t *p_symbol);
 /*
  * `symtab_label_for_addr`
  *
- * Determines label for instruction at address and write label
+ * Determines label for instruction at address and writes label
  * to `buf`, truncated to `bufsize`. If the symbol name is available,
- * label is of "<symbol_name+offset>". Without symbol names, the
- * basic label is "<.text+offset>" for an address within the text
+ * label is of form "<symbol_name+offset>". Without symbol names,
+ * label is "<.text+offset>" for an address within the text
  * section and "<>" otherwise.
  *
  * @param buf       destination buffer where to write label
