@@ -77,4 +77,17 @@ void backtrace_print_frames(frame_t f[], int n);
  */
 void backtrace_print(void);
 
+/*
+ * `__stack_chk_fail`
+ *
+ * Handler function for gcc StackGuard. You should not call this function
+ * yourself. A call to the handler is inserted by gcc when a buffer
+ * overflow is detected. The handler print an error message about the issue.
+ * The attribute `noreturn` indicates the function does not return and
+ * program execution stops within the function. A noreturn function stops
+ * execution by entering an infinite loop or calling another noreturn function
+ * such as `mango_abort` or `mango_reboot`.
+ */
+void __stack_chk_fail(void) __attribute__ ((noreturn));
+
 #endif

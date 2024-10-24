@@ -83,48 +83,48 @@ It may help to have your stack diagram from lab4 handy as you consider the follo
 - How can the saved `fp` be used to access to the stack frame for the caller?  How do you then go from that frame to the frame of its caller and so on? What is the indication that you have hit the outermost stack frame? This is where backtrace stops.
 - Confirm your answers to the above questions by running your test program under the debugger, set a breakpoint at the point you want to backtrace, and then when stopped at the breakpoint, use gdb commands to print registers and examine memory.  Validating your backtrace against `gdb`'s `backtrace` command is another useful debugging technique.
 ```console?prompt=(gdb)
-Breakpoint 5, check_backtrace (nframes=1) at test_backtrace_malloc.c:20
-20      int frames_filled = backtrace_gather_frames(f, nframes);
+Breakpoint 2, check_backtrace (nframes=nframes@entry=6) at test_backtrace_malloc.c:20
+20      frame_t f[nframes];
 (gdb) backtrace
-#0  check_backtrace (nframes=6) at test_backtrace_malloc.c:20
-#1  0x00000000400002fc in function_A (nframes=<optimized out>) at test_backtrace_malloc.c:31
-#2  0x0000000040000320 in function_B (nframes=nframes@entry=6) at test_backtrace_malloc.c:35
-#3  0x00000000400003c0 in test_backtrace () at test_backtrace_malloc.c:52
-#4  0x0000000040000468 in main () at test_backtrace_malloc.c:160
-#5  0x000000004000246c in _cstart () at reference/cstart.c:23
-#6  0x0000000040000020 in _start_gdb ()
+#0  check_backtrace (nframes=nframes@entry=6) at test_backtrace_malloc.c:20
+#1  0x00000000400000f8 in function_A (nframes=nframes@entry=6) at test_backtrace_malloc.c:30
+#2  0x000000004000011c in function_B (nframes=nframes@entry=6) at test_backtrace_malloc.c:34
+#3  0x00000000400001bc in test_backtrace () at test_backtrace_malloc.c:51
+#4  0x0000000040000714 in main () at test_backtrace_malloc.c:191
+#5  0x0000000040005870 in _cstart () at reference/cstart.c:21
+#6  0x0000000040000020 in _start ()
 (gdb) print $fp
 $1 = (void *) 0x4fffffb0
 (gdb) p $sp
-$2 = (void *) 0x4fffff70
+$2 = (void *) 0x4fffff80
 (gdb) p $ra
-$3 = (void (*)()) 0x40000164 <function_A+20>
+$3 = (void (*)()) 0x400000f8 <function_A+20>
 (gdb) p *(void **)$fp
 $4 = (void *) 0x4fffffd0
 (gdb) x/32wx $sp
-0x4fffff70: 0x4fffffc0  0x00000000  0x4000446c  0x00000000
 0x4fffff80: 0x00000002  0x00000012  0x00000000  0x00000000
 0x4fffff90: 0x00000000  0x00000000  0x00000000  0x00000000
-0x4fffffa0: 0x4fffffc0  0x00000000  0x40000164  0x00000000
-0x4fffffb0: 0x4fffffd0  0x00000000  0x40000188  0x00000000
-0x4fffffc0: 0x4fffffe0  0x00000000  0x40000220  0x00000000
-0x4fffffd0: 0x4ffffff0  0x00000000  0x40000750  0x00000000
-0x4fffffe0: 0x50000000  0x00000000  0x400058b0  0x00000000
+0x4fffffa0: 0x4fffffc0  0x00000000  0x400000f8  0x00000000
+0x4fffffb0: 0x4fffffd0  0x00000000  0x4000011c  0x00000000
+0x4fffffc0: 0x4fffffe0  0x00000000  0x400001bc  0x00000000
+0x4fffffd0: 0x4ffffff0  0x00000000  0x40000714  0x00000000
+0x4fffffe0: 0x50000000  0x00000000  0x40005870  0x00000000
+0x4ffffff0: 0x00000000  0x00000000  0x40000020  0x00000000
 ```
 - One piece of advice that cannot overemphasized when writing this code is that __pointer arithmetic always scales by the size of the pointee type__. The expression `ptr + 2` when `ptr` is type `char *` is simply adding 2 to the base address `ptr`. However, if `ptr` is type `int *`, the expression  `ptr + 2` is adding 8 (2*sizeof(int)) to `ptr`. This will come up when using offset arithmetic to access relative locations within the stack. A location that is an offset of 8 bytes from a `char *` base can alternatively be computed as an offset of 2 words from a `int *` base, so be sure to consider pointee type when determining appropriate value for offset.
 
 All stack frames use the same layout, so once your code can correctly gather frames from one stack, that code is quite likely to correctly handle all other stacks without additional special cases.
 
 #### Printing a backtrace
-After you have gathered the stack frames, the `backtrace_print_frames` function is used to print them out. Frames are printed one per line in this format:
+After you have gathered the stack frames, the `backtrace_print_frames` function is used to print them out. Frames are printed one per line in the format below:
 
 ```console?prompt=(gdb)
-#0 0x40000144 at <function_A+20>
-#1 0x40000168 at <function_B+20>
-#2 0x40000208 at <test_backtrace+32>
-#3 0x40000680 at <main+36>
-#4 0x4000578c at <_cstart+60>
-#5 0x40000020 at <_start+32>
+#0 0x40000064 at <check_backtrace+64>
+#1 0x400000f8 at <function_A+20>
+#2 0x4000011c at <function_B+20>
+#3 0x400001bc at <test_backtrace+32>
+#4 0x40000714 at <main+36>
+#5 0x40005870 at <_cstart+60>
 ```
 
 The information in angle brackets is the __label__ which identifies the function that contains this address and the offset of how far into the function it occurs. Finding the function name for an address needs a bit of support magic we provide. In an executing program, functions are only referred by address, not name. Symbol names are not even present in the `.bin` file! However, they are in the `.elf` file, and we can use the same technique as debuggers do: read names from the ELF symbol table used by the linker.
@@ -154,7 +154,12 @@ StackGuard relies on two global symbols, `__stack_chk_guard` (a data symbol cont
 Stack smashing detected 0x40000754 at <overflow+128>
 ```
 
-Edit your Makefile to add the flag `-fstack-protector-strong` to `CFLAGS`. When you change the Makefile, use `make clean` to remove all previous build products and start fresh with your next `make`. The buggy `overflow` function who previously got away with its nefarious doings should now be stopped in its tracks by your stack protection. Neat!  It will be wise to keep this protection enabled from here forward, a shoutout from a detection tool will be much more helpful aid to tracking down the bug than having to decipher a mysterious crash.
+Edit your Makefile to add the flag `-fstack-protector-strong` to `CFLAGS` and do a `make clean` and `make`.
+
+> __Pro-tip: make clean__ Whenever you make a change to a Makefile, always follow up with `make clean`. You want to ensure your next `make` will start fresh and apply the updated build settings to all files. `make clean` removes all previous build products, thus ensuring a fresh recompile of all files. Without `make clean`, you could end up with a mishmash of files compiled under the old and new settings.
+{: .callout-warning }
+
+The buggy `overflow` function that previously got away with its nefarious doings should now be stopped in its tracks by your stack protection. Neat!  It will be wise to keep this protection enabled from here forward, interpreting a shoutout from a detection tool will be much more helpful aid to tracking down a bug than having to decipher a mysterious crash.
 
 Neat references for further learning:
 -  Good overview of StackGuard from RedHat <https://www.redhat.com/en/blog/security-technologies-stack-smashing-protection-stackguard>
@@ -287,7 +292,7 @@ Memory debugging tools such as [Valgrind](http://valgrind.org) are invaluable we
 
 One technique for detecting memory over/underruns is to surround each payload with a pair of _red zones_. Red zones are akin to the canary used by StackGuard. When servicing a malloc request, oversize the space by an extra 8 bytes. Place the actual payload in the middle with one 4-byte red zone before it and another 4-byte red zone after it. (Take care to keep the payload aligned on the 8-byte boundary). Fill the red zone with a distinctive repeating value (a good use for your handy `memset` function!). Our implementation uses `0x99`, though you are free to use [any non-offensive pattern you like](https://en.wikipedia.org/wiki/Hexspeak). When the client later frees that block, check the red zones and squawk loudly if the value has been perturbed.
 
-In addition, you should tag each allocated block with the context it was allocated from by recording a "mini-backtrace". Modify your block header structure to add an array of three `frame_t` and fill with a snapshot of the innermost three frames at the point this block was allocated. 
+In addition, you should tag each allocated block with the context it was allocated from by recording a "mini-backtrace". Modify your block header structure to add an array of three `frame_t` and fill with a snapshot of the three stack frames leading up to the malloc call that allocated this block.
 
 Modify `free` to verify that the red zones are intact for the block currently being freed. If not, print an error message about the block in error along with its mini-backtrace that identifies where the block was allocated from.
 
@@ -311,22 +316,22 @@ Mini-Valgrind also tracks heap statistics, such as the count of calls to `malloc
 =============================================
          Mini-Valgrind Malloc Report
 =============================================
-final stats: 42 allocs, 40 frees, 5752 total bytes requested
+final stats: 15 allocs, 13 frees, 252 total bytes requested
 
-8 bytes are lost, allocated by
-#0 0x400000d0c at <malloc+196>
-#1 0x400000674 at <main+28>
-#2 0x4000006ec at <_cstart+48>
+9 bytes are lost, allocated by
+#0 0x400005bc at <test_heap_leaks+24>
+#1 0x40000764 at <main+56>
+#2 0x400058b8 at <_cstart+60>
 
-100 bytes are lost, allocated by
-#0 0x400000d0c at <malloc+196>
-#1 0x40000068c at <main+52>
-#2 0x4000006ec at <_cstart+48>
+107 bytes are lost, allocated by
+#0 0x400005d0 at <test_heap_leaks+44>
+#1 0x40000764 at <main+56>
+#2 0x400058b8 at <_cstart+60>
 
-Lost 108 total bytes in 2 blocks. 
+Lost 116 total bytes in 2 blocks.
 ```
 
-Please take care to match the wording and format of our sample malloc report in order to ease the graders's job.
+Please take care to match the wording and format of our sample malloc report in order to ease the grader's job.
 
 As a final detail, work out where you can put a call to `malloc_report()` so that Mini-Valgrind can provide leak detection to every program, without having to modify each program's `main` function. Hint: consider where the code is to reset the Pi after a program runs to successful completion. Create your own copy of that file, add it to your project, modify as needed, and edit the Makefile to build with your replacement version.
 

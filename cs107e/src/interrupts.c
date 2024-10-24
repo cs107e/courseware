@@ -7,6 +7,7 @@
 
 #include "interrupts.h"
 #include "assert.h"
+#include "disassemble.h"
 #include "mango.h"
 #include <stddef.h>
 #include "_system.h"
@@ -55,46 +56,53 @@ static struct {
     .plic =    PLIC_BASE,
 };
 
-static const char *description(unsigned int cause) {
-    static const char *table[] = {
-        "Instruction address misaligned",
-        "Instruction access fault",
-        "Illegal instruction",
-        "Breakpoint",
-        "Load address misaligned",
-        "Load access fault",
-        "Store/AMO address misaligned",
-        "Store/AMO access fault",
-        "E-call from U-mode",
-        "E-call from S-mode",
-        "Reserved (10)",
-        "E-call from M-mode", /* external interrupt, M-mode */
-        "Instruction page fault",
-        "Load page fault",
-        "Reserved (14)",
-        "Store/AMO page fault",
-    };
-    int n = sizeof(table)/sizeof(*table);
-    return (cause < n ? table[cause] : "Unknown");
-}
+static const char *table[] = {
+    "Instruction address misaligned",
+    "Instruction access fault",
+    "Illegal instruction",
+    "Breakpoint",
+    "Load address misaligned",
+    "Load access fault",
+    "Store/AMO address misaligned",
+    "Store/AMO access fault",
+    "E-call from U-mode",
+    "E-call from S-mode",
+    "Reserved (10)",
+    "E-call from M-mode", /* external interrupt, M-mode */
+    "Instruction page fault",
+    "Load page fault",
+    "Reserved (14)",
+    "Store/AMO page fault",
+};
+
+#define DESCRIPTION(cause) (cause < sizeof(table)/sizeof(*table) ? table[cause] : "Unknown")
 
 void _trap_handler(void);
 
 // gcc attribute used to generate prologue/epilogue appropriate for machine interrupt
 // https://gcc.gnu.org/onlinedocs/gcc/RISC-V-Function-Attributes.html
 __attribute__((interrupt("machine"))) void _trap_handler(void) {
+    long mcause = interrupts_get_mcause();
 #define EXTERNAL_INTERRUPT ((1L << 63) | 0xb)
-    if (interrupts_get_mcause() == EXTERNAL_INTERRUPT) {
+    if (mcause == EXTERNAL_INTERRUPT) { // trap is interrupt
         // no need to search pending bits to identify source, claim reg has it
         uint32_t source = module.plic->regs.claim_complete; // read claim_complete to "claim" (atomically clears pending bit)
         module.handlers[source].fn(module.handlers[source].aux_data); // dispatch to registered handler
         module.plic->regs.claim_complete = source;   // write claim_complete to "complete"
-    } else {
-        sys_report_error("EXCEPTION: %s\n", description(interrupts_get_mcause()));
+    } else { // trap is exception
         long mtval = interrupts_get_mtval();
-        sys_report_error("Invalid value (mtval) %8ld   0x%lx \n", mtval, mtval);
         void *mepc = (void *)interrupts_get_mepc();
-        sys_report_error("Faulting insn (mepc)   [%pW] %pI at %p %pL\n", mepc, mepc, mepc, mepc);
+        sys_report_error("EXCEPTION: %s\n", DESCRIPTION(mcause));
+        if (mcause == 0 || mcause == 1) {
+            sys_report_error("Cannot fetch instruction at invalid address (mepc):  %p\n", mepc);
+        } else if (mcause == 2 || mcause == 3) {
+            sys_report_error("Faulting instruction (mepc):   [%pW] %pI at %p %pL\n", mepc, mepc, mepc, mepc);
+        } else if (mcause == 5 || mcause == 7) {
+            sys_report_error("Faulting address (mtval): 0x%lx \n", mtval);
+        } else {
+            sys_report_error("Instruction (mepc): %p %pL\n", mepc, mepc);
+            sys_report_error("Value (mtval):  %8ld   0x%lx \n", mtval, mtval);
+        }
         mango_abort();
     }
 }

@@ -45,13 +45,13 @@ lot to be desired, so we have some suggested tutorials as well.
   - I have a ton of these
   -  [Specs](https://www.amazon.com/dp/B07GBTJP9F) from supplier, an [overview of passive buzzer](https://protosupplies.com/product/passive-buzzer-5v-module/) from ProtoSupplies
 - __Common cathode RGB LED__
-  - Possibilities: ramp up/down, color cycle, S-O-S, ?
+  - Possibilities: dim->bright, color cycle ?
   - Perfect on a breadboard
-  - Tweaking resistor value per individual RGB may help with achieving a more balanced white (R dominates otherwise)
+  - Tweaking resistor value per individual RGB may help with achieving a more balanced white
   - I have plenty of these
   - Manufacturer [datasheet](../datasheets/YSL-R1047CR4G3BW-F8.pdf), an [overview of RGB led](https://protosupplies.com/product/led-rgb-5mm-clear-cc/) from ProtoSupplies
 - __Vibrating disc motor__
-  - Possibilities: buzzy patterns, ramp up/down, S-O-S, ?
+  - Possibilities: buzzy patterns, ramp up/down, S-O-S ?
   - Tiny wires not good for direct connect to breadboard (wiggles out when vibrating). Recommend soldering a graft to wire/jumper for sturdier connection.
   - Motor is plucky for its size. Try attaching to a coin and sit on a desk to further amplify the motion.
   - I have about 20 of these

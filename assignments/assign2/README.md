@@ -267,11 +267,11 @@ Here are some problems that have "bugged" students in the past, presented here t
 
 ## Extension: Putting the G in GPIO
 
-The gpio and timer modules you have built can do so much more than turn on a led or read a button press. If you're eager to go further, consider this optional extension to explore additional input and output devices you can conect up to your GPIOs and further level up your clock. You'll add a new input device to set the countdown duration and a new output device for a fun alarm signal. We have a smattering of simple input and output devices that you can choose from. If you have access to a different device of your own that you want to try, come chat with us to see how it can work out.
+The gpio and timer modules you have built can do so much more than turn on a led or read a button press. If you're eager to go further, consider this optional extension to explore additional input and output devices you can conect up to your GPIOs and further level up your clock. You'll add a __new input device__ to set the countdown duration and a __new output device__ for a fun alarm signal. We have a smattering of simple input and output devices that you can choose from. If you have access to different devices of your own that you want to try, come chat with us to see how it can work out.
 
 
 ### Input for setting the countdown duration
-For your input device, we suggest choosing a rotary encoder knob, 5-way directional switch, or membrane keypad.  Each of these devices is composed of several buttons or button-like controls packaged together.
+For your input device, we suggest a rotary encoder knob, 5-way directional switch, or membrane keypad.  Each of these devices is composed of several buttons or button-like controls packaged together.
 
 ![input devices](images/ext_input.jpeg){: .zoom}
 
@@ -290,7 +290,7 @@ For output devices, we have passive piezo buzzers, vibrating disc motors, or RGB
 
 ![output devices](images/ext_output.jpeg){: .zoom}
 
-We have no rigid requirement for a specific fancy output for the extension -- we just ask you to do something you find creative and fun.
+We have no rigid requirement for a specific fancy output -- we just ask you to do something you find creative and fun.
 
 Here are some [notes/resources](extension) that could be helpful for the extension.
 
