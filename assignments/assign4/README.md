@@ -154,12 +154,14 @@ StackGuard relies on two global symbols, `__stack_chk_guard` (a data symbol cont
 Stack smashing detected 0x40000754 at <overflow+128>
 ```
 
-Edit your Makefile to add the flag `-fstack-protector-strong` to `CFLAGS`. When you change the Makefile, you will need `make clean` to remove all previous build products and start fresh with `make`. The buggy `overflow` function who previously got away with its nefarious doings should now be stopped in its tracks by your stack protection. Neat!  It will be wise to keep this protection enabled from here forward, you never know when you might accidentally help from your tools to spot errors is always welcome!
+Edit your Makefile to add the flag `-fstack-protector-strong` to `CFLAGS`. When you change the Makefile, use `make clean` to remove all previous build products and start fresh with your next `make`. The buggy `overflow` function who previously got away with its nefarious doings should now be stopped in its tracks by your stack protection. Neat!  It will be wise to keep this protection enabled from here forward, a shoutout from a detection tool will be much more helpful aid to tracking down the bug than having to decipher a mysterious crash.
 
-References:
--  RedHat <https://www.redhat.com/en/blog/security-technologies-stack-smashing-protection-stackguard>
+Neat references for further learning:
+-  Good overview of StackGuard from RedHat <https://www.redhat.com/en/blog/security-technologies-stack-smashing-protection-stackguard>
+    - Includes interesting considerations for choosing the canary value
 - <https://wiki.osdev.org/Stack_Smashing_Protector>
-- The famous anonymous essay "Smashing The Stack For Fun And Profit" <https://phrack.org/issues/49/14.html> that spawned the need for StackGuard as countermeasure.
+    - Good discussion what to anticipate from would-be malicious actors in detection handler
+- Famous anonymous essay "Smashing The Stack For Fun And Profit" <https://phrack.org/issues/49/14.html> that spawned the creation for StackGuard as countermeasure.
 
 
 ### Malloc module
