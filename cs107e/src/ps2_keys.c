@@ -1,5 +1,5 @@
 /*
- * Lookup table to access key information for a PS/2 scan code.
+ * Lookup table to access key information for a PS/2 scancode.
  *
  * Author: Julie Zelenski <zelenski@cs.stanford.edu>
  */
@@ -13,7 +13,7 @@
 // to be implemented by your keyboard driver.
 
 ps2_key_t const ps2_keys[] = {
-    /* scan code */
+    /* scancode */
     /* 00 */      UNUSED,
     /* 01 */   { PS2_KEY_F9, PS2_KEY_F9 },
     /* 02 */      UNUSED,

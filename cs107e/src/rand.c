@@ -1,5 +1,5 @@
 /*
- * Lookup table to access key information for a PS/2 scan code.
+ * Pseudorandom number generator
  *
  * Author: Philip Levis <pal@cs.stanford.edu>
  * Author: Pat Hanrahan <hanrahan@cs.stanford.edu>
