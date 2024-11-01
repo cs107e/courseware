@@ -32,7 +32,7 @@ weeks:
     mon: /lectures/Keyboard/
     lab: /labs/lab5/
     assign: /assignments/assign5/ 
-    fri:
+    fri: /lectures/Arithmetic/
   -
     mon: /lectures/Framebuffer/
     lab: /labs/lab6/
