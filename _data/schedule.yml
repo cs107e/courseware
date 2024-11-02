@@ -42,12 +42,12 @@ weeks:
     mon: /lectures/Interrupts2/
     lab: /labs/lab7/
     assign: /assignments/assign7/
-    fri: /lectures/Sensors/
+    fri: /lectures/Project/
   -
-    mon: /lectures/Sensors2/
+    mon: /lectures/Sensors/
     lab: /labs/projectlab1/
     assign: /project/
-    fri: /lectures/Project/
+    fri: /lectures/Sensors2/
   -
     mon: Thanksgiving recess
     fri: Thanksgiving recess
