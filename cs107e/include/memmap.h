@@ -26,4 +26,6 @@ extern void _start(void);
 extern void _cstart(void);
 extern void main(void);
 
+#define TEXT_START_ADDR ((uintptr_t)0x40000000)
+
 #endif
