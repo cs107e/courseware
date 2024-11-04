@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include "printf.h"
 #include "uart.h"
-
+#include "timer.h"
 void bug_compare(void) {
     int a = -20;
     unsigned int b = 6;
@@ -10,6 +10,30 @@ void bug_compare(void) {
         printf("-20 < 6 - all is well\n");
     else
         printf("-20 >= 6 - omg \n");
+}
+
+
+unsigned int get_count() {
+    static unsigned int count = 0xfffff000;
+    return ++count;
+}
+
+void delay_ticks(unsigned int us) {
+    unsigned int enough = us * 24;
+    unsigned int start = get_count();
+    unsigned int sofar = 0;
+    unsigned int stop_at = start + enough;
+    unsigned int now = 0;
+    int count = 0;
+    //while (get_count() - start < enough) {
+    while (get_count() < start + enough) {
+        count++;
+        //now = get_count();
+        //sofar = now - start;
+        //if (get_count() - start >= enough) break;
+        //if (now >= stop_at) break;
+    }
+    printf("iterated %d times, start was %02x, delta enough %d delta sofar %d stopat %x now %x\n", count, start, enough, sofar, stop_at, now);
 }
 
 void overflow(void) {
@@ -41,5 +65,8 @@ void main(void) {
 
   //  overflow();
   //  bug_compare();
-    conversions();
+   // conversions();
+    for (int i = 0; i < 50; i++) {
+        delay_ticks(5);
+    }
 }
