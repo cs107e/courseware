@@ -95,7 +95,7 @@ int cmd_clear(int argc, const char *argv[]);
  * `cmd_reboot`
  *
  * Usage: reboot
- * Description: reboot the Pi
+ * Description: reboot the Mango Pi
  *
  * Example:
  *   Pi> reboot
