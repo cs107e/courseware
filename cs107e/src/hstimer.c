@@ -13,7 +13,7 @@ typedef union {
     struct {
         uint32_t ctrl;
         uint32_t intv_lo;   // lower 32 bits of interval (see docs note above)
-        uint32_t intv_hi;   // uppper 32 bits of interval
+        uint32_t intv_hi;   // upper 32 bits of interval
         uint32_t cur_lo;    // lower 32 bits of cur value
         uint32_t cur_hi;    // upper 32 bits of cur value
     } regs;
@@ -50,23 +50,23 @@ static struct {
  */
 void hstimer_init(hstimer_id_t index, long usecs) {
     if (index != HSTIMER0 && index != HSTIMER1) return;
-    long rate = ccu_ungate_bus_clock(CCU_HSTIMER_BGR_REG);   // clock up peripheral
-    module.timers[index].regs.ctrl = (0 << 7) | (0 << 4);  // config for normal mode, periodic (not one-shot), prescale = 2^0, disabled
-    uint64_t count = (usecs * rate)/(1000*1000); // calculate count based on clock frequency
+    long rate = ccu_ungate_bus_clock(CCU_HSTIMER_BGR_REG);  // clock up peripheral
+    module.timers[index].regs.ctrl = (0 << 7) | (0 << 4);   // config mode normal periodic (not one-shot), prescale = 2^0, not enabled
+    uint64_t count = (usecs * rate)/(1000*1000);            // calculate count based on clock frequency
     module.timers[index].regs.intv_lo = count & 0xffffffff; // must set low before high (see docs note above)
     module.timers[index].regs.intv_hi = count >> 32;
-    module.timers[index].regs.ctrl |= (1 << 1);     // reload interval into cur
+    module.timers[index].regs.ctrl |= (1 << 1);             // reload interval into cur
     module.interrupt->regs.irq_en |= (1 << index);          // enable interrupts
 }
 
 void hstimer_enable(hstimer_id_t index) {
     if (index != HSTIMER0 && index != HSTIMER1) return;
-    module.timers[index].regs.ctrl |= 1;   // enable will start (or resume) countdown
+    module.timers[index].regs.ctrl |= 1;   // set ctrl bit will start/resume countdown
 }
 
 void hstimer_disable(hstimer_id_t index) {
     if (index != HSTIMER0 && index != HSTIMER1) return;
-    module.timers[index].regs.ctrl &= ~1; // disable will pause countdown
+    module.timers[index].regs.ctrl &= ~1; // clear ctrl bit will pause countdown
 }
 
 void hstimer_interrupt_clear(hstimer_id_t index) {

@@ -58,9 +58,8 @@ static gpio_int_group_t *get_int_group(gpio_id_t gpio, int *p_index) {
     return &module.groups[p.group];
 }
 
-// register dispatch_to_pin with top-level interrupts module
-// as handler for all GPIO interrupt sources
-// Aux data will be pointer to interrupt group
+// register private function dispatch_to_pin with top-level interrupts module
+// as handler for all GPIO interrupt sources, use pointer to interrupt group as aux_data
 void gpio_interrupt_init(void) {
     for (int i = 0; i < GPIO_NGROUPS; i++) {
         interrupts_register_handler(module.groups[i].source, dispatch_to_pin, &module.groups[i]);
@@ -82,6 +81,8 @@ void gpio_interrupt_register_handler(gpio_id_t gpio, handlerfn_t fn, void *aux_d
 // per-pin handlers that have been registered with this module
 static void dispatch_to_pin(void *aux_data) {
     gpio_int_group_t *gp = aux_data;
+    // find 'on' bit in status register to determine which pin had interrupt
+    // use clz to count number of leading zero bits before first one bit
     int pin_index = 31 - __builtin_clz(gp->eint->regs.status);
     gp->handlers[pin_index].fn(gp->handlers[pin_index].aux_data);
 }
@@ -93,9 +94,9 @@ static void gpio_interrupt_set_enabled(gpio_id_t gpio, bool state) {
     gpio_int_group_t *gp = get_int_group(gpio, &pin_index);
     unsigned int mask = (1 << pin_index);
     if (state) {
-        gp->eint->regs.ctl |= mask;
+        gp->eint->regs.ctl |= mask;     // set enable bit
     } else {
-        gp->eint->regs.ctl &= ~mask;
+        gp->eint->regs.ctl &= ~mask;    // clear enable bit
     }
 }
 
@@ -113,8 +114,8 @@ void gpio_interrupt_clear(gpio_id_t gpio) {
     int pin_index;
     gpio_int_group_t *gp = get_int_group(gpio, &pin_index);
     unsigned int mask = (1 << pin_index);
-    if ((gp->eint->regs.status & mask) != 0) { // is pending
-        gp->eint->regs.status |= mask; // write 1 to clear
+    if ((gp->eint->regs.status & mask) != 0) {  // if pending bit set for this pin
+        gp->eint->regs.status |= mask;          // write 1 to clear
     }
 }
 
@@ -129,12 +130,12 @@ void gpio_interrupt_config(gpio_id_t gpio, gpio_event_t event, bool debounce) {
     unsigned int mask = ((1 << 4) - 1);
     gp->eint->regs.cfg[bank] = (gp->eint->regs.cfg[bank] & ~(mask << shift)) | ((event & mask) << shift);
     gpio_set_function(gpio, GPIO_FN_INTERRUPT); // change pin function to interrupt
-    if (debounce) {
-        // 32Khz clock, predivide 2^5, will filter to ~1 event per ms
+    if (debounce) { // if debounce requested
+        // apply 32Khz clock, predivide 2^5, will filter to ~1 event per ms
         gp->eint->regs.debounce = (5 << 4) | 0;
     } else {
-        // 24Mhz clock, no predivide, no filter
+        // apply 24Mhz clock, no predivide, no filter
         gp->eint->regs.debounce = (0 << 4) | 1;
     }
-    gpio_interrupt_clear(gpio); // cancel any stale event
+    gpio_interrupt_clear(gpio); // clear any past event, start anew with updated config
 }

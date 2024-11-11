@@ -12,81 +12,101 @@ Your browser does not support the video tag.
 </video>
 
 
-Here are descriptions of some projects from other past years:
+Here are short descriptions of some projects from past years:
 
-* Noob Cube
+* __Noob Cube__
   - Graphical viewer for a 3D wireframe
-* Pi Selfie Mirror
+* __Pi Selfie Mirror__
   - Take a selfie with animations displayed on a mirror-monitor
-* Chess but cool
+* __Chess but cool__
   - Chess board that can record & visualize moves on a screen (using Hall-effect sensors)
-* Threading system
-  - Build threading system so Pi can simulate running code in parallel
-* Keyboard Orchestra
+* __Threading system__
+  - Multi-threading system so Pi can simulate running code in parallel
+* __Keyboard Orchestra__
   - Record/play music using keyboard
-* Sunlight lamp
+* __Sunlight lamp__
   - Lamp that mirrors natural sunlight intensity throughout day
-* Drum hero
+* __Drum hero__
   - Electronic drumset with piezoelectric vibration sensors
-* SPI Network with Slave-Slave communication
+* __SPI Network with device-device communication__
   - Communication between Pis (display received data, store to memory, run received code)
-* Fruit Ninja
+* __Fruit Ninja__
   - arcade game controlled by user hand gestures (sonar sensors)
-* Theremins visualized
+* __Theremins visualized__
   - Translate time-of-flight distance to pitch and output sound and visualization
-* Synthetic Music
+* __Synthetic Music__
   - Synthetic instrument using piezo sensors on fingers, and output sound and visualization
-* Electronic dress
+* __Light-up dress__
   - Dress which lights up with electroluminescent wires when you move
     (based on gyroscope)
-* Extended etch-a-sketch
+* __Etch-a-sketch__
   - Takes input from two knobs, accelerometer, and push buttons:
     controls menu UI and paint program
-* ArduCAM
-  - A library to access ArduCAM with the Raspberry Pi, along with a
-    interactive control shell
-* Robo-Turtle
+* __ArduCAM library__
+  - A library to retrieve images from ArduCAM, along with an interactive control shell
+* __Robo-Turtle__
   - A robotic turtle with servo motors and ultrasonic sensor, controllable with an NES controller
-* Raspberry Pi GPU
-  - An assembler which targets the Pi GPU, some sample assembly
-    programs, and a guide to using the GPU from bare metal
-* Intruder detection system
-  - Uses a network of passive infrared sensors around the room to detect motion
-* DMX lighting console and receiver
+* __Raspberry Pi GPU__
+  - An assembler which targets the Pi GPU and guide to using the GPU from bare metal
+* __Intruder detection system__
+  - Detect motion using network of passive infrared sensors
+* __DMX lighting console and receiver__
   - User interface to set/read lighting controls
-* 2-player basketball arcade game
-  - IR sensor checks when ball goes into basket.
-* Sensor visualizer
+* __2-player basketball arcade game__
+  - IR sensor checks when ball goes into basket
+* __Sensor visualizer__
   - Car dashboard-like visualization of MCP3008 ADC, including a GL
     library
-* Clappy bird
-  - Arcade game controlled by sounds
-* Finger-spelling recognition
-  - Pi can recognize letters spelled while wearing sensor-equipped glove.
-* Walking weatherman
-  - Wearable shirt with environment sensors and informational display via leds.
-* CNC drawing machine
-  - A user's picture painted on Pi is drawn on a Post-It using a pen controlled by stepper motors.
-* Vintage boombox
-  - Plays music through a refitted vintage radio case with LED visualization.
-* LED leggings
-  - Leggings with sewn-in LEDs that respond to movement of wearer.
-* Magic organ
-  - Multiple stops that shape frequency signature of sound akin to pipe organ.
-* Gesture-controlled car
-  - Wirelessly controlled via a glove outfitted with sensors
-* Text-a-sketch
-  - Pi receives texted photo and drives stepper motors to control an Etch-a-Sketch to draw the photo
-* PiCycle
+* __Clappy bird__
+  - Arcade game controlled by sound
+* __Finger-spelling recognition__
+  - Recognize letters spelled while wearing sensor-equipped glove
+* __Walking weatherman__
+  - Wearable shirt with environment sensors and informational display via leds
+* __Post-it printer__
+  - User paints picture on Pi which is then drawn on a Post-It using a pen controlled by stepper motors
+* __Vintage boombox__
+  - Plays music through a refitted vintage radio case with LED visualization
+* __LED leggings__
+  - Leggings with sewn-in LEDs that respond to movement of wearer
+* __Magic organ__
+  - Multiple stops that shape frequency signature of sound akin to pipe organ
+* __Gesture-controlled car__
+  - Car is wirelessly controlled via a glove outfitted with sensors
+* __Text-a-sketch__
+  - Pi receives texted photo and drives stepper motors to dial a physical Etch-a-Sketch to replicate photo
+* __PiCycle__
   - Automatic brake and turn signals for your bike
-* EANAB maker
+* __Boba maker__
   - Swipe your Stanford ID and receive your preferred beverage mixed to order
-* DrawBot
-  - Pen plotter that draws gcode files
-* Gun of the sentry
+* __Gun of the sentry__
   - Nerf gun that tracks and shoots at moving target
-* Pi Rat
-  - Sensing and mobile robot that can autonomously solve a maze.
+* __Pi Rat__
+  - Sensing and mobile robot that can autonomously solve a maze
+* __POV sphere__
+  - Rotating strip of leds to create illusion of spherical image
+* __Workout buddy__
+  - Wearable sensors to count reps at the gym
+* __Dance steps arcade game__
+  - Step on pads in correct pattern/timing to win game
+* __Lie detector__
+  - Biometric sensors evaluate truthfulness of speaker
+* __Custom font__
+  - Draw letters on screen to create custom handwriting font
+* __BattleDarts__
+  - Battleship game where shot is fired by throwing dart onto board
+* __Midi stepper synth__
+  - Midi from piano keyboard is visualized on screen, drive stepper motors to play notes
+* __Bop-it game__
+  - Sensors to detect various actions
+* __Lego printer__
+  - print image via pick-and-place of lego pixels on grid board
+* __Escalating challenge snooze__
+  - each use of snooze alarm is harder to shut off
+* __Gesture tetris__
+  - game controlled via hand gestures
+* __Zen garden__
+  - Draw patterns in sandbox by moving magnet via stepper motors
   
 Talk to the course staff if you would like more information or you think you
 could use code from one of these projects.

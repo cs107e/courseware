@@ -22,9 +22,9 @@ void interrupts_set_mtvec(void *);
 // structs defined to match layout of hardware registers
 typedef union {
     struct {
-        uint32_t priority[1024];    // only first 256 used (N_SOURCES)
-        uint32_t pending[1024];     // only first 8 used (one pending bit per source)
-        uint32_t enable[1024];      // only first 8 used (one enable bit per source)
+        uint32_t priority[1024];    // only first 256 indexes are used (priority per source)
+        uint32_t pending[1024];     // only first 8 indexes used (pending bit per source, 256/32 = 8)
+        uint32_t enable[1024];      // only first 8 indexes used (enable bit per source, 256/32 = 8)
     } regs;
 } source_t;
 
@@ -85,10 +85,10 @@ __attribute__((interrupt("machine"))) void _trap_handler(void) {
     long mcause = interrupts_get_mcause();
 #define EXTERNAL_INTERRUPT ((1L << 63) | 0xb)
     if (mcause == EXTERNAL_INTERRUPT) { // trap is interrupt
-        // no need to search pending bits to identify source, claim reg has it
+        // do not need to search pending bits to identify which source, claim reg has source number
         uint32_t source = module.plic->regs.claim_complete; // read claim_complete to "claim" (atomically clears pending bit)
         module.handlers[source].fn(module.handlers[source].aux_data); // dispatch to registered handler
-        module.plic->regs.claim_complete = source;   // write claim_complete to "complete"
+        module.plic->regs.claim_complete = source;   // write claim_complete to clear
     } else { // trap is exception
         long mtval = interrupts_get_mtval();
         void *mepc = (void *)interrupts_get_mepc();
@@ -110,17 +110,17 @@ __attribute__((interrupt("machine"))) void _trap_handler(void) {
 void interrupts_init(void) {
     if (module.initialized) error("interrupts_init() must be called only once");
     interrupts_global_disable();
-    module.plic->regs.ctrl = 0;         // machine mode only
-    module.plic->regs.threshhold = 0;   // accept interrupts of any priority
-    interrupts_set_mtvec(_trap_handler);            // install trap handler
-    for (int i = 0; i < 8; i++) {       // all sources start disabled
-        module.sources->regs.pending[i] = 0;
+    module.plic->regs.ctrl = 0;             // machine mode only
+    module.plic->regs.threshhold = 0;       // accept interrupts of any priority
+    interrupts_set_mtvec(_trap_handler);    // install trap handler
+    for (int i = 0; i < N_SOURCES/32; i++) {
+        module.sources->regs.pending[i] = 0;// all sources initially disabled
         module.sources->regs.enable[i] = 0;
     }
     for (int i = 0; i < N_SOURCES; i++) {
         module.sources->regs.priority[i] = 0;
-        module.handlers[i].fn = NULL;
-        module.plic->regs.claim_complete = i; // mark any pending request completed
+        module.handlers[i].fn = NULL;           // all sources initially have NULL handler
+        module.plic->regs.claim_complete = i;   // reset any pending claim
     }
     module.initialized = true;
 }
@@ -144,10 +144,10 @@ static void set_source_enabled(interrupt_source_t source, bool enabled) {
     int shift = source % 32;
     if (enabled) {
         module.sources->regs.priority[source] = 1; // priority at 1 (0 is disable, 1 is lowest)
-        module.sources->regs.enable[bank] |= (1 << shift);
+        module.sources->regs.enable[bank] |= (1 << shift); // set enable bit
     } else {
         module.sources->regs.priority[source] = 0;
-        module.sources->regs.enable[bank] &= ~(1 << shift);
+        module.sources->regs.enable[bank] &= ~(1 << shift); // clear enable bit
     }
 }
 
@@ -162,6 +162,6 @@ void interrupts_disable_source(interrupt_source_t source) {
 void interrupts_register_handler(interrupt_source_t source, handlerfn_t fn, void *aux_data) {
     if (!module.initialized) error("interrupts_init() has not been called!\n");
     if (!is_valid_source(source)) error("request to register handler for interrupt source that is not valid");
-    module.handlers[source].fn = fn;
-    module.handlers[source].aux_data = aux_data;
+    module.handlers[source].fn = fn;                // store handler function and
+    module.handlers[source].aux_data = aux_data;    // aux_data pointer into array at index corresponding to source
 }

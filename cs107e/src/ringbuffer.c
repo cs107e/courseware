@@ -22,7 +22,7 @@
  * Both head and tail advance circularly, i.e. index = (index + 1) % LENGTH
  * The ring buffer is empty if tail == head
  * The ring buffer is full if tail + 1 == head
- * (Note: one slot remains permanently empty to distinguish full from empty)
+ * (Note: one slot permanently unused to distinguish full from empty)
  */
 
 struct ringbuffer {
