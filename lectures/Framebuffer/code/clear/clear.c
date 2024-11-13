@@ -43,7 +43,6 @@ static void clear_int_by_int_green(void) {
     int npixels = module.width * module.height;
     for (int i = 0; i < npixels; i++) {
         *im++ = 0xff00ff00; // green
-        timer_delay_us(1);
     }
 }
 
@@ -70,7 +69,7 @@ void main(void) {
 
     printf("Screen size %d x %d\n", hdmi_get_screen_width(), hdmi_get_screen_height());
     printf("Framebuffer size %d x %d\n", module.width, module.height);
-   // clear_char_by_char();
+    clear_char_by_char();
     while (1) {
         if (!confirm("clear to white, char by char")) break;
         clear_char_by_char();
