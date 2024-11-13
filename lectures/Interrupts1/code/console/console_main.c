@@ -14,8 +14,7 @@ extern void console_enable_blink_cursor(void);
  * because the screen refresh is so time consuming.
  */
 
-#define USE_INTERRUPTS 0
-
+#define USE_INTERRUPTS 1
 void main(void) {
     gpio_init();
     uart_init();

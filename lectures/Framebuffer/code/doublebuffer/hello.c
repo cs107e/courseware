@@ -4,7 +4,7 @@
 
 void main(void) {
     uart_init();
-    gl_init(800, 600, GL_SINGLEBUFFER); // change to GL_DOUBLEBUFFER instead
+    gl_init(800, 600, GL_DOUBLEBUFFER); // change to GL_DOUBLEBUFFER instead
 
     printf("Enter any key to exit: ");
     while (!uart_haschar()) {

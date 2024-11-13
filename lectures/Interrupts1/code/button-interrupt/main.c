@@ -31,7 +31,7 @@ void main(void) {
 
     interrupts_init();
     gpio_interrupt_init();
-    gpio_interrupt_config(button, GPIO_INTERRUPT_NEGATIVE_EDGE, false);
+    gpio_interrupt_config(button, GPIO_INTERRUPT_NEGATIVE_EDGE, true);
     gpio_interrupt_register_handler(button, button_pressed, &button);
     gpio_interrupt_enable(button);
     interrupts_global_enable();
@@ -42,8 +42,8 @@ void main(void) {
     int last_count = gCount;
     while (1) {
         if (last_count != gCount) {
-            update_screen();
             last_count = gCount;
+            update_screen();
             console_printf("\nWaiting for button click...\n");
         }
     }
