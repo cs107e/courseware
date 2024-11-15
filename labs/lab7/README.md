@@ -222,7 +222,7 @@ Please touch base with us during lab to ask your questions and confirm your unde
 let us know of any challenges or confusions we can help resolve with you!
 
 ### Submit exit form
-Before leaving, submit the [lab exit form](https://forms.gle/iowzdU3uy7Q3WiDW6) to let us how the lab went for you and note any issues needing followup. The key goals for this lab are to leave with a good understanding of the layout of the framebuffer memory and feel ready for starting on Assignment 7.
+Before leaving, submit the [lab exit form](https://forms.gle/iowzdU3uy7Q3WiDW6) to let us how the lab went for you and note any issues needing followup. The key goals for this lab are to leave with working code for client use of interrupts and feel ready for starting on Assignment 7.
 
 
 
