@@ -143,6 +143,21 @@ was successful by browsing your repo on GitHub and
 confirming that your newly created tag shows up in the __Tags__ section of the branches
 dropdown menu.
 
+#### Adding a tag to a speicfic commit 
+If you say mispelled a tag, forgot to tag, or otherwise need to go back and add a tag to an older commit here is how. 
+
+First you will need to find the commit hash of the tag you want. The commit hash is the really long sequence of letters and numbers next to each commit. 
+Note you only need to copy the first seven or eight characters of the hash. To see a list of all your commits and their associated hashes run: 
+```console 
+$ git log
+```
+
+From there to add a tag to this commit you can run:
+```console
+$ git tag assignX-submit [paste hash here and remove brackets]
+$ git push --tags
+```
+
 <A name="resubmit"></a>
 #### Move tag for resubmit
 If you need to update your previously tagged submission with additional changes, you can move the tag to a different commit with the following command
