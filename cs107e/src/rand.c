@@ -37,7 +37,6 @@ unsigned int rand(void) {
 void srand(unsigned int seed) {
     // initial factors must be >= 2, 8, 16, and 128 respectively
     // this just lifts all to at least 128 to satisfy requirement
-    seed <<= 1;
     if (seed < 128) seed += 128;
     module.z1 = seed;
     module.z2 = seed;

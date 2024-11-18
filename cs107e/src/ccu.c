@@ -281,6 +281,7 @@ static struct debug_info info_table[] = {
     { INFO_CLK(CCU_TCONTV_CLK_REG),   {PARENT_VIDEO0, PARENT_VIDEO0_4X}, .ncount=2,.mcount=4 },
     { INFO_CLK(CCU_HDMI_24M_CLK_REG), {PARENT_HOSC}, .ncount=0,.mcount=0  },
     { INFO_CLK(CCU_SPI0_CLK_REG),     {PARENT_HOSC, PARENT_PERI, PARENT_PERI_2X}, .ncount=2,.mcount=4 },
+    { INFO_CLK(CCU_SPI1_CLK_REG),     {PARENT_HOSC, PARENT_PERI, PARENT_PERI_2X}, .ncount=2,.mcount=4 },
     { INFO_CLK(CCU_I2S2_CLK_REG),     {PARENT_AUDIO0, NOT_IN_MODEL, NOT_IN_MODEL, PARENT_AUDIO1_DIV5}, .ncount=0,.mcount=5},
     { .name= "Bus Clock" },
     { INFO_BGR(CCU_DE_BGR_REG),       {PARENT_AHB0} },
