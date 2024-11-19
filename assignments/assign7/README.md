@@ -45,9 +45,9 @@ In completing this assignment you will have:
 - redesigned your PS/2 driver to use gpio interrupts so it doesn't drop scancodes, and
 - used an interrupt-safe data structure to correctly share data across regular and interrupt code.
 
-The stretch goal is to achieve the __complete system bonus__ which attests that you have:
+The stretch goal is to achieve the __full system bonus__ which attests that you have:
 
-+ bundled the collection of modules you've written into a comprehensive library for implementing a bare-metal system on the Pi
++ written a collection of modules (i.e. a library) that provides foundational support for implementing a bare-metal system on the Pi
 + constructed a successful and complete system of your own top to bottom: your console running on your library
 
 This work completes the transformation of your Mango Pi into a
@@ -76,7 +76,7 @@ In the `assign7` directory, you will find these files:
 
 The `make run` target builds and runs the program `interrupts_console_shell.bin`. This program is used to test the integration of all modules in the complete system, now using interrupts. The `make test` target builds and run the test program `test_interrputs.bin` that does simple unit tests. 
 
->__Take note of the assignment 7 Makefile!__ Unlike previous makefiles that used your code only for the modules specific to the current assignment, this makefile assumes that you are aiming for the complete system bonus and want to use all your own code. `MY_MODULE_SOURCES` is set to use __your code for all modules__.  If you need to use our reference module in place of yours, edit the Makefile to remove the faulty module. After resolving the issue, add the module back to the list of `MY_MODULE_SOURCES` to build your complete system.
+>__Take note of the assignment 7 Makefile!__ Unlike previous makefiles that used your code only for the modules specific to the current assignment, this makefile assumes that you are aiming for the full system bonus and want to use all your own code. `MY_MODULE_SOURCES` is set to use __your code for all modules__.  If you need to use our reference module in place of yours, edit the Makefile to remove the faulty module. After resolving the issue, add the module back to the list of `MY_MODULE_SOURCES` to build your complete system.
 {: .callout-warning}
 
 
@@ -168,12 +168,10 @@ refresh performance. A few ideas to consider:
     entire screen. Rather than redraw all the characters, you could copy the previously drawn pixels upward and draw just the one added line at the new bottom.
 - If you do the [profiler extension](#extensions), you can use it to identify the hot spots in your code, which points you to the places to focus your attention to get the most impact for your efforts!
 
-## Complete system bonus
-Change to the `mylib` directory and use `make` to create the build result `libmymango.a`. This `libmymango.a` packages together your battle-tested code of library modules into a complete library to support a bare-metal system on the Mango Pi. We will test the interrupt-driven graphical console shell application on your library and if all works correctly, you earn the full system bonus!
+## Building libmymango.a
+Change to the `mylib` directory and use `make` to create the build result `libmymango.a`. This `libmymango.a` packages together your battle-tested code of library modules into a complete library to support a bare-metal system on the Mango Pi.
 
-To be considered for the system bonus, `libmymango.a` must use your own code for all modules (no use of reference modules). We will not re-test your individual modules to the extent that they were tested when grading each assignment, but all functionality used by shell/console must work correctly. This means, for example, your `printf` must handle printing padded hexadecimal numbers (which are needed for `peek`), but could slip by with a minor bug in formatting a large negative value (since they are not used by the shell).
 
-The full system bonus is a big reward for a big accomplishment! You have successfully built a complete computer system from the ground up, writing your own code at every step of the way. Congratulations!
 
 The `libmymango.a` library is in a form ready to be easily incorporated into any future project. The subdirectory `template` contains a template project that demonstrates how to build an application using your `libmymango.a`. To start a new project, make a copy of the template folder, add your `libmymango.a`, and use `make run` to build and run. You can now program your Pi almost like an Arduino with this high-level library you have created.
 
@@ -253,13 +251,11 @@ Other than that, the details of the UI are up to you. Describe in your assign7
 The deliverables for `assign7-submit` are:
 
 - A reworked `ps2.c` module that uses gpio interrupts
-- Final fixes committed to all of your previous modules to be considered for system bonus. Please confirm the correct contents of all modules are committed in the final submission.
-- Your tests in `test_interrupts.c`
 - `README.md` (possibly empty)
 
 Submit your finished code by commit, tag `assign7-submit`, push to remote, and ensure you have an open pull request. The steps to follow are given in the [git workflow guide](/guides/cs107e-git#assignment-submission).
 
-To confirm you're eligible for the complete system bonus, double-check that you are testing with all of your modules listed in `MY_MODULE_SOURCES` and that latest versions of your files are added and committed. If you are submitting the paint extension, be sure all of the needed files in your `paint` subdirectory are committed as well.
+If you are submitting an extension, be sure all additional files needed for the extension are included in your commit (e.g. `shell.c` or `paint` subdirectory).
 
 ## Grading
 To grade this assignment, we will:
@@ -267,9 +263,19 @@ To grade this assignment, we will:
 - Verify that your submission builds correctly, with no warnings. Warnings and/or
   build errors result in automatic deductions. Clean build always!
 - Run automated tests that exercise the functionality of your interrupts-driven `ps2` module.
-- Build the `interrupts_console_shell` application using all of your library modules and interactively test the __complete system__ running with a PS/2 keyboard and HDMI monitor.
-    + Our test will touch on the core features of the system to confirm all is working together in integration.
-    + This coverage will be more of a "once over lightly" pass and less of the "explore every nook and cranny" unit tests we used when grading each assignment individually.
+
+## Full system bonus
+> __Final deadline 5pm Sun Nov 24__ The deadline for full system submit has traditionally been coincident with deadline for assign7, but given the breathing room afforded by upcoming Thanksgiving recess, we are pushing back full system deadline by a few extra days. The final deadline for the full system bonus is 5pm Sun Nov 24.
+{: .callout-info}
+
+Double-check that final versions of files for all modules/assignments are committed and pushed by deadline. Remember to tag bug fixes with appropriate `assignN-retest` flags to trigger retest of open issues.
+
+For the integration test, we will build the `interrupts_console_shell` application using all of your library modules and interactively test the __complete system__ running with a PS/2 keyboard and HDMI monitor.
++ Our test will touch on the core features of the system to confirm all is working together in integration.
++ We will not re-test your individual modules to the extent that they were tested when grading each assignment, but all functionality used by shell/console must work correctly. This means, for example, your `printf` must handle printing padded hexadecimal numbers (which are needed for `peek`), but could slip by with a minor bug in formatting a large negative value (since they are not used by the shell).
++ If you have a specific commit that you want us to test for full system, tag it `final-submit`. If you do not supply a tag, we will test on whatever commit is `HEAD` of `dev` branch at time of deadline.
+
+Passing the system integration test earns the __full system bonus__! The full system bonus is a big reward for a big accomplishment. You have successfully built a complete computer system from the ground up, writing your own code at every step of the way. Congratulations!
 
 ## Course learning goals
 
