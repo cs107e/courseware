@@ -108,6 +108,4 @@ Here are short descriptions of some projects from past years:
 * __Zen garden__
   - Draw patterns in sandbox by moving magnet via stepper motors
   
-Talk to the course staff if you would like more information or you think you
-could use code from one of these projects.
 
