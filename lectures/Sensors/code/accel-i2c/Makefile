@@ -1,7 +1,5 @@
 NAME = accel_demo
 
-EXTRAS = $(CS107E)/extras/d1_peripherals
-
 ARCH    = -march=rv64im -mabi=lp64
 ASFLAGS = $(ARCH)
 CFLAGS  = $(ARCH) -g -Og -I$$CS107E/include -I$(EXTRAS) -Wall -ffreestanding

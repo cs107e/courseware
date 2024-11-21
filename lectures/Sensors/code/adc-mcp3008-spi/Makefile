@@ -1,5 +1,4 @@
 NAME = adc_demo
-EXTRAS = $(CS107E)/extras/d1_peripherals
 
 ARCH    = -march=rv64im -mabi=lp64
 ASFLAGS = $(ARCH)

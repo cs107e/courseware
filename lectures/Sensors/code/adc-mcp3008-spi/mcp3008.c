@@ -2,7 +2,7 @@
 #include "mcp3008.h"
 
 void mcp3008_init(void)  {
-    spi_init();
+    spi_init(SPI_MODE_0);
 }
 
 unsigned int mcp3008_read( unsigned int channel ) {
@@ -15,6 +15,6 @@ unsigned int mcp3008_read( unsigned int channel ) {
     tx[1] = 0x80 | ((channel & 0x7) << 4);
     tx[2] = 0;
 
-    spi_transfer(tx, rx, 3);
+    spi_transfer(tx, rx, sizeof(tx));
     return ((rx[1] & 0x3) << 8) + rx[2];
 }
