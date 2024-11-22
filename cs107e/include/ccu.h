@@ -10,9 +10,9 @@
 #include <stdint.h>
 
 /*
- * Type: `module_clk_id_t`, `bgr_id_t`, `pll_id_t`
+ * Type: `ccu_module_id_t`, `ccu_bgr_id_t`, `ccu_pll_id_t`
  *
- * Type used to identify a ccu register by id (offset).
+ * Type used to identify a ccu clock register by id (offset).
  * We list only the ids of those ccu registers that we are using.
  */
 
@@ -24,27 +24,29 @@ typedef enum { // ids for Module Clock registers
     CCU_DRAM_CLK_REG        = 0x0800,
     CCU_HDMI_24M_CLK_REG    = 0x0B04,
     CCU_TCONTV_CLK_REG      = 0x0B80,
+    CCU_SPI0_CLK_REG        = 0x0940,
+    CCU_SPI1_CLK_REG        = 0x0944,
     CCU_I2S0_CLK_REG        = 0x0A10,
     CCU_I2S1_CLK_REG        = 0x0A14,
     CCU_I2S2_CLK_REG        = 0x0A18,
-    CCU_SPI0_CLK_REG        = 0x0940,
-    CCU_SPI1_CLK_REG        = 0x0944,
-} module_clk_id_t;
+    CCU_LEDC_CLK_REG        = 0x0BF0,
+} ccu_module_id_t;
 
 typedef enum {  // ids for Bus Gating Reset registers
     CCU_DE_BGR_REG          = 0x060C,  // Display engine
-    CCU_DPSS_TOP_BGR_REG    = 0x0ABC,  // TCON TOP
-    CCU_HDMI_BGR_REG        = 0x0B1C,
-    CCU_TCONTV_BGR_REG      = 0x0B9C,
     CCU_DMA_BGR_REG         = 0x070C,
     CCU_HSTIMER_BGR_REG     = 0x073C,
     CCU_PWM_BGR_REG         = 0x07AC,
     CCU_DRAM_BGR_REG        = 0x080C,
     CCU_UART_BGR_REG        = 0x090C,
-    CCU_I2S_BGR_REG         = 0x0A20,
     CCU_TWI_BGR_REG         = 0x091C,  // TWI == I2C
     CCU_SPI_BGR_REG         = 0x096C,
-} bgr_id_t;
+    CCU_I2S_BGR_REG         = 0x0A20,
+    CCU_DPSS_TOP_BGR_REG    = 0x0ABC,  // TCON TOP
+    CCU_HDMI_BGR_REG        = 0x0B1C,
+    CCU_TCONTV_BGR_REG      = 0x0B9C,
+    CCU_LEDC_BGR_REG        = 0x0BFC,
+} ccu_bgr_id_t;
 
 typedef enum { // ids for PLL registers
     CCU_PLL_CPU_CTRL_REG    = 0x0000,
@@ -55,10 +57,10 @@ typedef enum { // ids for PLL registers
     CCU_PLL_VE_CTRL_REG     = 0x0058,
     CCU_PLL_AUDIO0_CTRL_REG = 0x0078,
     CCU_PLL_AUDIO1_CTRL_REG = 0x0080,
-} pll_id_t;
+} ccu_pll_id_t;
 
 /*
- * Type: `parent_id_t`
+ * Type: `ccu_parent_id_t`
  *
  * Enum type used to identify a clock's parent clock.
  */
@@ -80,7 +82,7 @@ typedef enum {
     PARENT_APB0,
     PARENT_APB1,
     PARENT_PSI,
-} parent_id_t;
+} ccu_parent_id_t;
 
 /*
  * `ccu_config_pll_rate`: Update settings and enable pll
@@ -93,7 +95,7 @@ typedef enum {
  * @param rate     desired rate in hz
  * @return         pll rate of new configuration
  */
-long ccu_config_pll_rate(pll_id_t id, long rate);
+long ccu_config_pll_rate(ccu_pll_id_t id, long rate);
 
 /*
  * `ccu_config_module_clock_rate`: Update settings and enable module clock
@@ -105,7 +107,7 @@ long ccu_config_pll_rate(pll_id_t id, long rate);
  * @param rate      desired rate in hz
  * @return          rate of module clock
  */
-long ccu_config_module_clock_rate(module_clk_id_t id, parent_id_t parent, long rate);
+long ccu_config_module_clock_rate(ccu_module_id_t id, ccu_parent_id_t parent, long rate);
 
 /*
  * `ccu_ungate_bus_clock`: Ungate bus clock
@@ -116,8 +118,8 @@ long ccu_config_module_clock_rate(module_clk_id_t id, parent_id_t parent, long r
  * @param id    id of bgr from bgr enum above
  * @return      rate of bus clock
  */
-long ccu_ungate_bus_clock(bgr_id_t reg_id);
-long ccu_ungate_bus_clock_bits(bgr_id_t reg_id, uint32_t gating_bits, uint32_t reset_bits);
+long ccu_ungate_bus_clock(ccu_bgr_id_t reg_id);
+long ccu_ungate_bus_clock_bits(ccu_bgr_id_t reg_id, uint32_t gating_bits, uint32_t reset_bits);
 
 // for debugging purposes
 void ccu_debug_show_clocks(const char *label);

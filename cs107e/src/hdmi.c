@@ -77,11 +77,11 @@ struct display_timing {
     } horiz, vert;
     struct {
         long rate;
-        pll_id_t id;
+        ccu_pll_id_t id;
     } pll;
     struct {
         long rate;
-        parent_id_t parent;
+        ccu_parent_id_t parent;
     } tcon_clk, de_clk;     // TCONTV and DE clocks
 };
 

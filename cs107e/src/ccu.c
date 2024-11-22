@@ -21,18 +21,18 @@ struct debug_info {
     long (*fn)(uint32_t);
     uint32_t reg_id;
     const char *name;
-    parent_id_t parents[4];
+    ccu_parent_id_t parents[4];
     uint32_t ncount, mcount;
 };
 static struct debug_info *info_for_id(uint32_t id);
-static long debug_rate_pll(pll_id_t id);
-static long debug_rate_clk(module_clk_id_t id);
-static long debug_rate_bgr(bgr_id_t id);
-static long debug_rate_parent(parent_id_t id);
-static int get_parent_src_index(module_clk_id_t id, parent_id_t parent);
-static void validate_pll(pll_id_t id);
-static void validate_module_clk(module_clk_id_t id);
-static void validate_bgr(bgr_id_t id);
+static long debug_rate_pll(ccu_pll_id_t id);
+static long debug_rate_clk(ccu_module_id_t id);
+static long debug_rate_bgr(ccu_bgr_id_t id);
+static long debug_rate_parent(ccu_parent_id_t id);
+static int get_parent_src_index(ccu_module_id_t id, ccu_parent_id_t parent);
+static void validate_pll(ccu_pll_id_t id);
+static void validate_module_clk(ccu_module_id_t id);
+static void validate_bgr(ccu_bgr_id_t id);
 
 typedef union {
     struct {
@@ -88,7 +88,7 @@ static volatile uint32_t *reg_for_id(uint32_t raw_offset) {
 // commonly used PLL rates and list in this table for easy access.
 // if you need an additional rate config, simply add to this table
 static const struct pll_config_t {
-    pll_id_t pll_id;
+    ccu_pll_id_t pll_id;
     uint32_t rate;
     struct { uint8_t P; uint8_t N; uint8_t M1; uint8_t M0; };
 } pll_table[] = {
@@ -99,7 +99,7 @@ static const struct pll_config_t {
     {0}
 };
 
-static const struct pll_config_t *get_pll_config_for_rate(pll_id_t id, long rate) {
+static const struct pll_config_t *get_pll_config_for_rate(ccu_pll_id_t id, long rate) {
     for (const struct pll_config_t *cfg = pll_table; cfg->rate != 0; cfg++) {
         if (cfg->pll_id == id && cfg->rate == rate) return cfg;
     }
@@ -110,7 +110,7 @@ static const struct pll_config_t *get_pll_config_for_rate(pll_id_t id, long rate
 #define BITS_N_M1(n, m1)             ((pll_reg_t){ .factor_n=n, .factor_m1=m1 }).bits
 #define BITS_P_N_M1_M0(p, n, m1, m0) ((pll_reg_t){ .factor_p=p, .factor_n=n, .factor_m1=m1, .factor_m0=m0 }).bits;
 
-static void get_pll_bits(pll_id_t id, long rate, uint32_t *factor_mask, uint32_t *new_factors) {
+static void get_pll_bits(ccu_pll_id_t id, long rate, uint32_t *factor_mask, uint32_t *new_factors) {
     uint32_t out_mhz;
     const struct pll_config_t *cfg = get_pll_config_for_rate(id, rate);
     if (!cfg) error("No matching pll config found in rate table.");
@@ -170,7 +170,7 @@ static void update_pll_bits(volatile uint32_t *reg, uint32_t factor_mask, uint32
     *reg |= OUT_ENA;            // re-enable output
 }
 
-long ccu_config_pll_rate(pll_id_t id, long rate) {
+long ccu_config_pll_rate(ccu_pll_id_t id, long rate) {
     validate_pll(id);
     uint32_t factor_mask, new_factors;
     get_pll_bits(id, rate, &factor_mask, &new_factors);
@@ -180,7 +180,7 @@ long ccu_config_pll_rate(pll_id_t id, long rate) {
     return set_rate;
 }
 
-static uint32_t get_module_clk_bits(module_clk_id_t id, parent_id_t parent, long rate) {
+static uint32_t get_module_clk_bits(ccu_module_id_t id, ccu_parent_id_t parent, long rate) {
     int src = get_parent_src_index(id, parent);
     if (src == -1) error("Parent id is not valid for module clock")
     long parent_rate = debug_rate_parent(parent);
@@ -220,7 +220,7 @@ static void update_clock_bits(volatile uint32_t *reg, uint32_t bits) {
     *reg |= ENA;    // re-enable
 }
 
-long ccu_config_module_clock_rate(module_clk_id_t id, parent_id_t parent, long rate) {
+long ccu_config_module_clock_rate(ccu_module_id_t id, ccu_parent_id_t parent, long rate) {
     validate_module_clk(id);
     uint32_t new_bits = get_module_clk_bits(id, parent, rate);
     update_clock_bits(reg_for_id(id), new_bits);
@@ -235,7 +235,7 @@ long ccu_config_module_clock_rate(module_clk_id_t id, parent_id_t parent, long r
  *  and then the clock gating bit is enabled to avoid potential problems
  *  caused by the asynchronous release of the reset signal.
  */
-long ccu_ungate_bus_clock_bits(bgr_id_t id, uint32_t gating_bits, uint32_t reset_bits) {
+long ccu_ungate_bus_clock_bits(ccu_bgr_id_t id, uint32_t gating_bits, uint32_t reset_bits) {
     validate_bgr(id);
     volatile uint32_t *reg = reg_for_id(id);
     *reg |= reset_bits;      // de-assert reset
@@ -245,7 +245,7 @@ long ccu_ungate_bus_clock_bits(bgr_id_t id, uint32_t gating_bits, uint32_t reset
 
 // most bus clocks use standard bits for reset/gate
 // general function above allow other use cases
-long ccu_ungate_bus_clock(bgr_id_t id) {
+long ccu_ungate_bus_clock(ccu_bgr_id_t id) {
     const uint32_t standard_gating_bits = 1 << 0;
     const uint32_t standard_reset_bits  = 1 << 16;
     return ccu_ungate_bus_clock_bits(id, standard_gating_bits, standard_reset_bits);
@@ -283,6 +283,7 @@ static struct debug_info info_table[] = {
     { INFO_CLK(CCU_SPI0_CLK_REG),     {PARENT_HOSC, PARENT_PERI, PARENT_PERI_2X}, .ncount=2,.mcount=4 },
     { INFO_CLK(CCU_SPI1_CLK_REG),     {PARENT_HOSC, PARENT_PERI, PARENT_PERI_2X}, .ncount=2,.mcount=4 },
     { INFO_CLK(CCU_I2S2_CLK_REG),     {PARENT_AUDIO0, NOT_IN_MODEL, NOT_IN_MODEL, PARENT_AUDIO1_DIV5}, .ncount=0,.mcount=5},
+    { INFO_CLK(CCU_LEDC_CLK_REG),     {PARENT_HOSC, PARENT_PERI, NOT_IN_MODEL, NOT_IN_MODEL}, .ncount=2,.mcount=4},
     { .name= "Bus Clock" },
     { INFO_BGR(CCU_DE_BGR_REG),       {PARENT_AHB0} },
     { INFO_BGR(CCU_DPSS_TOP_BGR_REG), {PARENT_AHB0} },
@@ -295,10 +296,11 @@ static struct debug_info info_table[] = {
     { INFO_BGR(CCU_I2S_BGR_REG),      {PARENT_APB0} },
     { INFO_BGR(CCU_TWI_BGR_REG),      {PARENT_APB1} },
     { INFO_BGR(CCU_SPI_BGR_REG),      {PARENT_APB1} },
+    { INFO_BGR(CCU_LEDC_BGR_REG),     {PARENT_APB1} },
     {0},
   };
 
-static int get_parent_src_index(module_clk_id_t id, parent_id_t parent) {
+static int get_parent_src_index(ccu_module_id_t id, ccu_parent_id_t parent) {
     for (struct debug_info *info = info_table; info->name; info++) {
         if (info->reg_id == id) {
             for (int i = 0; i < sizeof(info->parents)/sizeof(*info->parents); i++) {
@@ -330,7 +332,7 @@ void ccu_debug_show_clocks(const char *label) {
     }
 }
 
-static long debug_rate_parent(parent_id_t id) {
+static long debug_rate_parent(ccu_parent_id_t id) {
     int mult = 1, div = 1;
     switch (id) {
         case NOT_IN_MODEL:      return -1;
@@ -354,7 +356,7 @@ static long debug_rate_parent(parent_id_t id) {
     return -1;
 }
 
-static long debug_rate_pll(pll_id_t id) {
+static long debug_rate_pll(ccu_pll_id_t id) {
     pll_reg_t pll;
     pll.bits = *reg_for_id(id);
     if (!pll.ena || !pll.output_ena) return 0;
@@ -373,34 +375,34 @@ static long debug_rate_pll(pll_id_t id) {
     }
 }
 
-static long debug_rate_clk(module_clk_id_t id) {
+static long debug_rate_clk(ccu_module_id_t id) {
     module_clk_reg_t clk;
     clk.bits = *reg_for_id(id);
     if (id > CCU_APB1_CLK_REG && !clk.ena) return 0; // cheezy (ena bits not applicable for psi/apb?)
     int n = 1 << clk.factor_n;
     int m = clk.factor_m + 1;
     struct debug_info *i = info_for_id(id);
-    parent_id_t parent = i->parents[clk.src];
+    ccu_parent_id_t parent = i->parents[clk.src];
     return debug_rate_parent(parent)/n/m;
 }
 
-static long debug_rate_bgr(bgr_id_t id) {
+static long debug_rate_bgr(ccu_bgr_id_t id) {
     uint32_t val = *reg_for_id(id);
     struct debug_info *i = info_for_id(id);
     return (val & 0xff) ? debug_rate_parent(i->parents[0]) : 0;
 }
 
-static void validate_pll(pll_id_t id) {
+static void validate_pll(ccu_pll_id_t id) {
     struct debug_info *info = info_for_id(id);
     if (!info || info->fn != debug_rate_pll) error("PLL id is not valid");
 }
 
-static void validate_module_clk(module_clk_id_t id) {
+static void validate_module_clk(ccu_module_id_t id) {
     struct debug_info *info = info_for_id(id);
     if (!info || info->fn != debug_rate_clk) error("Module clock id is not valid");
 }
 
-static void validate_bgr(bgr_id_t id) {
+static void validate_bgr(ccu_bgr_id_t id) {
     struct debug_info *info = info_for_id(id);
     if (!info || info->fn != debug_rate_bgr) error("Bus clock id is not valid");
 }
