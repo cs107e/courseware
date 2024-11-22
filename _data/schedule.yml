@@ -47,7 +47,7 @@ weeks:
     mon: /lectures/Sensors/
     lab: /labs/projectlab1/
     assign: /project/
-    fri: /lectures/Sensors2/
+    fri: /lectures/Output/
   -
     mon: Thanksgiving recess
     fri: Thanksgiving recess
