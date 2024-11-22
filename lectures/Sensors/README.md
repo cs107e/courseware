@@ -4,7 +4,7 @@ permalink: /lectures/Sensors/
 title: Sensor Input
 readings: |
 
-    Using electrical signals to observe external phenomena, ADC (analog to digital conversion), protocols I2C and SPI.
+    Reading gpio inputs, how electrical signals can be used to observe physical phenomena, analog to digital conversion, protocols I2C and SPI.
 
     Readings:
     + Wikipedia entry [analog-to-digital conversion](https://en.wikipedia.org/wiki/Analog-to-digital_converter)
