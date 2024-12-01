@@ -15,6 +15,23 @@
 #include "gpio_extra.h"
 #include <stdarg.h>
 
+/*
+ * IMPORTANT: bitfields & hardware registers
+ * -----------------------------------------
+ * TL;DR  Be sure to compile with gcc flag -fstrict-volatile-bitfields
+ *
+ * This flag tells gcc to generate 32-bit load/store instructions (i.e. lw/sw)
+ * to access volatile bitfields. Without flag, gcc can generate 8 or 16-bit
+ * instructions (i.e. sh or lb) that access subword. Subword access appears to
+ * interact badly with pwm hardware registers. This did not appear to be documented
+ * anywhere; I only found out the hard way when observing garbled bits and lost
+ * updates.
+ *
+ * I don't know if this behavior is specific to pwm or affects all peripheral
+ * registers. I think it best to assume it is needed for all volatile bitfields
+ * (i.e. any bitfield within peripheral registers)
+*/
+
 typedef union {
     struct {
         uint32_t pier;
@@ -152,22 +169,21 @@ static bool set_pin_fn_to_pwm(pwm_channel_id_t ch, gpio_id_t pin) {
 }
 
 /*
- * IMPORTANT CAUTION: update of PPR (period) register
- * --------------------------------------------------
- * TLDR: must use single 32-bit write to ppr that sets both active/entire in one go
+ * IMPORTANT: update of PPR (period) register
+ * ------------------------------------------
+ * TL;DR: must use single 32-bit write to ppr that sets both active/entire in one go
  *
  * I originally defined ppr as bitfield with upper/lower 16-bit.
- * However, writes to the fields did not seem to do correct thing.
- * The gcc-generated code was using lh/sh instructions and those were
- * did not place nice with hardware register.
- * Applying flag fstrict-volatile-bitfields forces gcc to generate
- * 32-bit lw/sw, which corrected some of the problems, but not all.
- * Write of active and entire field in two separate actions (
+ * The gcc-generated code was using lh/sh instructions which
+ * did not place nice with hardware register. (see note above)
+ * Apply flag fstrict-volatile-bitfields forces gcc to generate
+ * 32-bit lw/sw. This corrected most of the problems, but not all.
+ * Write of active and entire field in two separate actions
  * (i.e. two read-modify-write) was still problematic.
  * The observed behavior was erratic (timing-sensitive?), sometimes second
  * update just silently dropped. (seemed most likely to happen on the
  * very first set of ppr after init module)
- * Instead write to ppr in single operation that sets
+ * Change code to write to ppr in single operation that sets
  * both fields in one go seems to behave perfectly, no glitch
 */
 static void set_period(pwm_channel_id_t ch, int n_active, int n_entire) {
