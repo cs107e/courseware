@@ -5,38 +5,46 @@ toc: true
 ---
 
 
-## Grading Policy
-Your course grade comes from your efforts in lab, assignments, and the final project.
 
-+ __Labs__ meet weekly, your attendance and participation is mandatory.
-+ There are 7 weekly __assignments__. The assignment specification identifies the core features which are required, along with optional extensions where you can go above and beyond.
-+ The course culminates with a final __project__ where you design and implement a system of your choosing.
+## Course Grades
 
+The coursework consists of 7 weekly assignments and a final project. There are no exams. Your achievement of the course learning goals is assessed via:
+
++ Assignment deliverables
+    - Core functionality is "feature-complete"
+    - Timeliness in meeting schedule
+    - Earn bonus credits for optional extension tasks
++ Project deliverables
+    - Creative final project that is well-executed and shows proficiency with course material
++ Engagement
+    - We welcome and recognize your contributions of E-P-A:
+        - Effort: growth mindset, willingness to challenge yourself, dedication to learning, continued improvement
+        - Participation: active involvement in lab, lecture, and forum
+        - Altruism: learning together, asking and answering questions, collaborating in lab, celebrating and supporting one another
+    - Together we can build a vibrant and interactive learning community where all can thrive!
 
 If you have your sights set on earning an __A__ course grade, you will need consistently __outstanding__ work:
-+ Attend and participate in all labs.
-+ Assignments ([how assignments are graded](/assignments#grading))
-    - Core functionality is complete/correct:
-        - Passing all Priority 1 and Priority 2 tests for all assignments (revise and resubmit ok).
-    - Consistent good timeliness (on-time submissions, majority of core functionality passing in original submission, swift resolution of outstanding issues)
-    - Code quality (style and tests) trending to `+`.
-    - 3 or more assignment extensions successfully completed.
-    - Earn the full system bonus for using all your own code on the last assignment.
-+ Outstanding final project, excellent execution.
++ Assignment deliverables
+    - Core functionality is complete and correct (resolve all P1 and P2 issues, revise and resubmit ok)
+    - Consistently good timeliness (submit on-time, swift resolution of outstanding issues)
+    - Earn 15 or more bonus credits (2-4 per assignment extension, full system = 6)
+        - Full system award if assign7 console is "ready to ship" and uses only your code -- big achievement!
++ Project deliverables
+    - Outstanding project (demonstrates mastery of course topics, excellent execution)
++ Engagement
+    - Active and involved throughout (all labs, thoughtful completion of all style reflections, strong E-P-A contributions)
 
-For a __B__ course grade, we expect consistently __solid__ work:
-+ Attend and participate in all labs.
-+ Assignments
-    - Core functionality is mostly complete/correct:
-        - Passing all Priority 1 tests for all assignments (revise and resubmit ok).
-    - Ok timeliness (within grace period, all Priority 1 issues eventually resolved by Assignment 7)
-    - Code quality (style and tests) trending to `ok`.
-    - One extension attempted or full system bonus earned.
-+ Good final project, satisfactory execution.
+For a __B__ course grade, we expect __solid__ work throughout:
++ Assignment deliverables
+    - Core functionality is complete and correct (resolve all P1 issues)
+    - Ok on timeliness (submit within grace, P1 issues resolved by Assign 7)
+    - Candidate for full system bonus
++ Project deliverables
+    - Good project (shows skill on course topics, satisfactory execution)
++ Engagement
+    - Good (all labs, some style reflections, positive E-P-A)
 
 Work that is not completed satisfactorily will earn grades **C and below**.
-
-**NOTE:** Hitting the above metrics is guaranteed to land a course grade in A range or B range respectively. However, there are also other means to demonstrate success and mastery of the course learning goals and achieve noteworthy outcomes – the course staff may decide on areas of flexibility to apply to all students at the end of the quarter. We see your accomplishments and want to reward you!
 
 ## Late Policy
 

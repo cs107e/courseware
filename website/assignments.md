@@ -19,7 +19,7 @@ Students in previous quarters report spending between 10 and 20 hours completing
 The assignments build on each other,
 and it is difficult to recover from skipping an assignment. 
 The last assignment is a final project, 
-and you will have two weeks to do the project. 
+and you will have 2-3 weeks to do the project.
 The final project is more open-ended than the assignments.
 Most students will spend more than 20 hours on their final project.
 
@@ -42,7 +42,7 @@ you submit by creating a pull-request. Consult [Assignment 0](/assignments/assig
 
 ### What is the policy on late assignments?
 
-In Winter Quarter 2024, assignments will be due weekly Tuesday 5pm. On-time submission is awarded a small bonus that boosts course grade. After the deadline is a 2-day grace period that allows late submission with no penalty. All submissions are expected by end of the grace period.  Read our [course late policy](/policies/#late-policy)
+Assignments will be due weekly Tuesday 5pm. On-time submissions are awarded a small reward that boosts course grade. After the deadline is a 2-day grace period that allows late submission with no penalty. All submissions are expected by end of the grace period.  Read our [course late policy](/policies/#late-policy)
 for specifics.
 
 ### What is the assignment collaboration policy?
@@ -53,14 +53,14 @@ Code policies, and offer specific examples of its application to CS107E
 coursework in our [course collaboration
 policy](/policies/#collaboration-policy).
 
-The final project is usually done in teams of 2 or 3. If working in a team, all partners are expected to contribute equally to the effort.
+The final project is usually done in teams of 2, and sometimes 3. All team members are expected to contribute equally to the effort.
 
 ### How are assignments structured?
 Each assignment writeup has a required basic part and various optional extensions. 
 
 The __core features__ are required of all students. The work follows directly from the material covered in lecture and lab. It has a tight specification to which your submission is expected to match. We provide suggested steps to guide you through completing the core part.
 
-The __extensions__ are optional add-ons that allow you to explore further and earn additional points. These are not required, but it is highly encouraged that you attempt some of the extensions. Extensions are given with a looser specification and much less guidance than the core features. If tackling an extension, you will need to research advanced material on your own and apply your creativity in problem-solving.
+The __extensions__ are optional add-ons that allow you to go deeper, implement extended features, and apply your creativity. These extended features earn bonus credits. Extensions are not required but everyone is highly encouraged to attempt some of these explorations. The extensions are given with a looser specification and much less guidance than the core features. If tackling an extension, you will need to research advanced material on your own and apply your creativity in problem-solving.
 
 In assignments 2 through 7, you will build up a library of useful utilities for bare metal programming on the Pi.  These assignments build on one another. To complete assignment 5, say, you will need working versions of assignments 2 through 4.
 
@@ -72,38 +72,30 @@ The last assignment requires you to use code from
 many of the previous assignments.
 To encourage you to complete all assignments and resubmit to fix your bugs,
 if you submit the last assignment using only your own code,
-we will award you additional bonus points for building a complete working system. 
+we award you additional bonus credits for building a complete working system.
 
 <a name="grading"></a>
-### How are assignments graded?
+### How are assignments graded? What kind of feedback will I get on my work?
 
-We evaluate your assignments through these three lenses:
+We evaluate your assignments through these lenses:
 1. __Functionality__ (_does it pass the QA tests?_)
-2. __Code quality__ (_does my code achieve my team/tech lead's standards?_)
+2. __Quality/style__ (_does my code achieve my team/tech lead's standards?_)
 3. __Timeliness__ (_did I meet the program manager's schedule?_)
 
-We test __functionality__ by exercising your code against our grading tests.  For each bug or test failure, we file a GitHub issue to report the problem. An issue is categorized with its priority, Priority 1 being the most important and decreasing from there.  Priority 1 "Essential" tests exercise core functionality that is critical to the system's operation. Your system won't be fully usable until these high priority issues are addressed. Priority 2 "Comprehensive" tests thoroughly exercise the full range of functionality including lesser-traveled features. A Priority 3 "Just Mention" would be used for small concerns as a misbehavior in an obscure edge case or minor issue of polish.
+We test __functionality__ by running a set of automated and manual grading tests.  If we find a test failure, we post a GitHub issue for the problem. An issue is categorized with its priority, Priority 1 being the most important and decreasing from there. The option to revise and resubmit is available for all GitHub issues, with special emphasis on fixing those of higher priority.
+- P1: "Essential" tests exercise core functionality that is critical to the system's operation. Your system won't be fully usable until these high priority issues are addressed.
+- P2: "Comprehensive" tests thoroughly exercise the full range of functionality including lesser-traveled features.
+- P3: "Just Mention" are used for small concerns as a misbehavior in an obscure edge case or minor issue of polish.
 
-For full credit on the core functionality, you must have passing results on all of the Priority 1 tests. You are encouraged to revise and resubmit in order to address any Priority 1 issues.  Lower priority bugs can be addressed at your discretion. A higher percentage of passed tests boosts your assignment grade.
+We want to help you learn how to write __high-quality__ code that will be eagerly welcomed into your team's repository-- code that it is not only functionally correct, but also thoughtfully designed and written to be readable and maintainable. Whether you have a strong established sense of style or are still finding your way, we hope all of you aspire to level up the quality of your code this quarter and we are eager to support you on this journey! Each assignment has a follow-up "style reflection"; this guided activity is for you to review your code and its design choices and build awareness of how you can continue to improve.  We have lots of experience reading, writing, and reviewing code and would love to help you further develop and refine your "coding voice".
 
-For __code quality__, the grader will read your code from the role of a team manager giving feedback before accepting the code into the team's repository.  We are expecting clear code that is readable, well-designed, and commented appropriately.  Good code is decomposed into small, clear, well-named functions so that 
-no code is repeated and it is easy to follow the intent of each function. 
+Managing your time so as to make a solid submission on schedule is a valuable skill to cultivate; we encourage and support your achievements in __timeliness__ by rewarding your on-time submissions as well as timely followup to resolve any outstanding issues.
 
-We evaluate code quality using a bucket system. Code that needs 
-improvement falls in the `-` bucket, code that meets our expectations is in the 
-`ok` bucket, and exceptional code falls in the `+` bucket.
-We will also provide comments on your code  to help you improve your code quality.
-Please incorporate our feedback into future assignments;
-it will improve your grade and more importantly your coding style.
-
-Effectively managing your time to hit deadlines with working code is an accomplishment that we reward in the __timeliness__ category. Your timeliness score is boosted by making your submissions pass tests on-time (or within the grace period).
-
-For details on overall course grades, see our [course grading policy](/policies/#grading-policy).
+For information on course grades, see our [course grading policy](/policies/#grading-policy).
 
 ## What is the revise and resubmit policy?
-Many of the assignments in this course build upon each other. It is a good idea, both for your learning and your grade, to revise and resubmit old assignments after seeing what tests they fail.
+Many of the assignments in this course build upon each other. It is a good idea, both for your learning and your grade, to revise and resubmit previous work after seeing which tests they fail.
 
-For a failed test case on core functionality, we will file a GitHub issue to report the bug. You are encouraged to review your issues and rework your code to fix the underlying bug(s). When you submit the revised code, we will run the tests again and update to show the now-passed results. 
+For a failed test case on core functionality, we will file a GitHub issue to report the bug. You are encouraged to review your issues and rework your code to fix the underlying bug(s). When you submit the revised code, we will run the tests again and close issues for those test cases that are now passing.
 
-The final opportunity for assignment revise and resubmit will be with the submission for Assignment 7. (Hint: don't wait til last minute -- much better to get those bug fixes in early rather than build up a big backlog!)
-
+The final opportunity for revise and resubmit will be with your submission for Assignment 7. __Pro tip__: rather than put off working on bug fixes til the very end, better to work on them as time allows. Early resolution is a boost for your timeliness and avoids you facing a big backlog to work through under time crunch -- win-win!
