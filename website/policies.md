@@ -8,41 +8,43 @@ toc: true
 
 ## Course Grades
 
-The coursework consists of 7 weekly assignments and a final project. There are no exams. Your achievement of the course learning goals is assessed via:
+The coursework consists of 7 weekly assignments and a final project. There are no exams. We look for your demonstrated accomplishment of the course learning goals through meeting the deliverables for assignments/project and sustained engagement with the material.
 
 + Assignment deliverables
     - Core functionality is "feature-complete"
     - Timeliness in meeting schedule
-    - Earn bonus credits for optional extension tasks
+    - Bonus credits available for completing additional features
 + Project deliverables
     - Creative final project that is well-executed and shows proficiency with course material
 + Engagement
-    - We welcome and recognize your contributions of E-P-A:
+    - We encourage and recognize your contributions of E-P-C:
         - Effort: growth mindset, willingness to challenge yourself, dedication to learning, continued improvement
         - Participation: active involvement in lab, lecture, and forum
-        - Altruism: learning together, asking and answering questions, collaborating in lab, celebrating and supporting one another
-    - Together we can build a vibrant and interactive learning community where all can thrive!
+        - Community: learning together, asking and answering questions, collaborating in lab, celebrating and supporting one another
+    - Together we can build a vibrant and interactive learning environment where all can thrive!
+
+Our grading system is designed to be entirely __constructive__. We celebrate and reward each of your accomplishments, whether that is tracking down bugs, keen participation in lab, implementing extended features, or making on-time submssions. Below we list the base expectation to assure a course grade in the B range; your efforts to go above and beyond the base will boost the course grade upward.
 
 If you have your sights set on earning an __A__ course grade, you will need consistently __outstanding__ work:
 + Assignment deliverables
-    - Core functionality is complete and correct (resolve all P1 and P2 issues, revise and resubmit ok)
+    - Core functionality is complete and correct (resolve all issues, revise and resubmit ok)
     - Consistently good timeliness (submit on-time, swift resolution of outstanding issues)
-    - Earn 15 or more bonus credits (2-4 per assignment extension, full system = 6)
+    - Earn 15 or more bonus credits (2-4 per extended features on assignment, full system = 6)
         - Full system award if assign7 console is "ready to ship" and uses only your code -- big achievement!
 + Project deliverables
-    - Outstanding project (demonstrates mastery of course topics, excellent execution)
+    - Outstanding project (strong challenge, demonstrates mastery of course topics, excellent execution)
 + Engagement
-    - Active and involved throughout (all labs, thoughtful completion of all style reflections, strong E-P-A contributions)
+    - Active and involved throughout (all labs, thoughtful completion of all style reflections, strong E-P-C contributions)
 
 For a __B__ course grade, we expect __solid__ work throughout:
 + Assignment deliverables
-    - Core functionality is complete and correct (resolve all P1 issues)
-    - Ok on timeliness (submit within grace, P1 issues resolved by Assign 7)
+    - Essential core functionality is complete and correct (resolve all essential P1 issues, revise and resubmit ok)
+    - Ok on timeliness (submit within grace, issues resolved by Assign 7)
     - Candidate for full system bonus
 + Project deliverables
     - Good project (shows skill on course topics, satisfactory execution)
 + Engagement
-    - Good (all labs, some style reflections, positive E-P-A)
+    - Good (all labs, some style reflections, positive E-P-C)
 
 Work that is not completed satisfactorily will earn grades **C and below**.
 
