@@ -1,7 +1,7 @@
 ---
 title: "Guide: Initial git setup and mycode repo"
 toc: true
-quarterprefix: fall24
+quarterprefix: win25
 attribution: Written by Maria Paula Hernandez and Liana Keesing, incorporating work of past TAs
 ---
 
@@ -166,7 +166,7 @@ $ git pull code-mirror master
 ```console
 $ cd ~/cs107e_home/mycode
 $ ls cs107e
-bin  extras include  lib  other sample_build  src
+bin  include  lib  other sample_build  src
 ```
 Above confirms that the `cs107e` directory in your `mycode` repo is populated with the correct files.
 

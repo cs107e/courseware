@@ -5,14 +5,10 @@ attribution: Written by Peter McEvoy, CS107E TA
 ---
 
 ## What is Git? 
-Git is a distributed version control system (DVCS), which allows multiple
-people to work on the same software at the same time. Git is predominantly used 
-by software engineers and developers to coordinate work on software, but the project
-need not involve software to take advantage of Git. Software is mainly composed
-of text files, which Git is especially good at managing because it can track small
-changes made to text files. While Git can also manage more complex data files like
-images, it lacks the ability to detect the same kind of small changes as in text
-files.
+Git is a distributed version control system (DVCS), a tool to allow multiple
+people to collaborate on shared code base and maintain a comprehensive history
+of changes. Git has very efficient techniques for tracking changes in text files, which makes it particularly suited for use
+maanging the code assets of a software engineering team.
 
 ## Why Git? 
 Suppose that you're working on a project in C that will compute all powers of an
@@ -144,10 +140,10 @@ assume that your GitHub account already has a repo named `dummy` created, which
 can be found at `git@github.com:<your-username>/dummy.git`.
 
 In Git terminology, the version of the repo living on your computer (the one you 
-created with `git init`) is called the local copy, and the version living on GitHub's
-servers is called the remote copy. 
+created with `git init`) is called the local repo, and the version living on GitHub's
+servers is called the remote repo.
 
-In order to add the work in our local repo to our remote repo, we first need to 
+To synchoronize the work in our local repo with our remote repo, we first
 assign a shorter name to the URL of the remote repo, the one that is hosted by 
 GitHub. We'll use the name `origin`, since this remote repo will be the "origin" 
 of your code. 
@@ -163,12 +159,12 @@ our remote repo and push our local changes to it.
 $ git push --set-upstream origin master
 ```
 
-What we're doing here is pushing our local commits (the ones that we made with
+What we're doing here is pushing commits made in our local repo (the ones that we made with
 `git commit ...`) onto the branch `master` in the remote repo represented by the 
 name `origin` (`git@github.com:<your-username>/dummy.git` in this case). In future
 pushes to the `master` branch of `origin`, we will be able to simply do `git
 push` instead of `git push --set-upstream origin master`. The latter, longer
-version is necessary when the branch that we're pushing from our local repo doesn't
+version is necessary only the first time, when the branch that we're pushing from our local repo doesn't
 yet exist on our remote repo.
 
 That was a lot, but fortunately `file1.txt` and `file2.txt` should now both show 

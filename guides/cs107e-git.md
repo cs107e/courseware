@@ -1,7 +1,7 @@
 ---
 title: "Guide: Git workflow for CS107e"
 toc: true
-quarterprefix: fall24
+quarterprefix: win25
 attribution: Written by Maria Paula Hernandez, incorporating work of past TAs
 ---
 
@@ -16,7 +16,7 @@ In this document, we walk through the specific workflow to access the starter co
 {: .callout-warning}
 
 ## Organization of the `mycode` repo
-Your `mycode` repo is organized by lab and assignment. There will be one folder for each lab (named `lab0`, `lab1`, and so on) and one folder for each assignment (named `assign0`, `assign1`, ...). Each of these folders contains the code and files specific to the named lab or assignment. There is also a folder named `cs107e` containing tools, header and library files that are used throughout the course.
+Your `mycode` repo is organized by lab and assignment. There will be one folder for each lab (named `lab0`, `lab1`, and so on) and one folder for each assignment (named `assign0`, `assign1` and such). Each of these folders contains the code and files specific to the named lab or assignment. There is also a folder named `cs107e` containing shared files that are used throughout.
 
 ```console
 $ cd ~/cs107e_home/mycode
@@ -47,7 +47,7 @@ $ git pull code-mirror labX-starter
 
 After these commands, your repo is on `dev` branch and all files are up to date. `cd` to the `labX` folder and use `ls` to see the new files.
 
-You don't need to commit or submit lab code to be graded. The staff will review your work during lab and check off your participation.
+You don't need to commit or submit lab code to be graded. We use in person check-in during lab to confirm participation.
 
 <a name="assign-workflow"></a>
 
@@ -72,9 +72,9 @@ After these commands, your repo is on `dev` branch and all files are up to date.
 You will work on your assignments in your local `mycode` repo. As you edit, we recommend that you
 make regular git commits to record a snapshot of your work and track your progress. Each commit is
 saved in your local repo. You can follow up with a `git push` to sync those changes with your remote
-repo. You can consider your remote repo as a sort of "offsite backup".
+repo.
 
-> **Note** Everyone commits and pushes their code at different rates, but we highly encourage you to commit __early and often__. Any time you make a change that you'd be upset to lose, make sure you commit your code (usually, this is at least once an hour, often more frequently). Any time you put away your laptop, we highly encourage you to push your code as well, since you'll be grateful to have a backup if something happens to your computer!
+> **Note** We strongly encourage you to develop the habit of commit __early and often__. Any time you make a change that you'd be upset to lose, take a moment to make a commit (usually, this is at least once an hour, often more frequently). Also make regular pushes to send your latest commits to the remote. This means you have an offiste backup if anything scary should befall your laptop!
 {: .callout-warning}
 
 To see the current state of your repo, use the `git status` command. It will indicate which files have been modified, which changes are "staged" (ready to be commmitted) and whether the local and remote repos are currently in sync.
@@ -125,12 +125,11 @@ on the `dev` branch, switch to it by selecting from the drop-down menu:
 
 ### Assignment tags
 
-When grading your work, we'll run tests on your submission to verify its functionality. You indicate which commit you want us to test by applying a tag.
-A _tag_ is simply a way of giving a name to a particular commit. We'll
-also use this tag to determine your submission time. The submission time recorded
-will correspond to the time you pushed the tag commit.
+When grading your work, we'll run tests on your submission to verify its functionality. You must mark which commit you want us to test by applying a tag.
+A _tag_ attaches a name to a commit. We'll
+also use this tag to determine your time of your submission.
 
-Create a tag to identify your assignment submission by doing the following (be sure to replace `assignX` with `assign0`, `assign1`, etc. as appropriate)
+Create a tag to identify your assignment submission by doing the following (replace `assignX` with the appropriate `assign0`, `assign1`, etc.)
 
 ```console
 $ git tag assignX-submit
@@ -238,47 +237,32 @@ After receiving our grading feedback, you will have the opportunity to submit fi
 2. Tag with `assignX-retest`
 3. Confirm your Pull Request is open.
 
-### Assignment grading feedback
-
-Feedback on __functionality__
+### Assignments test results/issues
 
 To evaluate functionality, we run your code through a sequence of automated tests 
 and report any bugs found by posting 
 issues on your remote Github repository. 
-See the `Issues` tab for a list of your open issues (bugs). Each issue has
-a link to the log files. The `student` log file is the output generated when running
+View the `Issues` tab on Github to see a list of your issues. Each issue corresponds to a failed
+test. If the test result includes output log files, the `student` log file is the output generated when running
 your code and the `staff` log file is the output generated by our staff solution.  Comparing the staff
 output to your own will give you insight as to why your code failed the test. 
-As you fix your bugs and submit your debugged code, the issues will be closed in the __Issues__
-tab and the logs will disappear from your logs folder. Your goal will be to close all 
-high priority issues. Below we discuss the process for submitting your code for re-testing after 
-fixing bugs. 
 
-Feedback on __quality__ (code style and tests)
 
-To evaluate quality, the grader reviews your code and test coverage. To read the grader comments,
-view your submission pull request on the __Pull Requests__ tab of your remote Github repo. The grader
-comments will be added on the __Conversation__ tab.
+### Assignment retest
 
-### Assignment bug fixes/re-test
+After receiving our grading feedback, you may use revise and resubmit to correct issues with
+your previous submission.  After correcting the code and doing your own testing, commit
+and push the correct code and request a retest by tagging the commit with `assignX-retest`.
+We will try to run one retest run per week on all repos that have updated retest tags.
+After retest, we will update the __Issues__ tab to show the updated results and close any resolved issues.
 
-After receiving our grading feedback, you may resubmit bug fixes to resolve 
-open issues. To request a re-test after making fixes, tag the commit with `assignX-retest`.
-You may do this as multiple times as you make further changes, simply keep moving the
-`assignX-retest` tag to the commit that you want re-tested. 
-We will try to run one re-test run per week on all repos with updated retest tags.
-We communicate the re-test results by updating your repo __Issues__ and logs folder
-to show which issues are now closed by your fixes. 
+Eligible for retest:
+- Core functionality for all libmango modules, assignments 2-7.
 
-**Note that not all code is eligible for re-test.**
-
-Code that is eligible for re-test: 
-- Core functionality for assignments 2-7. 
-
-Code that is not eligible for re-test: 
+Not eligible for retest:
 - Extensions 
-- Quality (code style/tests)
-- Assignment 1 larson scanner and Assignment 2 clock application (you may re-test bug fixes for assign2 gpio and timer modules).
+- Quality/style
+- Assignment 1 larson scanner and Assignment 2 clock application (retest __is__ available for gpio and timer modules).
 
-Code ineligible for re-test is graded on what was committed at the time of the original submission.
+Code ineligible for retest is graded on what was committed in the original submission.
 
