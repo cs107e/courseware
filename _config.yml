@@ -10,6 +10,13 @@ defaults:
       type: "pages"
     values:
       layout: "default"
+  -
+    scope:
+      path: "labs"
+      type: "pages"
+    values:
+      layout: "lab"
+
 permalink: pretty
 
 # Settings to tweak generation, features, plug-ins

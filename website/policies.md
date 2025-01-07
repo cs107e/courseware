@@ -23,20 +23,20 @@ The coursework consists of 7 weekly assignments and a final project. There are n
         - Community: learning together, asking and answering questions, collaborating in lab, celebrating and supporting one another
     - Together we can build a vibrant and interactive learning environment where all can thrive!
 
-Our grading system is designed to be entirely __constructive__. We celebrate and reward each of your accomplishments, whether that is tracking down bugs, keen participation in lab, implementing extended features, or making on-time submssions. Below we list the base expectation to assure a course grade in the B range; your efforts to go above and beyond the base will boost the course grade upward.
+Our grading system is designed to be entirely __constructive__. We celebrate and reward each of your accomplishments, whether that is tracking down bugs, keen participation in lab, implementing extended features, or making on-time submssions. Satisfying the base expectations listed below guarantees a course grade in the B range; your efforts to go above and beyond boost your course grade upward.
 
 If you have your sights set on earning an __A__ course grade, you will need consistently __outstanding__ work:
 + Assignment deliverables
     - Core functionality is complete and correct (resolve all issues, revise and resubmit ok)
     - Consistently good timeliness (submit on-time, swift resolution of outstanding issues)
-    - Earn 15 or more bonus credits (2-4 per extended features on assignment, full system = 6)
-        - Full system award if assign7 console is "ready to ship" and uses only your code -- big achievement!
+    - Earn 15 or more bonus credits (extended features can earn up to 2-4 credits, full system earns 6)
+        - Full system: assign7 console is polished and "ready to ship", uses only your code. This is a big achievement and great showing of mastery -- way to go!
 + Project deliverables
     - Outstanding project (strong challenge, demonstrates mastery of course topics, excellent execution)
 + Engagement
     - Active and involved throughout (all labs, thoughtful completion of all style reflections, strong E-P-C contributions)
 
-For a __B__ course grade, we expect __solid__ work throughout:
+For a __B__ course grade, we expect __solid__ work that meets all base expectations:
 + Assignment deliverables
     - Essential core functionality is complete and correct (resolve all essential P1 issues, revise and resubmit ok)
     - Ok on timeliness (submit within grace, issues resolved by Assign 7)
