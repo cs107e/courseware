@@ -140,7 +140,7 @@ In CS106A/B, you worked in a IDE (integrated development environments) such as P
 
 No matter which editor you decide to make your primary, you want to know enough Emacs and Vim that you can open a file, make an edit, save and close in a pinch. This means you'll always be able to make a quick edit on a system you've just `ssh`'ed into where this is the only editor available.
 
-Go through the steps for both Emacs and Vim now. Change directory to the subfolder `editors` within `lab0` in your `mycode` repo. The folder contains two text files, `emacs_is_better.txt`and `vim_is_better.txt`.
+Go through the steps for both Emacs and Vim now. Change directory to the subfolder `lab0` in your `mycode` repo. The folder contains two text files, `emacs_is_better.txt`and `vim_is_better.txt`.
 
 - __Try emacs__
     - Open a file in emacs. (Note: on macOS, the emacs-style editor goes by the name `mg`)
