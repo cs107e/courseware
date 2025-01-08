@@ -176,49 +176,6 @@ tag, we will not test/grade it and will assume the extension was not attempted.
 See the section below entitled 'Assignment Submission' for a checklist of steps to 
 complete when you submit your assignment. 
 
-### Assignment pull request
-
-In this course, assignment submission is done using GitHub's _pull request_
-feature. Pull requests provide a summary view of changes made to the code as
-well as a section for comments where course instructors will be providing
-feedback.
-
-The pull request model is used by many modern software projects to promote good
-practices when working in a distributed development environment. The usual
-flow starts with a base branch (typically named _master_ or _main_) that reflects the mainline
-version of the code. Feature development or bug fixing occurs by creating a new
-_branch_ where changes are made. After you have confirmed that the code in your
-branch is working correctly and have finished testing and polishing, you ask other people to approve
-the commits from your branch by making a _pull request_.  Team members respond on the pull request to review the
-proposed changes and provide comments. When a team member approves the pull request,
-GitHub automatically merges the commits back into the base branch.
-
-__You will only need to make one pull request__. You will open a pull request for your
-first submission and it will remain open throughout the quarter. You will not need
-to make an other pull request. If you accidentally close your previous pull request, just open a new one following the steps below.
-
-To open a new pull request: View the contents of your remote repository on the web at `https://github.com/cs107e/{{page.quarterprefix}}-[YOUR-GITHUB-USERNAME]`.
-Switch to the branch `dev` by selecting it from the __Branch__ drop-down
-menu. (Reminder: there will not be an option to open another pull request if there is already one open for this branch)
-
-Click __Contribute__, then __Open pull request__.
-![Github open pull request](../images/github-open-pr.png){: .zoom .w-75}
-
-In the title field, enter "Submission pull request" and leave the comment description text area blank.
-![Github create pull request](../images/github-create-pr.png){: .zoom .w-75}
-
-Click the button __Create pull request__, which will submit the pull request and take you to
-a page to view it:
-
-![Github view pull request](../images/github-view-pr.png){: .zoom .w-75}
-
-The pull request page will update to reflect any changes that are pushed after
-the initial submission. This page will also be used by the grader to provide feedback
-on your submissions.
-
-If you need to update your submission, simply edit your files, commit, re-tag with `assignX-submit`, and push to add
-it to the pull request. You do not need to make another pull request.
-
 ### Assignment checklist
 
 This guide contains a lot of information. Here is a checklist to follow when 
@@ -227,15 +184,13 @@ you are submitting your assignments.
 To submit an assignment:
 1. Ensure all of your code is committed and pushed (see [Assignment commit](#assignment-commit))
 1. Tag with `assignX-submit` and, if applicable, `assignX-extension` (see [Assignment tags](#assignment-tags)) and tags are pushed.
-1. Confirm your Pull Request is open (see [Assignment pull request](#assignment-pull-request))
-1. If you want to replace a previous submission, move the submit tag to the updated commit and force push. You do not need to change your open Pull Request.
+1. If you want to replace a previous submission, move the submit tag to the updated commit and force push.
 1. You can confirm which files you submitted by browsing your remote repo on GitHub. Choose `assignX-submit` tag from the dropdown menu to review the submitted files and their contents.
 
 After receiving our grading feedback, you will have the opportunity to submit fixes
  and request a re-test of open issues. To submit fixes for re-test:
 1. Ensure all of your code is committed and pushed. 
-2. Tag with `assignX-retest`
-3. Confirm your Pull Request is open.
+2. Tag with `assignX-retest` and push the tag to remote.
 
 ### Assignments test results/issues
 
