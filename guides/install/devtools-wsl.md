@@ -89,7 +89,7 @@ Next, we need to install xfel (<https://github.com/xboot/xfel>), which is the to
 
 4. Now we will create a symbolic link for the xfel executable. This allows us to keep the executable in the Windows file system while still being able to call it from WSL (this arrangement is needed to avoid a painfully long antivirus scan by Windows Defender on every invocation of xfel).
     ```console
-    $ sudo ln -s /mnt/c/Users/[YOUR-WINDOWS-USERNAME]/xfel/xfel /usr/local/bin
+    $ sudo ln -sf /mnt/c/Users/[YOUR-WINDOWS-USERNAME]/xfel/xfel /usr/local/bin
     ```
 
     If this worked, xfel will be findable on your wsl path:
