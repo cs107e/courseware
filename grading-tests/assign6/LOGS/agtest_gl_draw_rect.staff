@@ -1,0 +1,35 @@
+CS107E_AUTO: START TEST
+
+CS107E_AUTO: call gl_init(8, 8, GL_SINGLEBUFFER)
+CS107E_AUTO: fb_init(8,8,0)
+CS107E_AUTO: call gl_clear(GL_BLACK)
+CS107E_AUTO: ====================================================================
+CS107E_AUTO: call gl_draw_rect(1,1, 4,5, GL_YELLOW)
+CS107E_AUTO:     below is ascii diagram of contents of onscreen framebuffer:
+CS107E_AUTO:     (expect display 4x5 yellow rectangle in middle-left of screen)
++--------+
+|        |
+| YYYY   |
+| YYYY   |
+| YYYY   |
+| YYYY   |
+| YYYY   |
+|        |
+|        |
++--------+
+CS107E_AUTO: ====================================================================
+CS107E_AUTO: call gl_draw_rect(4,0, 3,3, GL_BLUE)
+CS107E_AUTO:     below is ascii diagram of contents of onscreen framebuffer:
+CS107E_AUTO:     (expect add 3x3 blue rectangle in upper-right)
++--------+
+|    BBB |
+| YYYBBB |
+| YYYBBB |
+| YYYY   |
+| YYYY   |
+| YYYY   |
+|        |
+|        |
++--------+
+
+CS107E_AUTO: END TEST

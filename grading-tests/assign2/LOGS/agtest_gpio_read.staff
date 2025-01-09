@@ -1,0 +1,12 @@
+CS107E_AUTO: START TEST
+
+CS107E_AUTO: gpio_read(PB4) returned 0, expected 0
+CS107E_AUTO: gpio_read(PB4) returned 1, expected 1
+CS107E_AUTO: gpio_read(PB3) returned 0, expected 0
+CS107E_AUTO: gpio_read(PB3) returned 1, expected 1
+CS107E_AUTO: gpio_read(PB2) returned 0, expected 0
+CS107E_AUTO: gpio_read(PB2) returned 1, expected 1
+CS107E_AUTO: gpio_read(PC0) returned 0, expected 0
+CS107E_AUTO: gpio_read(PC0) returned 1, expected 1
+
+CS107E_AUTO: END TEST

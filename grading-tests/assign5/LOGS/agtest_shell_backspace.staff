@@ -1,0 +1,16 @@
+CS107E_AUTO: START TEST
+
+CS107E_AUTO: ====================================================================
+CS107E_AUTO: call shell_readline(buf, 30), type keys=[one twoo\b\n]
+
+CS107E_AUTO: buf contains [one two], expected [one two]
+CS107E_AUTO: ====================================================================
+CS107E_AUTO: call shell_readline(buf, 30), type keys=[helloo\b wer\b\borld\n]
+
+CS107E_AUTO: buf contains [hello world], expected [hello world]
+CS107E_AUTO: ====================================================================
+CS107E_AUTO: call shell_readline(buf, 10), type keys=[\bred\b\b\b\bgreen\n]
+
+CS107E_AUTO: buf contains [green], expected [green]
+
+CS107E_AUTO: END TEST

@@ -1,0 +1,20 @@
+CS107E_AUTO: START TEST
+
+CS107E_AUTO: call gpio_write(PB4, 0), level changed to 0, expected 0
+CS107E_AUTO: call gpio_write(PB4, 1), level changed to 1, expected 1
+CS107E_AUTO: call gpio_write(PB4, 0), level changed to 0, expected 0
+CS107E_AUTO: call gpio_write(PB4, 1), level changed to 1, expected 1
+CS107E_AUTO: call gpio_write(PB3, 0), level changed to 0, expected 0
+CS107E_AUTO: call gpio_write(PB3, 1), level changed to 1, expected 1
+CS107E_AUTO: call gpio_write(PB3, 0), level changed to 0, expected 0
+CS107E_AUTO: call gpio_write(PB3, 1), level changed to 1, expected 1
+CS107E_AUTO: call gpio_write(PB2, 0), level changed to 0, expected 0
+CS107E_AUTO: call gpio_write(PB2, 1), level changed to 1, expected 1
+CS107E_AUTO: call gpio_write(PB2, 0), level changed to 0, expected 0
+CS107E_AUTO: call gpio_write(PB2, 1), level changed to 1, expected 1
+CS107E_AUTO: call gpio_write(PC0, 0), level changed to 0, expected 0
+CS107E_AUTO: call gpio_write(PC0, 1), level changed to 1, expected 1
+CS107E_AUTO: call gpio_write(PC0, 0), level changed to 0, expected 0
+CS107E_AUTO: call gpio_write(PC0, 1), level changed to 1, expected 1
+
+CS107E_AUTO: END TEST

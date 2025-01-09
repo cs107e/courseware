@@ -1,0 +1,10 @@
+CS107E_AUTO: START TEST
+
+CS107E_AUTO: gpio_get_function(PB2) returned 1, expected 1
+CS107E_AUTO: gpio_get_function(PC5) returned 2, expected 2
+CS107E_AUTO: gpio_get_function(PD15) returned 0, expected 0
+CS107E_AUTO: gpio_get_function(PE8) returned 3, expected 3
+CS107E_AUTO: gpio_get_function(PF2) returned e, expected e
+CS107E_AUTO: gpio_get_function(PG7) returned 5, expected 5
+
+CS107E_AUTO: END TEST

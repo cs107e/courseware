@@ -1,0 +1,16 @@
+CS107E_AUTO: START TEST
+
+CS107E_AUTO: call gpio_set_function(PB1, 3), function changed to 3, expected 3
+CS107E_AUTO: call gpio_set_function(PB2, 3), function changed to 3, expected 3
+CS107E_AUTO: call gpio_set_function(PB3, 3), function changed to 3, expected 3
+CS107E_AUTO: call gpio_set_function(PB2, 5), function changed to 5, expected 5
+CS107E_AUTO: function for PB1 is 3, expected 3
+CS107E_AUTO: function for PB2 is 5, expected 5
+CS107E_AUTO: function for PB3 is 3, expected 3
+CS107E_AUTO: call gpio_set_function(PB1, 0), function changed to 0, expected 0
+CS107E_AUTO: call gpio_set_function(PB3, 1), function changed to 1, expected 1
+CS107E_AUTO: function for PB1 is 0, expected 0
+CS107E_AUTO: function for PB2 is 5, expected 5
+CS107E_AUTO: function for PB3 is 1, expected 1
+
+CS107E_AUTO: END TEST

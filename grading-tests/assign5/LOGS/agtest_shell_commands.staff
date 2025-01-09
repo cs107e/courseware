@@ -1,0 +1,49 @@
+CS107E_AUTO: START TEST
+
+CS107E_AUTO: call shell_evaluate("echo")
+
+CS107E_AUTO: call shell_evaluate("echo CS107e is my favoritist class ever!!!")
+CS107e is my favoritist class ever!!! 
+CS107E_AUTO: call shell_evaluate("echo      tokens     with extra    spaces in between are not a problem   for my   awesome shell  !!")
+tokens with extra spaces in between are not a problem for my awesome shell !! 
+CS107E_AUTO: call shell_evaluate("echo supercalifragilisticexpialidocious")
+supercalifragilisticexpialidocious 
+CS107E_AUTO: call shell_evaluate("echolocate")
+error: no such command 'echolocate'
+CS107E_AUTO: call shell_evaluate("help echo")
+   echo [args]              print arguments
+CS107E_AUTO: call shell_evaluate("help reboot")
+   reboot                   reboot the Mango Pi
+CS107E_AUTO: call shell_evaluate("help debugging")
+error: no such command 'debugging'
+CS107E_AUTO: call shell_evaluate("peek 0x40000000")
+0x40000000:   12121212
+CS107E_AUTO: call shell_evaluate("peek 0x40000004")
+0x40000004:   fedcba98
+CS107E_AUTO: call shell_evaluate("peek 0x40000008")
+0x40000008:   34343434
+CS107E_AUTO: call shell_evaluate("peek 107")
+error: peek address must be 4-byte aligned
+CS107E_AUTO: call shell_evaluate("peek bob")
+error: peek cannot convert 'bob'
+CS107E_AUTO: call shell_evaluate("peek")
+error: peek expects 1 argument [addr]
+CS107E_AUTO: call shell_evaluate("poke 0x40000004 5")
+CS107E_AUTO: call shell_evaluate("peek 0x40000000")
+0x40000000:   12121212
+CS107E_AUTO: call shell_evaluate("peek 0x40000004")
+0x40000004:   00000005
+CS107E_AUTO: call shell_evaluate("peek 0x40000008")
+0x40000008:   34343434
+CS107E_AUTO: call shell_evaluate("poke")
+error: poke expects 2 arguments [addr] and [val]
+CS107E_AUTO: call shell_evaluate("poke 0x40000000")
+error: poke expects 2 arguments [addr] and [val]
+CS107E_AUTO: call shell_evaluate("poke fred 5")
+error: poke cannot convert 'fred'
+CS107E_AUTO: call shell_evaluate("poke 0x40000000 wilma")
+error: poke cannot convert 'wilma'
+CS107E_AUTO: call shell_evaluate("poke 7 8")
+error: poke address must be 4-byte aligned
+
+CS107E_AUTO: END TEST

@@ -1,0 +1,19 @@
+CS107E_AUTO: START TEST
+
+CS107E_AUTO: call fb_init(1024, 768, FB_SINGLEBUFFER)
+CS107E_AUTO: fb_get_width() returned 1024
+CS107E_AUTO: fb_get_height() returned 768
+CS107E_AUTO: fb_get_depth() returned 4
+CS107E_AUTO: call fb_swap_buffer()
+CS107E_AUTO: mode=singlebuffer, address after swap unchanged
+CS107E_AUTO: ====================================================================
+CS107E_AUTO: call fb_init(117, 53, FB_DOUBLEBUFFER)
+CS107E_AUTO: fb_get_width() returned 117
+CS107E_AUTO: fb_get_height() returned 53
+CS107E_AUTO: fb_get_depth() returned 4
+CS107E_AUTO: call fb_swap_buffer()
+CS107E_AUTO: mode=doublebuffer, address after swap changed
+CS107E_AUTO: call fb_swap_buffer()
+CS107E_AUTO: call fb_swap_buffer()
+
+CS107E_AUTO: END TEST

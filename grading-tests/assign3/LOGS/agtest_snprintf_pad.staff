@@ -1,0 +1,24 @@
+CS107E_AUTO: START TEST
+
+CS107E_AUTO: call snprintf(dst, 20, "%8s", "hello")
+CS107E_AUTO:   after call dst=[   hello], expected=[   hello]
+CS107E_AUTO: call snprintf(dst, 20, "%4c", 'Z')
+CS107E_AUTO:   after call dst=[   Z], expected=[   Z]
+CS107E_AUTO: call snprintf(dst, 20, "%2d", 987)
+CS107E_AUTO:   after call dst=[987], expected=[987]
+CS107E_AUTO: call snprintf(dst, 20, "%5d", 365)
+CS107E_AUTO:   after call dst=[  365], expected=[  365]
+CS107E_AUTO: call snprintf(dst, 20, "%2x", 0x107e)
+CS107E_AUTO:   after call dst=[107e], expected=[107e]
+CS107E_AUTO: call snprintf(dst, 20, "%8x", 0xa01c)
+CS107E_AUTO:   after call dst=[0000a01c], expected=[0000a01c]
+CS107E_AUTO: call snprintf(dst, 20, "%6p", (void *)0x7f94)
+CS107E_AUTO:   after call dst=[0x007f94], expected=[0x007f94]
+CS107E_AUTO: call snprintf(dst, 20, "%16p", (void *)0x7f94)
+CS107E_AUTO:   after call dst=[0x0000000000007f94], expected=[0x0000000000007f94]
+CS107E_AUTO: call snprintf(dst, 20, "%p", (void *)0x7f94)
+CS107E_AUTO:   after call dst=[0x00007f94], expected=[0x00007f94]
+CS107E_AUTO: call snprintf(dst, 20, "%p", ((void *)0))
+CS107E_AUTO:   after call dst=[0x00000000], expected=[0x00000000]
+
+CS107E_AUTO: END TEST

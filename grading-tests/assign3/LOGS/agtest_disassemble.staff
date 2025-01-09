@@ -1,0 +1,61 @@
+CS107E_AUTO: START TEST
+
+CS107E_AUTO:     sample instructions
+CS107E_AUTO: 
+CS107E_AUTO: [00f706b3] =    add    a3,a4,a5
+CS107E_AUTO: [0015c593] =   xori    a1,a1,1
+CS107E_AUTO: [fe061ce3] =   bnez    a2,40000d64 <.text+3428>
+CS107E_AUTO: [02113423] =     sd    ra,40(sp)
+CS107E_AUTO: ====================================================================
+CS107E_AUTO:     rtype instructions
+CS107E_AUTO: 
+CS107E_AUTO: [01de0db3] =    add    s11,t3,t4
+CS107E_AUTO: [405201b3] =    sub    gp,tp,t0
+CS107E_AUTO: [0073c333] =    xor    t1,t2,t2
+CS107E_AUTO: [00b564b3] =     or    s1,a0,a1
+CS107E_AUTO: [00e6f633] =    and    a2,a3,a4
+CS107E_AUTO: [011857b3] =    srl    a5,a6,a7
+CS107E_AUTO: [4149d933] =    sra    s2,s3,s4
+CS107E_AUTO: [017b1ab3] =    sll    s5,s6,s7
+CS107E_AUTO: [01acbc33] =   sltu    s8,s9,s10
+CS107E_AUTO: ====================================================================
+CS107E_AUTO:     itype instructions
+CS107E_AUTO: 
+CS107E_AUTO: [00178713] =   addi    a4,a5,1
+CS107E_AUTO: [03f61013] =   slli    zero,a2,63
+CS107E_AUTO: [00782793] =   slti    a5,a6,7
+CS107E_AUTO: [00983793] =  sltiu    a5,a6,9
+CS107E_AUTO: [2136c613] =   xori    a2,a3,531
+CS107E_AUTO: [40c6d613] =   srai    a2,a3,12
+CS107E_AUTO: [0116d613] =   srli    a2,a3,17
+CS107E_AUTO: [4a96e613] =    ori    a2,a3,1193
+CS107E_AUTO: [00877613] =   andi    a2,a4,8
+CS107E_AUTO: [fff78713] =   addi    a4,a5,-1
+CS107E_AUTO: ====================================================================
+CS107E_AUTO:     stype instructions
+CS107E_AUTO: 
+CS107E_AUTO: [fff59503] =     lh    a0,-1(a1)
+CS107E_AUTO: [00472683] =     lw    a3,4(a4)
+CS107E_AUTO: [00c6b003] =     ld    zero,12(a3)
+CS107E_AUTO: [00b500a3] =     sb    a1,1(a0)
+CS107E_AUTO: [00c59123] =     sh    a2,2(a1)
+CS107E_AUTO: [00d62823] =     sw    a3,16(a2)
+CS107E_AUTO: [00e10023] =     sb    a4,0(sp)
+CS107E_AUTO: [00f4b423] =     sd    a5,8(s1)
+CS107E_AUTO: [fec680e3] =    beq    a3,a2,40000dcc <.text+3532>
+CS107E_AUTO: [00c69063] =    bne    a3,a2,40000df0 <.text+3568>
+CS107E_AUTO: [00c6c563] =    blt    a3,a2,40000dfe <.text+3582>
+CS107E_AUTO: [00c6d263] =    bge    a3,a2,40000dfc <.text+3580>
+CS107E_AUTO: ====================================================================
+CS107E_AUTO:     utype instructions
+CS107E_AUTO: 
+CS107E_AUTO: [70000637] =    lui    a2,0x70000
+CS107E_AUTO: [80000697] =  auipc    a3,0xfff80000
+CS107E_AUTO: [0000006f] =      j    40000e08 <.text+3592>
+CS107E_AUTO: [200580e7] =   jalr    ra,512(a1)
+CS107E_AUTO: [200000e7] =   jalr    ra,512(zero)
+CS107E_AUTO: [274000ef] =    jal    40001088 <_cstart>
+CS107E_AUTO: [0140056f] =    jal    a0,40000e2c <.text+3628>
+CS107E_AUTO: ====================================================================
+
+CS107E_AUTO: END TEST

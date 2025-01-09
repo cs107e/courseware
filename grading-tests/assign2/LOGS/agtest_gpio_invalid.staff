@@ -1,0 +1,9 @@
+CS107E_AUTO: START TEST
+
+CS107E_AUTO: invalid call gpio_set_function(13, 3) expected to make no change
+CS107E_AUTO: invalid call gpio_get_function(13) returned -1, expected -1
+CS107E_AUTO: after invalid call gpio_set_function(PB12, 20) function is now 3, expected to be unchanged from 3
+CS107E_AUTO: invalid call gpio_write(13) expected to make no change
+CS107E_AUTO: invalid call gpio_read(13) returned -1, expected -1
+
+CS107E_AUTO: END TEST

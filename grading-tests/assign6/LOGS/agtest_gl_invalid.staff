@@ -1,0 +1,59 @@
+CS107E_AUTO: START TEST
+
+CS107E_AUTO: call gl_init(8, 4, GL_SINGLEBUFFER)
+CS107E_AUTO: fb_init(8,4,0)
+CS107E_AUTO: Expect read pixel location outside bounds return 0
+CS107E_AUTO: gl_read_pixel(0,-1) returned 0
+CS107E_AUTO: gl_read_pixel(8,0) returned 0
+CS107E_AUTO: gl_read_pixel(0,4) returned 0
+CS107E_AUTO: gl_read_pixel(16,8) returned 0
+CS107E_AUTO: gl_read_pixel(-4,-2) returned 0
+CS107E_AUTO: call gl_init(16, 16, GL_SINGLEBUFFER)
+CS107E_AUTO: fb_init(16,16,0)
+CS107E_AUTO: call gl_clear(GL_BLACK)
+CS107E_AUTO: Attempt to draw character without a corresponding glyph in font draws nothing
+CS107E_AUTO: call gl_draw_char(0,0, 0x7, GL_YELLOW)
+CS107E_AUTO:     below is ascii diagram of contents of onscreen framebuffer:
+CS107E_AUTO:     (expect no changes on screen)
++----------------+
+|                |
+|                |
+|                |
+|                |
+|                |
+|                |
+|                |
+|                |
+|                |
+|                |
+|                |
+|                |
+|                |
+|                |
+|                |
+|                |
++----------------+
+CS107E_AUTO: ====================================================================
+CS107E_AUTO: call gl_draw_char(0,0, 0x99, GL_BLUE)
+CS107E_AUTO:     below is ascii diagram of contents of onscreen framebuffer:
+CS107E_AUTO:     (expect no changes on screen)
++----------------+
+|                |
+|                |
+|                |
+|                |
+|                |
+|                |
+|                |
+|                |
+|                |
+|                |
+|                |
+|                |
+|                |
+|                |
+|                |
+|                |
++----------------+
+
+CS107E_AUTO: END TEST

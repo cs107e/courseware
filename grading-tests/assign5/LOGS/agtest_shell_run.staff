@@ -1,0 +1,16 @@
+CS107E_AUTO: START TEST
+
+Welcome to the CS107E shell.
+Remember to type on your PS/2 keyboard!
+Pi> help echo
+   echo [args]              print arguments
+Pi> echo I love CS107e and Mango Pi is my bff!
+I love CS107e and Mango Pi is my bff! 
+Pi> 
+Pi> peek 0x40000000
+0x40000000:   30047073
+Pi> poke 0x40000000 4222
+Pi> peek 0x40000000
+0x40000000:   0000107e
+Pi> reboot
+Rebooting...

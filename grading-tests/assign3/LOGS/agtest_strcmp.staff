@@ -1,0 +1,13 @@
+CS107E_AUTO: START TEST
+
+CS107E_AUTO: call strcmp("apples", "apples") returned 0, expected 0, with args reversed strcmp returned 0
+CS107E_AUTO: call strcmp("oranges", "apples") returned +, expected +, with args reversed strcmp returned -
+CS107E_AUTO: call strcmp("apples and oranges", "apples") returned +, expected +, with args reversed strcmp returned -
+CS107E_AUTO: call strcmp("apples and oranges", "oranges") returned -, expected -, with args reversed strcmp returned +
+CS107E_AUTO: call strcmp("2022", "33") returned -, expected -, with args reversed strcmp returned +
+CS107E_AUTO: call strcmp("orange", "ORANGE") returned +, expected +, with args reversed strcmp returned -
+CS107E_AUTO: call strcmp("", "orange") returned -, expected -, with args reversed strcmp returned +
+CS107E_AUTO: call strcmp("a", "A") returned +, expected +, with args reversed strcmp returned -
+CS107E_AUTO: call strcmp("", "") returned 0, expected 0, with args reversed strcmp returned 0
+
+CS107E_AUTO: END TEST

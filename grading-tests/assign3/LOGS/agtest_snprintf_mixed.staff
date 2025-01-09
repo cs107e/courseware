@@ -1,0 +1,8 @@
+CS107E_AUTO: START TEST
+
+CS107E_AUTO: call snprintf(dst, 80, "CS%d%c is my %s, in hex it's %x", 107, 'e', "favoritist", 0x107e)
+CS107E_AUTO:   after call dst=[CS107e is my favoritist, in hex it's 107e], expected=[CS107e is my favoritist, in hex it's 107e]
+CS107E_AUTO: call snprintf(dst, 50, "%d%% of Stanford student%c are %s", 100, 's', "awesome")
+CS107E_AUTO:   after call dst=[100% of Stanford students are awesome], expected=[100% of Stanford students are awesome]
+
+CS107E_AUTO: END TEST

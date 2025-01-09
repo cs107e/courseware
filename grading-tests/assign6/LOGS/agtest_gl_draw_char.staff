@@ -1,0 +1,100 @@
+CS107E_AUTO: START TEST
+
+CS107E_AUTO: call gl_init(24, 24, GL_SINGLEBUFFER)
+CS107E_AUTO: fb_init(24,24,0)
+CS107E_AUTO: call gl_clear(GL_BLACK)
+CS107E_AUTO: ====================================================================
+CS107E_AUTO: call gl_draw_char(1,1, 'Y', GL_YELLOW)
+CS107E_AUTO:     below is ascii diagram of contents of onscreen framebuffer:
+CS107E_AUTO:     (expect display yellow char Y in upper left of screen)
++------------------------+
+|                        |
+|   YY      YY           |
+|   YY      YY           |
+|   YY      YY           |
+|   YY      YY           |
+|     YY  YY             |
+|     YY  YY             |
+|       YY               |
+|       YY               |
+|       YY               |
+|       YY               |
+|       YY               |
+|       YY               |
+|       YY               |
+|       YY               |
+|                        |
+|                        |
+|                        |
+|                        |
+|                        |
+|                        |
+|                        |
+|                        |
+|                        |
++------------------------+
+CS107E_AUTO: ====================================================================
+CS107E_AUTO: call gl_draw_char(4,4, 'b', GL_BLUE)
+CS107E_AUTO:     below is ascii diagram of contents of onscreen framebuffer:
+CS107E_AUTO:     (expect display blue char b overlay on char Y)
++------------------------+
+|                        |
+|   YY      YY           |
+|   YY      YY           |
+|   YY      YY           |
+|   YY BB   YY           |
+|     YBB YY             |
+|     YBB YY             |
+|      BBY               |
+|      BBBBBBBB          |
+|      BBBBBBBB          |
+|      BBY     BB        |
+|      BBY     BB        |
+|      BBY     BB        |
+|      BBY     BB        |
+|      BBY     BB        |
+|      BB      BB        |
+|      BBBBBBBB          |
+|      BBBBBBBB          |
+|                        |
+|                        |
+|                        |
+|                        |
+|                        |
+|                        |
++------------------------+
+CS107E_AUTO: ====================================================================
+CS107E_AUTO: call gl_init(48, 24, GL_SINGLEBUFFER)
+CS107E_AUTO: fb_init(48,24,0)
+CS107E_AUTO: call gl_clear(GL_BLACK)
+CS107E_AUTO: call gl_draw_string(1,1, "red", GL_RED)
+CS107E_AUTO:     below is ascii diagram of contents of onscreen framebuffer:
+CS107E_AUTO:     (expect display string 'red')
++------------------------------------------------+
+|                                                |
+|                                       RR       |
+|                                       RR       |
+|                                       RR       |
+|                                       RR       |
+|   RR  RRRRRR      RRRRRR        RRRRRRRR       |
+|   RR  RRRRRR      RRRRRR        RRRRRRRR       |
+|   RRRR          RR      RR    RR      RR       |
+|   RRRR          RR      RR    RR      RR       |
+|   RR            RRRRRRRRRR    RR      RR       |
+|   RR            RRRRRRRRRR    RR      RR       |
+|   RR            RR            RR      RR       |
+|   RR            RR            RR      RR       |
+|   RR              RRRRRRRR      RRRRRRRR       |
+|   RR              RRRRRRRR      RRRRRRRR       |
+|                                                |
+|                                                |
+|                                                |
+|                                                |
+|                                                |
+|                                                |
+|                                                |
+|                                                |
+|                                                |
++------------------------------------------------+
+
+CS107E_AUTO: END TEST

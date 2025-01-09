@@ -1,0 +1,80 @@
+DRAM only have internal ZQ!!
+get_pmu_exist() = 4294967295
+ddr_efuse_type: 0x0
+[AUTO DEBUG] two rank and full DQ!
+ddr_efuse_type: 0x0
+[AUTO DEBUG] rank 0 row = 15 
+[AUTO DEBUG] rank 0 bank = 8 
+[AUTO DEBUG] rank 0 page size = 2 KB 
+[AUTO DEBUG] rank 1 row = 15 
+[AUTO DEBUG] rank 1 bank = 8 
+[AUTO DEBUG] rank 1 page size = 2 KB 
+rank1 config same as rank0
+DRAM BOOT DRIVE INFO: %s
+DRAM CLK = 792 MHz
+DRAM Type = 3 (2:DDR2,3:DDR3)
+DRAMC ZQ value: 0x7b7bfb
+DRAM ODT value: 0x42.
+ddr_efuse_type: 0x0
+DRAM SIZE =1024 M
+DRAM simple test OK.
+
+
+
+
+Simple use of shell profile command
+
+Welcome to the CS107E reference shell.
+Remember to type on your PS/2 keyboard!
+[1] Pi> help profile
+   profile [on|off]         instruction profiler
+[2] Pi> profile garbage
+error: profile no such action 'garbage'
+[3] Pi> profile on
+profile: started 0 msecs ago, collected 0 samples
+[4] Pi> echo I love my Mango Pi!
+I love my Mango Pi! 
+[5] Pi> help
+   help [cmd]               print command usage and description
+   echo [args]              print arguments
+   reboot                   reboot the Mango Pi
+   clear                    clear screen (if your terminal supports it)
+   peek [addr]              print contents of memory at address
+   poke [addr] [val]        store value into memory at address
+   history                  print history of recent commands
+   uptime                   show how long system has been running
+   hexdump [addr] [size]    dump memory region in hex
+   disassemble [addr|fn]    disassemble by address or function name
+   calc [n1] [oper] [n2]    evaluate arithmetic expression
+   profile [on|off]         instruction profiler
+   gpio [pin] [action]      control gpio pin, action is input|output|on|off
+   pinout                   display Mango Pi pinout diagram
+[6] Pi> peek 0x40000000
+0x40000000:   30047073
+[7] Pi> poke 0x40000000 0x107e
+[8] Pi> peek 0x40000000
+0x40000000:   0000107e
+[9] Pi> echo typing on my keyboard is fun   FUN!!
+typing on my keyboard is FUN!! 
+[10] Pi> profile off
+profile: 8238 msecs elapsed, collected 16476 samples
+
+  Counts  |  Function    [pc]
+-----------------------------
+    6777  |  <.text+5712> [0x40001650]
+    1381  |  <.text+5748> [0x40001674]
+    1355  |  <.text+26364> [0x400066fc]
+    1178  |  <.text+26484> [0x40006774]
+     809  |  <.text+26488> [0x40006778]
+     649  |  <.text+4736> [0x40001280]
+     446  |  <.text+5716> [0x40001654]
+     318  |  <.text+26368> [0x40006700]
+     253  |  <.text+5744> [0x40001670]
+     236  |  <.text+5736> [0x40001668]
+     172  |  <.text+5732> [0x40001664]
+     166  |  <.text+4740> [0x40001284]
+     160  |  <.text+4744> [0x40001288]
+     157  |  <.text+4732> [0x4000127c]
+     140  |  <.text+5412> [0x40001524]
+[11] Pi> reboot
+Rebooting...

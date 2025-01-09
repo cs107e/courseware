@@ -1,0 +1,278 @@
+CS107E_AUTO: START TEST
+
+CS107E_AUTO: gpio_get_function(PB0) returned f, expected f
+CS107E_AUTO: gpio_get_function(PB1) returned f, expected f
+CS107E_AUTO: gpio_get_function(PB2) returned f, expected f
+CS107E_AUTO: gpio_get_function(PB3) returned f, expected f
+CS107E_AUTO: gpio_get_function(PB4) returned f, expected f
+CS107E_AUTO: gpio_get_function(PB5) returned f, expected f
+CS107E_AUTO: gpio_get_function(PB6) returned f, expected f
+CS107E_AUTO: gpio_get_function(PB7) returned f, expected f
+CS107E_AUTO: gpio_get_function(PB8) returned 6, expected 6
+CS107E_AUTO: gpio_get_function(PB9) returned 6, expected 6
+CS107E_AUTO: gpio_get_function(PB10) returned f, expected f
+CS107E_AUTO: gpio_get_function(PB11) returned f, expected f
+CS107E_AUTO: gpio_get_function(PB12) returned f, expected f
+CS107E_AUTO: gpio_get_function(PC0) returned f, expected f
+CS107E_AUTO: gpio_get_function(PC1) returned f, expected f
+CS107E_AUTO: gpio_get_function(PC2) returned f, expected f
+CS107E_AUTO: gpio_get_function(PC3) returned f, expected f
+CS107E_AUTO: gpio_get_function(PC4) returned f, expected f
+CS107E_AUTO: gpio_get_function(PC5) returned f, expected f
+CS107E_AUTO: gpio_get_function(PC6) returned f, expected f
+CS107E_AUTO: gpio_get_function(PC7) returned f, expected f
+CS107E_AUTO: gpio_get_function(PD0) returned f, expected f
+CS107E_AUTO: gpio_get_function(PD1) returned f, expected f
+CS107E_AUTO: gpio_get_function(PD2) returned f, expected f
+CS107E_AUTO: gpio_get_function(PD3) returned f, expected f
+CS107E_AUTO: gpio_get_function(PD4) returned f, expected f
+CS107E_AUTO: gpio_get_function(PD5) returned f, expected f
+CS107E_AUTO: gpio_get_function(PD6) returned f, expected f
+CS107E_AUTO: gpio_get_function(PD7) returned f, expected f
+CS107E_AUTO: gpio_get_function(PD8) returned f, expected f
+CS107E_AUTO: gpio_get_function(PD9) returned f, expected f
+CS107E_AUTO: gpio_get_function(PD10) returned f, expected f
+CS107E_AUTO: gpio_get_function(PD11) returned f, expected f
+CS107E_AUTO: gpio_get_function(PD12) returned f, expected f
+CS107E_AUTO: gpio_get_function(PD13) returned f, expected f
+CS107E_AUTO: gpio_get_function(PD14) returned f, expected f
+CS107E_AUTO: gpio_get_function(PD15) returned f, expected f
+CS107E_AUTO: gpio_get_function(PD16) returned f, expected f
+CS107E_AUTO: gpio_get_function(PD17) returned f, expected f
+CS107E_AUTO: gpio_get_function(PD18) returned 1, expected 1
+CS107E_AUTO: gpio_get_function(PD19) returned f, expected f
+CS107E_AUTO: gpio_get_function(PD20) returned f, expected f
+CS107E_AUTO: gpio_get_function(PD21) returned f, expected f
+CS107E_AUTO: gpio_get_function(PD22) returned f, expected f
+CS107E_AUTO: gpio_get_function(PE0) returned f, expected f
+CS107E_AUTO: gpio_get_function(PE1) returned f, expected f
+CS107E_AUTO: gpio_get_function(PE2) returned f, expected f
+CS107E_AUTO: gpio_get_function(PE3) returned f, expected f
+CS107E_AUTO: gpio_get_function(PE4) returned f, expected f
+CS107E_AUTO: gpio_get_function(PE5) returned f, expected f
+CS107E_AUTO: gpio_get_function(PE6) returned f, expected f
+CS107E_AUTO: gpio_get_function(PE7) returned f, expected f
+CS107E_AUTO: gpio_get_function(PE8) returned f, expected f
+CS107E_AUTO: gpio_get_function(PE9) returned f, expected f
+CS107E_AUTO: gpio_get_function(PE10) returned f, expected f
+CS107E_AUTO: gpio_get_function(PE11) returned f, expected f
+CS107E_AUTO: gpio_get_function(PE12) returned f, expected f
+CS107E_AUTO: gpio_get_function(PE13) returned f, expected f
+CS107E_AUTO: gpio_get_function(PE14) returned f, expected f
+CS107E_AUTO: gpio_get_function(PE15) returned f, expected f
+CS107E_AUTO: gpio_get_function(PE16) returned f, expected f
+CS107E_AUTO: gpio_get_function(PE17) returned f, expected f
+CS107E_AUTO: gpio_get_function(PF0) returned 4, expected 4
+CS107E_AUTO: gpio_get_function(PF1) returned 4, expected 4
+CS107E_AUTO: gpio_get_function(PF2) returned f, expected f
+CS107E_AUTO: gpio_get_function(PF3) returned 4, expected 4
+CS107E_AUTO: gpio_get_function(PF4) returned f, expected f
+CS107E_AUTO: gpio_get_function(PF5) returned 4, expected 4
+CS107E_AUTO: gpio_get_function(PF6) returned f, expected f
+CS107E_AUTO: gpio_get_function(PG0) returned f, expected f
+CS107E_AUTO: gpio_get_function(PG1) returned f, expected f
+CS107E_AUTO: gpio_get_function(PG2) returned f, expected f
+CS107E_AUTO: gpio_get_function(PG3) returned f, expected f
+CS107E_AUTO: gpio_get_function(PG4) returned f, expected f
+CS107E_AUTO: gpio_get_function(PG5) returned f, expected f
+CS107E_AUTO: gpio_get_function(PG6) returned f, expected f
+CS107E_AUTO: gpio_get_function(PG7) returned f, expected f
+CS107E_AUTO: gpio_get_function(PG8) returned f, expected f
+CS107E_AUTO: gpio_get_function(PG9) returned f, expected f
+CS107E_AUTO: gpio_get_function(PG10) returned f, expected f
+CS107E_AUTO: gpio_get_function(PG11) returned f, expected f
+CS107E_AUTO: gpio_get_function(PG12) returned f, expected f
+CS107E_AUTO: gpio_get_function(PG13) returned f, expected f
+CS107E_AUTO: gpio_get_function(PG14) returned f, expected f
+CS107E_AUTO: gpio_get_function(PG15) returned f, expected f
+CS107E_AUTO: gpio_get_function(PG16) returned f, expected f
+CS107E_AUTO: gpio_get_function(PG17) returned f, expected f
+CS107E_AUTO: gpio_get_function(PG18) returned f, expected f
+CS107E_AUTO: call gpio_set_function(PB2, 0), function changed to 0, expected 0
+CS107E_AUTO: gpio_get_function(PB2) returned 0, expected 0
+CS107E_AUTO: call gpio_set_function(PB2, 1), function changed to 1, expected 1
+CS107E_AUTO: gpio_get_function(PB2) returned 1, expected 1
+CS107E_AUTO: call gpio_set_function(PB2, 2), function changed to 2, expected 2
+CS107E_AUTO: gpio_get_function(PB2) returned 2, expected 2
+CS107E_AUTO: call gpio_set_function(PB2, 3), function changed to 3, expected 3
+CS107E_AUTO: gpio_get_function(PB2) returned 3, expected 3
+CS107E_AUTO: call gpio_set_function(PB2, 4), function changed to 4, expected 4
+CS107E_AUTO: gpio_get_function(PB2) returned 4, expected 4
+CS107E_AUTO: call gpio_set_function(PB2, 5), function changed to 5, expected 5
+CS107E_AUTO: gpio_get_function(PB2) returned 5, expected 5
+CS107E_AUTO: call gpio_set_function(PB2, 6), function changed to 6, expected 6
+CS107E_AUTO: gpio_get_function(PB2) returned 6, expected 6
+CS107E_AUTO: call gpio_set_function(PB2, 7), function changed to 7, expected 7
+CS107E_AUTO: gpio_get_function(PB2) returned 7, expected 7
+CS107E_AUTO: call gpio_set_function(PB2, 8), function changed to 8, expected 8
+CS107E_AUTO: gpio_get_function(PB2) returned 8, expected 8
+CS107E_AUTO: call gpio_set_function(PB2, e), function changed to e, expected e
+CS107E_AUTO: gpio_get_function(PB2) returned e, expected e
+CS107E_AUTO: call gpio_set_function(PB2, f), function changed to f, expected f
+CS107E_AUTO: gpio_get_function(PB2) returned f, expected f
+CS107E_AUTO: call gpio_set_function(PB0, 0), function changed to 0, expected 0
+CS107E_AUTO: gpio_get_function(PB0) returned 0, expected 0
+CS107E_AUTO: call gpio_set_function(PB1, 1), function changed to 1, expected 1
+CS107E_AUTO: gpio_get_function(PB1) returned 1, expected 1
+CS107E_AUTO: call gpio_set_function(PB2, 2), function changed to 2, expected 2
+CS107E_AUTO: gpio_get_function(PB2) returned 2, expected 2
+CS107E_AUTO: call gpio_set_function(PB3, 3), function changed to 3, expected 3
+CS107E_AUTO: gpio_get_function(PB3) returned 3, expected 3
+CS107E_AUTO: call gpio_set_function(PB4, 4), function changed to 4, expected 4
+CS107E_AUTO: gpio_get_function(PB4) returned 4, expected 4
+CS107E_AUTO: call gpio_set_function(PB5, 5), function changed to 5, expected 5
+CS107E_AUTO: gpio_get_function(PB5) returned 5, expected 5
+CS107E_AUTO: call gpio_set_function(PB6, 6), function changed to 6, expected 6
+CS107E_AUTO: gpio_get_function(PB6) returned 6, expected 6
+CS107E_AUTO: call gpio_set_function(PB10, 7), function changed to 7, expected 7
+CS107E_AUTO: gpio_get_function(PB10) returned 7, expected 7
+CS107E_AUTO: call gpio_set_function(PB11, 0), function changed to 0, expected 0
+CS107E_AUTO: gpio_get_function(PB11) returned 0, expected 0
+CS107E_AUTO: call gpio_set_function(PB12, 1), function changed to 1, expected 1
+CS107E_AUTO: gpio_get_function(PB12) returned 1, expected 1
+CS107E_AUTO: call gpio_set_function(PC0, 2), function changed to 2, expected 2
+CS107E_AUTO: gpio_get_function(PC0) returned 2, expected 2
+CS107E_AUTO: call gpio_set_function(PC1, 3), function changed to 3, expected 3
+CS107E_AUTO: gpio_get_function(PC1) returned 3, expected 3
+CS107E_AUTO: call gpio_set_function(PC2, 4), function changed to 4, expected 4
+CS107E_AUTO: gpio_get_function(PC2) returned 4, expected 4
+CS107E_AUTO: call gpio_set_function(PC3, 5), function changed to 5, expected 5
+CS107E_AUTO: gpio_get_function(PC3) returned 5, expected 5
+CS107E_AUTO: call gpio_set_function(PC4, 6), function changed to 6, expected 6
+CS107E_AUTO: gpio_get_function(PC4) returned 6, expected 6
+CS107E_AUTO: call gpio_set_function(PC5, 7), function changed to 7, expected 7
+CS107E_AUTO: gpio_get_function(PC5) returned 7, expected 7
+CS107E_AUTO: call gpio_set_function(PC6, 0), function changed to 0, expected 0
+CS107E_AUTO: gpio_get_function(PC6) returned 0, expected 0
+CS107E_AUTO: call gpio_set_function(PC7, 1), function changed to 1, expected 1
+CS107E_AUTO: gpio_get_function(PC7) returned 1, expected 1
+CS107E_AUTO: call gpio_set_function(PD0, 2), function changed to 2, expected 2
+CS107E_AUTO: gpio_get_function(PD0) returned 2, expected 2
+CS107E_AUTO: call gpio_set_function(PD1, 3), function changed to 3, expected 3
+CS107E_AUTO: gpio_get_function(PD1) returned 3, expected 3
+CS107E_AUTO: call gpio_set_function(PD2, 4), function changed to 4, expected 4
+CS107E_AUTO: gpio_get_function(PD2) returned 4, expected 4
+CS107E_AUTO: call gpio_set_function(PD3, 5), function changed to 5, expected 5
+CS107E_AUTO: gpio_get_function(PD3) returned 5, expected 5
+CS107E_AUTO: call gpio_set_function(PD4, 6), function changed to 6, expected 6
+CS107E_AUTO: gpio_get_function(PD4) returned 6, expected 6
+CS107E_AUTO: call gpio_set_function(PD5, 7), function changed to 7, expected 7
+CS107E_AUTO: gpio_get_function(PD5) returned 7, expected 7
+CS107E_AUTO: call gpio_set_function(PD6, 0), function changed to 0, expected 0
+CS107E_AUTO: gpio_get_function(PD6) returned 0, expected 0
+CS107E_AUTO: call gpio_set_function(PD7, 1), function changed to 1, expected 1
+CS107E_AUTO: gpio_get_function(PD7) returned 1, expected 1
+CS107E_AUTO: call gpio_set_function(PD8, 2), function changed to 2, expected 2
+CS107E_AUTO: gpio_get_function(PD8) returned 2, expected 2
+CS107E_AUTO: call gpio_set_function(PD9, 3), function changed to 3, expected 3
+CS107E_AUTO: gpio_get_function(PD9) returned 3, expected 3
+CS107E_AUTO: call gpio_set_function(PD10, 4), function changed to 4, expected 4
+CS107E_AUTO: gpio_get_function(PD10) returned 4, expected 4
+CS107E_AUTO: call gpio_set_function(PD11, 5), function changed to 5, expected 5
+CS107E_AUTO: gpio_get_function(PD11) returned 5, expected 5
+CS107E_AUTO: call gpio_set_function(PD12, 6), function changed to 6, expected 6
+CS107E_AUTO: gpio_get_function(PD12) returned 6, expected 6
+CS107E_AUTO: call gpio_set_function(PD13, 7), function changed to 7, expected 7
+CS107E_AUTO: gpio_get_function(PD13) returned 7, expected 7
+CS107E_AUTO: call gpio_set_function(PD14, 0), function changed to 0, expected 0
+CS107E_AUTO: gpio_get_function(PD14) returned 0, expected 0
+CS107E_AUTO: call gpio_set_function(PD15, 1), function changed to 1, expected 1
+CS107E_AUTO: gpio_get_function(PD15) returned 1, expected 1
+CS107E_AUTO: call gpio_set_function(PD16, 2), function changed to 2, expected 2
+CS107E_AUTO: gpio_get_function(PD16) returned 2, expected 2
+CS107E_AUTO: call gpio_set_function(PD17, 3), function changed to 3, expected 3
+CS107E_AUTO: gpio_get_function(PD17) returned 3, expected 3
+CS107E_AUTO: call gpio_set_function(PD19, 4), function changed to 4, expected 4
+CS107E_AUTO: gpio_get_function(PD19) returned 4, expected 4
+CS107E_AUTO: call gpio_set_function(PD20, 5), function changed to 5, expected 5
+CS107E_AUTO: gpio_get_function(PD20) returned 5, expected 5
+CS107E_AUTO: call gpio_set_function(PD22, 6), function changed to 6, expected 6
+CS107E_AUTO: gpio_get_function(PD22) returned 6, expected 6
+CS107E_AUTO: call gpio_set_function(PE0, 7), function changed to 7, expected 7
+CS107E_AUTO: gpio_get_function(PE0) returned 7, expected 7
+CS107E_AUTO: call gpio_set_function(PE1, 0), function changed to 0, expected 0
+CS107E_AUTO: gpio_get_function(PE1) returned 0, expected 0
+CS107E_AUTO: call gpio_set_function(PE2, 1), function changed to 1, expected 1
+CS107E_AUTO: gpio_get_function(PE2) returned 1, expected 1
+CS107E_AUTO: call gpio_set_function(PE3, 2), function changed to 2, expected 2
+CS107E_AUTO: gpio_get_function(PE3) returned 2, expected 2
+CS107E_AUTO: call gpio_set_function(PE4, 3), function changed to 3, expected 3
+CS107E_AUTO: gpio_get_function(PE4) returned 3, expected 3
+CS107E_AUTO: call gpio_set_function(PE5, 4), function changed to 4, expected 4
+CS107E_AUTO: gpio_get_function(PE5) returned 4, expected 4
+CS107E_AUTO: call gpio_set_function(PE6, 5), function changed to 5, expected 5
+CS107E_AUTO: gpio_get_function(PE6) returned 5, expected 5
+CS107E_AUTO: call gpio_set_function(PE7, 6), function changed to 6, expected 6
+CS107E_AUTO: gpio_get_function(PE7) returned 6, expected 6
+CS107E_AUTO: call gpio_set_function(PE8, 7), function changed to 7, expected 7
+CS107E_AUTO: gpio_get_function(PE8) returned 7, expected 7
+CS107E_AUTO: call gpio_set_function(PE9, 0), function changed to 0, expected 0
+CS107E_AUTO: gpio_get_function(PE9) returned 0, expected 0
+CS107E_AUTO: call gpio_set_function(PE10, 1), function changed to 1, expected 1
+CS107E_AUTO: gpio_get_function(PE10) returned 1, expected 1
+CS107E_AUTO: call gpio_set_function(PE11, 2), function changed to 2, expected 2
+CS107E_AUTO: gpio_get_function(PE11) returned 2, expected 2
+CS107E_AUTO: call gpio_set_function(PE12, 3), function changed to 3, expected 3
+CS107E_AUTO: gpio_get_function(PE12) returned 3, expected 3
+CS107E_AUTO: call gpio_set_function(PE13, 4), function changed to 4, expected 4
+CS107E_AUTO: gpio_get_function(PE13) returned 4, expected 4
+CS107E_AUTO: call gpio_set_function(PE14, 5), function changed to 5, expected 5
+CS107E_AUTO: gpio_get_function(PE14) returned 5, expected 5
+CS107E_AUTO: call gpio_set_function(PE15, 6), function changed to 6, expected 6
+CS107E_AUTO: gpio_get_function(PE15) returned 6, expected 6
+CS107E_AUTO: call gpio_set_function(PE16, 7), function changed to 7, expected 7
+CS107E_AUTO: gpio_get_function(PE16) returned 7, expected 7
+CS107E_AUTO: call gpio_set_function(PE17, 0), function changed to 0, expected 0
+CS107E_AUTO: gpio_get_function(PE17) returned 0, expected 0
+CS107E_AUTO: call gpio_set_function(PF0, 1), function changed to 1, expected 1
+CS107E_AUTO: gpio_get_function(PF0) returned 1, expected 1
+CS107E_AUTO: call gpio_set_function(PF1, 2), function changed to 2, expected 2
+CS107E_AUTO: gpio_get_function(PF1) returned 2, expected 2
+CS107E_AUTO: call gpio_set_function(PF2, 3), function changed to 3, expected 3
+CS107E_AUTO: gpio_get_function(PF2) returned 3, expected 3
+CS107E_AUTO: call gpio_set_function(PF3, 4), function changed to 4, expected 4
+CS107E_AUTO: gpio_get_function(PF3) returned 4, expected 4
+CS107E_AUTO: call gpio_set_function(PF4, 5), function changed to 5, expected 5
+CS107E_AUTO: gpio_get_function(PF4) returned 5, expected 5
+CS107E_AUTO: call gpio_set_function(PF5, 6), function changed to 6, expected 6
+CS107E_AUTO: gpio_get_function(PF5) returned 6, expected 6
+CS107E_AUTO: call gpio_set_function(PF6, 7), function changed to 7, expected 7
+CS107E_AUTO: gpio_get_function(PF6) returned 7, expected 7
+CS107E_AUTO: call gpio_set_function(PG0, 0), function changed to 0, expected 0
+CS107E_AUTO: gpio_get_function(PG0) returned 0, expected 0
+CS107E_AUTO: call gpio_set_function(PG1, 1), function changed to 1, expected 1
+CS107E_AUTO: gpio_get_function(PG1) returned 1, expected 1
+CS107E_AUTO: call gpio_set_function(PG2, 2), function changed to 2, expected 2
+CS107E_AUTO: gpio_get_function(PG2) returned 2, expected 2
+CS107E_AUTO: call gpio_set_function(PG3, 3), function changed to 3, expected 3
+CS107E_AUTO: gpio_get_function(PG3) returned 3, expected 3
+CS107E_AUTO: call gpio_set_function(PG4, 4), function changed to 4, expected 4
+CS107E_AUTO: gpio_get_function(PG4) returned 4, expected 4
+CS107E_AUTO: call gpio_set_function(PG5, 5), function changed to 5, expected 5
+CS107E_AUTO: gpio_get_function(PG5) returned 5, expected 5
+CS107E_AUTO: call gpio_set_function(PG6, 6), function changed to 6, expected 6
+CS107E_AUTO: gpio_get_function(PG6) returned 6, expected 6
+CS107E_AUTO: call gpio_set_function(PG7, 7), function changed to 7, expected 7
+CS107E_AUTO: gpio_get_function(PG7) returned 7, expected 7
+CS107E_AUTO: call gpio_set_function(PG8, 0), function changed to 0, expected 0
+CS107E_AUTO: gpio_get_function(PG8) returned 0, expected 0
+CS107E_AUTO: call gpio_set_function(PG9, 1), function changed to 1, expected 1
+CS107E_AUTO: gpio_get_function(PG9) returned 1, expected 1
+CS107E_AUTO: call gpio_set_function(PG10, 2), function changed to 2, expected 2
+CS107E_AUTO: gpio_get_function(PG10) returned 2, expected 2
+CS107E_AUTO: call gpio_set_function(PG11, 3), function changed to 3, expected 3
+CS107E_AUTO: gpio_get_function(PG11) returned 3, expected 3
+CS107E_AUTO: call gpio_set_function(PG13, 4), function changed to 4, expected 4
+CS107E_AUTO: gpio_get_function(PG13) returned 4, expected 4
+CS107E_AUTO: call gpio_set_function(PG14, 5), function changed to 5, expected 5
+CS107E_AUTO: gpio_get_function(PG14) returned 5, expected 5
+CS107E_AUTO: call gpio_set_function(PG15, 6), function changed to 6, expected 6
+CS107E_AUTO: gpio_get_function(PG15) returned 6, expected 6
+CS107E_AUTO: call gpio_set_function(PG16, 7), function changed to 7, expected 7
+CS107E_AUTO: gpio_get_function(PG16) returned 7, expected 7
+CS107E_AUTO: call gpio_set_function(PG17, 0), function changed to 0, expected 0
+CS107E_AUTO: gpio_get_function(PG17) returned 0, expected 0
+CS107E_AUTO: call gpio_set_function(PG18, 1), function changed to 1, expected 1
+CS107E_AUTO: gpio_get_function(PG18) returned 1, expected 1
+
+CS107E_AUTO: END TEST

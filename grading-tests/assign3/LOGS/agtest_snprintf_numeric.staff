@@ -1,0 +1,30 @@
+CS107E_AUTO: START TEST
+
+CS107E_AUTO: call snprintf(dst, 20, "%d", 1234567890)
+CS107E_AUTO:   after call dst=[1234567890], expected=[1234567890]
+CS107E_AUTO: call snprintf(dst, 5, "%d", -82)
+CS107E_AUTO:   after call dst=[-82], expected=[-82]
+CS107E_AUTO: call snprintf(dst, 5, "%d", 0)
+CS107E_AUTO:   after call dst=[0], expected=[0]
+CS107E_AUTO: call snprintf(dst, 20, "%ld", 999888777666555444L)
+CS107E_AUTO:   after call dst=[999888777666555444], expected=[999888777666555444]
+CS107E_AUTO: call snprintf(dst, 5, "%ld", 999888777666555444L)
+CS107E_AUTO:   after call dst=[9998], expected=[9998]
+CS107E_AUTO: call snprintf(dst, 10, "%x", 0x12345678)
+CS107E_AUTO:   after call dst=[12345678], expected=[12345678]
+CS107E_AUTO: call snprintf(dst, 10, "%x", 0x9abcdef0)
+CS107E_AUTO:   after call dst=[9abcdef0], expected=[9abcdef0]
+CS107E_AUTO: call snprintf(dst, 20, "%x", 0xffffffff)
+CS107E_AUTO:   after call dst=[ffffffff], expected=[ffffffff]
+CS107E_AUTO: call snprintf(dst, 5, "%x", 0)
+CS107E_AUTO:   after call dst=[0], expected=[0]
+CS107E_AUTO: call snprintf(dst, 20, "%lx", ~0L)
+CS107E_AUTO:   after call dst=[ffffffffffffffff], expected=[ffffffffffffffff]
+CS107E_AUTO: call snprintf(dst, 5, "%lx", ~0L)
+CS107E_AUTO:   after call dst=[ffff], expected=[ffff]
+CS107E_AUTO: call snprintf(dst, 20, "%p", (void *)0x12340)
+CS107E_AUTO:   after call dst=[0x00012340], expected=[0x00012340]
+CS107E_AUTO: call snprintf(dst, 20, "%p", (void *)0x100200300400L)
+CS107E_AUTO:   after call dst=[0x100200300400], expected=[0x100200300400]
+
+CS107E_AUTO: END TEST

@@ -1,0 +1,723 @@
+{
+  "*": {
+    "*: function should be inline": [
+        "When you have a short function like this, you declare it as `inline`.",
+        "Declaring a function as `inline` removes the overhead of a function",
+        "call (the function prolog and epilog we talked about in Lab 4) and ",
+        "effectively copies and pastes the code of the callee into the caller.",
+        "You can even take a look at the assembly to see how this plays out.",
+        "Here's how you declare a static function as inline:",
+        "```c",
+        "static inline some_func(void) {",
+        "   // stuff",
+        "}"
+    ],
+    "*: function should be static": [
+        "This function is confined to this file, so it should be marked with",
+        "the `static` keyword."
+    ],
+    "*: function should have a better name": [
+        "The name of this function doesn't say much about what it actually",
+        "does. Can you think of a more descriptive name? Giving functions",
+        "descriptive names improves the readability (and therefore maintainability)",
+        "of your code."
+    ],
+    "*: function should not exist": [
+        "This function is so short that you don't gain much from it. Your",
+        "code will be clearer if you remove this function entirely."
+    ],
+    "*: crams too many steps into one line": [
+        "It's difficult to understand what's going on here. It would be",
+        "better if you split this line up into a few steps to make it",
+        "easier to read and debug."
+    ],
+    "*: has too many levels of indentation": [
+        "Code becomes difficult to read when it has so many levels of indentation.",
+        "To that end, can you think of how to restructure this code to use fewer",
+        "levels of indentation?"
+    ],
+    "*: should access field of struct pointer with `->`": [
+        "When you have a pointer to a struct, the cleanest way to access a",
+        "given field is to use the `->` syntax. For example:",
+        "```c",
+        "struct foo {",
+        "   int a, b;",
+        "};",
+        "",
+        "void bar(struct foo *ptr) {",
+        "   ptr->a = 1;     // the clean way",
+        "   (*ptr).a = 1;,  // the less clean way",
+        "}",
+        "```"
+    ],
+    "*: should add more tests": [
+        "You should add more tests to verify that your implementations",
+        "of the functions work correctly."
+    ],
+    "*: should declare a constant": [
+        "Rather than using a literal number here, you should declare a",
+        "constant. You can do so in one of two ways:",
+        "```c",
+        "// The preprocessor macro way.",
+        "#define SOME_CONSTANT 1024",
+        "",
+        "// The static global variable way.",
+        "const static int SOME_CONSTANT = 1024;",
+        "```"
+    ],
+    "*: should delete commented out code": [
+        "You should remove code that has been commented out. The only purpose",
+        "that it serves is to clutter the rest of your code."
+    ],
+    "*: should not write to read-only string": [
+        "This variable is declared as a read-only string literal, so you should",
+        "never write to it. Doing so will produce whacky memory bugs."
+    ],
+    "*: should use character literal": [
+        "Instead of using the decimal number here, you should use the single-",
+        "quoted ASCII literal i.e. `'a'` or `'0'`."
+    ],
+    "*: should use a struct": [
+        "These variables are all related and should therefore be grouped together",
+        "into a struct."
+    ],
+    "*: should use increment operator": [
+        "Rather than using `val = val + 1` or `val += 1`, use `val++` or",
+        "`++val`, which is a style more appropriate to C."
+    ],
+    "*: should use `sizeof`": [
+        "Use the `sizeof` macro here rather than the literal number. For example:" ,
+        "```c",
+        "int nums[] = { 0, 1, 2, 3 };",
+        "int *first_num = nums;",
+        "int *second_num = (char *)nums + sizeof(int);",
+        "```",
+        "Note that this is a contrived example since you'd likely use",
+        "`int *second_num = nums + 1;` in practice, but it suffices for our",
+        "purposes here."
+    ],
+    "*: should use a ternary operator": [
+        "You can condense this `if`-`else` statement using a ternary operator.",
+        "```c",
+        "int some_var = some_boolean_condition ? value_if_true : value_if_false;",
+        "```"
+    ],
+    "*: variable should be static": [
+        "This variable is confined to this file, so it should be marked with",
+        "the `static` keyword."
+    ],
+    "*: variable should be volatile": [
+        "This variable should be marked as `volatile` since we don't want the",
+        "the compiler to remove what it thinks are unnecessary reads or writes",
+        "to it. In other words, the `volatile` keywords instructs the compiler",
+        "to trust as the programmer and leave our code as it is, no matter how",
+        "inefficient it may seem."
+    ],
+    "*: variable should have a better name": [
+        "The name of this variable doesn't say much about what it actually",
+        "represents. Can you think of a more descriptive name? Giving variables",
+        "descriptive names improves the readability (and therefore maintainability)",
+        "of your code."
+    ],
+    "*: variable should not be volatile": [
+        "There's no need to mark this variable as `volatile` since there's no",
+        "risk of the compiler omitting important reads or writes to it."
+    ],
+    "*: variable should not exist": [
+        "This variable is unnecessary."
+    ]
+  },
+  "assign1": {
+    "*": {},
+    "larson.s": {}
+    },
+  "assign2": {
+    "*": {},
+    "src/lib/clock.c": {
+      "clock: allocated the digits array on the stack": [
+        "The array for the digits should not be allocated locally on the",
+        "stack. Instead it should be declared as a static global array",
+        "outside of the context of any of the functions."
+      ],
+      "clock: button loop can be simplified": [
+        "This while loop can be consolidated:",
+        "```c",
+        "while (gpio_read(GPIO_PIN2) != 0);",
+        "```"
+      ],
+      "clock: missing a configure function": [
+        "It makes sense to merge the steps needed for configuration into",
+        "their own function. For example:",
+        "```c",
+        "void configure(void) {",
+        "   // set button pins to input",
+        "   // set segment and digit pins to output",
+        "}",
+        "```"
+      ],
+      "clock: missing a dash constant": [
+        "You should make a global constant for the bit pattern for the dash.",
+        "If you use the enum approach suggested above, the constant would",
+        "be",
+        "```c",
+        "static unsigned char dash = G",
+        "```",
+        "Another approach would be",
+        "```c",
+        "#define DASH 0b01000000",
+        "```"
+      ],
+      "clock: missing an enum for the segments": [
+        "You can define an enum that maps a segment to its corresponding",
+        "bit pattern. For example:",
+        "```c",
+        "enum segments {",
+        "   A = 1,",
+        "   B = 1 << 1,",
+        "   C = 1 << 2,",
+        "   D = 1 << 3,",
+        "   E = 1 << 4,",
+        "   F = 1 << 5,",
+        "   G = 1 << 6,",
+        "   DP = 1 << 7",
+        "};",
+        "```",
+        "Your 16-element array representing the hexadecimal values then",
+        "becomes a bitwise-or of the above values. For example, you can",
+        "represent `0` using `A | B | C | D | E | F` rather than `0b00111111`.",
+        "This enum approach makes your code more easily readable and modifiable."
+      ]
+    },
+    "src/lib/gpio.c": {
+      "gpio_*: FSEL/SET/CLR should be treated as array": [
+        "All of the `gpio_` functions become simpler if you treat the FSEL,",
+        "SET and CLR registers as arrays. Then, you replace the complicated",
+        "if-else statements with a simple array access based off an index",
+        "computed from `pin` (`pin / 10` in the case of the FSEL registers",
+        "and `pin / 32` in the case of the SET and CLR registers)."
+      ],
+      "gpio_*: could use a struct": [
+        "A cleaner approach is to declare a struct that mirrors the memory",
+        "map of the GPIO section of memory (see p. 90 of the BCM2835 ARM",
+        "peripherals specification).",
+        "```c",
+        "// This struct is declared to match memory layout of the gpio",
+        "// device registers",
+        "struct gpio {",
+        "    uint32_t fsel[6];   // function select",
+        "    uint32_t reservedA;",
+        "    uint32_t set[2];    // set",
+        "    uint32_t reservedB;",
+        "    uint32_t clr[2];    // clear",
+        "    uint32_t reservedC;",
+        "    uint32_t lev[2];    // level",
+        "};",
+        "static volatile struct gpio *_gpio = (struct gpio *)0x20200000;",
+        "```",
+        "You can then use the `_gpio` pointer to access the FSEL, SET, and",
+        "CLR registers. For example, `_gpio->fsel[0]` gives you access to",
+        "`FSEL0` and `_gpio->set[1]` gives you access to `SET1`."
+      ],
+      "gpio_*: missing pin bounds check": [
+        "You need to check that `pin` doesn't fall outside of the range",
+        "of valid pins. In other words, `pin` must be between `GPIO_PIN_FIRST`",
+        "and `GPIO_PIN_LAST`."
+      ],
+      "gpio_*: should use a constant from gpio.h": [
+        "You should use the relevant constant from `gpio.h` here."
+      ],
+      "gpio_*: unnecessary lower bound check": [
+        "Since the parameter that you're bounds checking is of type",
+        "`unsigned int` it will never be less than 0. Even if the user",
+        "passes in -1, the value will be a positive number (in this case",
+        "a very large positive number) because of how signed and unsigned",
+        "numbers are represented by computers. In other words, you only",
+        "need to verify that parameter the is less than the maximum value."
+      ],
+      "gpio_set_function: missing function bounds check": [
+        "You need to check that `function` doesn't fall outside of the range",
+        "of valid pins. In other words, `function` must be between `GPIO_FN_INPUT`",
+        "and `GPIO_FN_ALT3`."
+      ],
+      "gpio_set_function: updates FSEL register in two writes": [
+        "The function of `pin` is actually set to input briefly here because",
+        "you're updating the FSEL register in two separate writes: one to",
+        "clear out the three bits corresponding to `pin`'s function and",
+        "another to insert the new function. A better way to do this is",
+        "to either create a local variable that you operate on before writing",
+        "back to the FSEL register or to condense the clear and insert steps",
+        "into a single step."
+      ],
+      "gpio_write: writes back state to SET/CLR": [
+        "You shouldn't write the existing state of the SET/CLR register",
+        "back to the SET/CLR register. The SET/CLR register doesn't represent",
+        "the actual state of the pins. It's only an interface for turning",
+        "the pins on/off. The existing state of the SET/CLR register may",
+        "include a 1 for a pin that is no longer on/off. When you write",
+        "this 1 back to the register you turn this pin on/off again, which",
+        "is definitely not what you want (and leads to confusing bugs in",
+        "the applications that use `gpio.c`). Instead, you should directly",
+        "write `1 << pin % 32` to the register."
+      ]
+    },
+    "src/lib/timer.c": {
+      "timer_get_ticks: should create static global variable": [
+        "It makes more sense to store this address in a static global",
+        "variable rather than allocating a local variable on the stack",
+        "each time."
+      ]
+    },
+    "src/tests/test_gpio_timer.c": {
+      "test_gpio_timer: could use loop to test read and write functions": [
+        "You can stress test all of the pins (except for the four exceptions) and",
+        "all of the functions using a simple doubly-nested for loop. For example:",
+        "```c",
+        "for (unsigned pin = 0; pin <= GPIO_PIN_LAST; pin++) {",
+        "   if (pin == GPIO_PIN14 || pin = GPIO_PIN15 || pin == GPIO_PIN35 || pin == GPIO_PIN47)",
+        "       continue;",
+        "   gpio_set_function(pin, GPIO_FN_OUTPUT);",
+        "   assert(gpio_get_function(pin) == GPIO_FN_OUTPUT);",
+        "   gpio_write(pin, 1);",
+        "   assert(gpio_read(pin) == 1);",
+        "   gpio_write(pin, 0);",
+        "   assert(gpio_read(pin) == 0);",
+        "}",
+        "```"
+      ],
+      "test_gpio_timer: could use loop to test set and get functions": [
+        "You can stress test all of the pins (except for the four exceptions) and",
+        "all of the functions using a simple doubly-nested for loop. For example:",
+        "```c",
+        "for (unsigned pin = 0; pin <= GPIO_PIN_LAST; pin++) {",
+        "   for (unsigned func = GPIO_FN_INPUT; func <= GPIO_FN_ALT3; func++) {",
+        "       if (pin == GPIO_PIN14 || pin = GPIO_PIN15 || pin == GPIO_PIN35 || pin == GPIO_PIN47)",
+        "           continue;",
+        "       gpio_set_function(pin, func);",
+        "       assert(gpio_get_function(pin) == func);",
+        "   }",
+        "}",
+        "```"
+      ]
+    }
+  },
+  "assign3": {
+    "*": {
+      "assign3*: has separate cases for base-10 and base-16": [
+        "The decimal and hexadecimal cases are very similar and should",
+        "be unified so that the amount of repeated code is minimized."
+      ],
+      "assign3*: should define an enum for base-10 and base-16": [
+        "Instead of using the literal numbers `10` and `16` to designate",
+        "the base, you should declare an enum at the top of the file:",
+        "```c",
+        "enum { DECIMAL = 10, HEX = 16 };",
+        "```"
+      ]
+    },
+    "src/lib/printf.c": {
+      "*printf: calls `va_end` in a different function than `va_start`": [
+        "You should call `va_end` in the same function that you called",
+        "`va_start` from. Doing so makes it easier to ensure that `va_end`",
+        "is in fact called."
+      ],
+      "printf: doesn't return the right value": [
+        "You should return the value returned by `vsnprintf` here."
+      ],
+      "signed_to_base: doesn't use unsigned_to_base": [
+        "You should use `unsigned_to_base` here:",
+        "```c",
+        "if (val < 0) {",
+        "   buf[0] = '-';",
+        "   return 1 + unsigned_to_base(buf++, bufsize--, -val, base, min_width--);",
+        "}",
+        "return unsigned_to_base(buf, bufsize, val, base, min_width);",
+        "```"
+      ],
+      "unsigned_to_base: doesn't handle a value of 0 correctly": [
+        "If `val == 0`, then you never enter this while loop. You",
+        "should instead use a do-while loop, which guarantees that",
+        "the loop will execute at least once:",
+        "```c",
+        "do {",
+        "   // convert val % base` to character",
+        "   // update val",
+        "} while (val != 0);",
+        "```"
+      ],
+      "snprintf/vsnprintf: forgets to call `va_end` before returning": [
+        "You should call `va_end` after the call to `vsnprintf` returns but",
+        "before you return from this function."
+      ],
+      "vsnprintf: calls `va_arg` repeatedly at the beginning": [
+        "Reading all of the arguments from the args list at the beginning",
+        "actually ends up being more work than simply calling `va_arg` on",
+        "demand."
+      ],
+      "vsnprintf: casts `va_arg(ap, int)` to `char` for the '%c' specifier": [
+        "You actually don't need to cast in this case. We know that the",
+        "int that `va_arg(ap, int)` gives us can safely be treated as a",
+        "char, so we can get away with no cast. One less cast makes your",
+        "code just a little more simple and therefore easier to read."
+      ],
+      "vsnprintf: should use a switch statement": [
+        "Rather than using this big chain of `if`-`else if`-else`",
+        "statements to detect the format specifier, you can use a switch",
+        "statement instead. Suppose `format` is pointing to the character",
+        "after the `%`, the one that tells you what specifier you're",
+        "looking at. Your switch statement would look like the following:",
+        "```c",
+        "switch (*format++) {",
+        "   case 'c':",
+        "       // handle %c specifier",
+        "       break;",
+        "   case 'd':",
+        "       // handle %d specifier",
+        "       break;",
+        "   case 'p':",
+        "       // handle %p specifier",
+        "       break;",
+        "   case 's':",
+        "       // handle %s specifier",
+        "       break;",
+        "   case 'x':",
+        "       // handle %x specifier",
+        "       break;",
+        "   case '%':",
+        "       // handle %% specifier",
+        "       break;",
+        "   case default",
+        "       // handle invalid specifier",
+        "       break;",
+        "}",
+        "```"
+      ],
+      "vsnprintf: should use strlcat to append": [
+        "You should use strlcat here to append the new string onto the",
+        "end of `out`."
+      ],
+      "vsnprintf: should use strtonum to parse the minwidth": [
+        "You should use strtonum here to convert the specified min width",
+        "to an int and to detect where the min width ends and where the",
+        "character denoting the actual specifier type begins."
+      ]
+    },
+    "src/lib/strings.c": {
+      "memcpy: should be simpler": [
+        "You can simplify to:",
+        "```c",
+        "char *_dst = dst;",
+        "const char *_src = src;",
+        "for (size_t i = 0; i < n; _dst[i] = _src[i], i++);",
+        "return dst;",
+        "```"
+      ],
+      "memset: should be simpler": [
+        "You can simplify to:",
+        "```c",
+        "char *_s = s;",
+        "for (size_t i = 0; i < n; _s[i++] = c);",
+        "return s;",
+        "```"
+      ],
+      "strcmp: doesn't handle substrings correctly": [
+        "What happens if `s1 == \"apple\"` and `s2 == \"apples\"` (or vice versa)?"
+      ],
+      "strcmp: should return the difference of the two differing characters": [
+        "Rather than returning an explicit `-1`, `0`, or `1`, you should",
+        "return the difference of the two differing characters. In other",
+        "words, simultaneously iterate over both strings until you either",
+        "reach the end of one the strings or reach a point in the strings",
+        "where their characters don't match. In either case, simply subtract",
+        "the character of the first string that you stopped at from the",
+        "character of the second string that you stopped at. Here's an",
+        "of how this might look:",
+        "```c",
+        "while (*s1 && *s2 && *s1 == *s2) {",
+        "   s1++;",
+        "   s2++;",
+        "}",
+        "return *s1 - *s2;",
+        "```"
+      ],
+      "strlcat: doesn't null-terminate `dst`": [
+        "You forgot to null-terminate `dst` here!"
+      ],
+      "strtonum: doesn't handle capital letters": [
+        "It's not much extra work to handle capital hex letters. Doing so",
+        "requires a `tolower` function, which takes a char representing a",
+        "letter and returns the lowercase version of that char. You can then",
+        "use this function to convert all characters to lowercase before",
+        "converting them to ints."
+      ],
+      "strtonum: should have is_digit and is_alpha helpers": [
+        "The following two functions would improve the clarity of your code:",
+        "```c",
+        "static inline int is_digit(char ch) {",
+        "   return '0' <= ch && ch <= '9';",
+        "}",
+        "static inline int is_hexalpha(char ch) {",
+        "   return ('a' <= ch && ch <= 'f') || ('A' <= ch && ch <= 'F');",
+        "}"
+      ],
+      "strtonum: uses unnecessary power function": [
+        "You can implement `strtonum` without a `power` function. To do",
+        "so, you multiply your current result by `base` on each iteration",
+        "of your loop to effectively shift the current result to the left",
+        "so that the next digit can be added into the ones place."
+      ]
+    },
+    "src/tests/test_strings_printf.c": {}
+  },
+  "assign4": {
+    "*": {},
+    "src/lib/backtrace.c": {
+        "backtrace: could assign to all fields of a struct at once": [
+            "Instead of initializing each field of the struct one at a time,",
+            "you can also initialize all fields at once. The two following methods",
+            "are identical:",
+            "```c",
+            "// method 1",
+            "f[i].name_of = name_of(fn_start_addr);",
+            "f[i].resume_addr = fn_resume_addr;",
+            "f[i].resume_offset = fn_resume_addr - fn_start_addr;",
+            "",
+            "// method 2",
+            "f[i] = (frame_t){",
+            "   .name_of = name_of(fn_start_addr),",
+            "   .resume_addr = fn_resume_addr,",
+            "   .resume_offset = fn_resume_addr - fn_start_addr",
+            "};",
+            "```",
+            "Note that neither one is necessarily better than the other."
+        ],
+        "backtrace: could use a cleaner loop": [
+            "Here's a method for looping that's a little cleaner:",
+            "```c",
+            "int i = 0;",
+            "// prev_frame->fp refers to the fp of the callee",
+            "for (; i < max_frames && prev_frame->fp != 0; i++) {",
+            "   // collect info on stack frame",
+            "}",
+            "return i;",
+            "```"
+        ],
+        "backtrace: should use a struct": [
+            "`backtrace` is easier to implement if you use a struct. Here's",
+            "a code snippet demonstrating how to use a struct in this context:",
+            "```c",
+            "struct apcs {",
+            "   uintptr_t fp, sp, lr, pc;",
+            "};",
+            "typedef struct apcs apcs_t;",
+            "",
+            "int backtrace(frame_t f[], int max_frames) {",
+            "   uintptr_t curr_fp;",
+            "   __asm__(\"mov %0, fp\" : \"=r\" (curr_fp));",
+            "   apcs_t *callee_frame = (apcs_t *)(curr_fp - 3*sizeof(uintptr_t));",
+            "   apcs_t *caller_frame = (apcs_t *)(callee_frame->fp - 3*sizeof(uintptr_t));",
+            "```",
+            "The struct approach is both more readable and easier for you as a",
+            "programmer to keep track of what you're doing."
+        ]
+    },
+    "src/lib/malloc.c": {
+        "free/malloc/realloc: should use an enum for `FREE` and `IN_USE`": [
+            "You should create an enum for the two states of a block, free and",
+            "in use:",
+            "```c",
+            "enum { FREE = 0, IN_USE = 1 };",
+            "```",
+            "Then, when you're checking if a block is free, you can check",
+            "`hdr->status == FREE` or `hdr->status != IN_USE`, which is easier",
+            "to read and understand than `hdr->status == 0` or `hdr->status != 1`."
+        ],
+        "free/realloc: missing a function to merge two blocks": [
+            "Both `free` and `realloc` need to merge two adjacent blocks into one",
+            "so it makes sense to write a helper function called `merge_block` (or",
+            "something similar). Then, `free` and `realloc` can simply call this",
+            "function whenever they need to merge two blocks. If you don't create such",
+            "a helper, then you end up duplicating code, which is more error prone."
+        ],
+        "malloc: should roundup immediately": [
+            "`malloc` is easier to reason about if you roundup `nbytes`",
+            "immediately:",
+            "```c",
+            "nbytes = roundup(nbytes, 8);",
+            "```"
+        ],
+        "malloc/realloc: missing a function to split a block": [
+            "Both `malloc` and `realloc` need to split an existing block into two,",
+            "so it makes sense to write a helper function called `split_block` (or",
+            "something similar). Then, `malloc` and `realloc` can simply call this",
+            "function whenever they need to split a block. If you don't create such",
+            "a helper, then you end up duplicating code, which is more error prone."
+        ],
+        "realloc: should return `NULL`, not `orig_ptr` when `new_size == 0`": [
+            "You should return `NULL` here, not `orig_ptr`."
+        ],
+        "realloc: shouldn't free the block and then mark as used again": [
+            "You're freeing the block, checking if you can in-place realloc, and",
+            "then marking it as used again if you can. In our single-thredaed",
+            "environment, this is not ideal but also not necessarily dangerous.",
+            "However, in a multi-threaded environment (which you'll learn about",
+            "in CS 110), this is a major problem. With multiple threads, this",
+            "order of steps opens the possibility of another thread claiming the",
+            "block of memory that you intend to keep for in-place reallocation.",
+            "In fewer words, you should not free a block unless you're sure that",
+            "it will no longer be used."
+        ]
+    },
+    "src/tests/test_backtrace_malloc.c": {}
+  },
+  "assign5": {
+      "*": {},
+      "src/lib/ps2.c": {
+        "ps2_read: doesn't verify the start, parity, and/or stop bits": [
+            "You should verify that this bit is the value that you expect. If it",
+            "is not, then you should treat the next bit as a start bit."
+        ],
+        "ps2_read: can check parity in a simpler way": [
+            "Here's a simpler way to check for parity using XOR:",
+            "```c",
+            "unsigned int parity = 1;",
+            "unsigned char scancode = 0;",
+            "for (unsigned int i = 0; i < 8; i++) {",
+            "   unsigned char bit = read_bit();",
+            "   scancode |= bit << i;",
+            "   parity ^= bit;",
+            "}",
+            "bool parity_is_valid = parity ^ read_bit();"
+        ],
+        "ps2_read: improper timeout checking": [
+            "You should be checking timer offset between each data bit retrieved"
+        ]
+      },
+      "src/lib/keyboard.c": {
+        "keyboard_read_event: assigns to modifiers field of struct before updating modifers": [
+            "The `modifiers` field of the event struct should be updated after",
+            "updating the variable tracking the current state of the `modifiers`."
+        ],
+        "keyboard_read_event: doesn't handle all modifier keys": [
+            "You need to handle all six modifiers defined in the `keyboard_modifiers_t`",
+            "enum of `keyboard.h`."
+        ],
+        "keyboard_read_event: doesn't handle sticky modifier keys correctly": [
+            "`CAPS_LOCK`, `SCROLL_LOCK`, and `NUM_LOCK` are all sticky modifier",
+            "keys, which means that you toggle the state on each press and ignore",
+            "each release."
+        ],
+        "keyboard_read_event: forgets to write to modifiers field of struct": [
+            "You need to update the `modifiers` field of the `event` struct."
+        ],
+        "keyboard_read_sequence: mixes up order of extended and release scancodes": [
+            "The extended scancode `EO` will be send before the release scancode",
+            "`F0` when releasing an extended key."
+        ],
+        "keyboard_read_sequence: has separate cases for each possible sequence": [
+            "Can you find a way to unify these separate cases into a single control",
+            "flow? Hint: try using only two if statements, one for if a scancode is",
+            "the extended scancode and another for if a scancode is the release",
+            "scancode."
+        ]
+      },
+      "src/lib/shell.c": {
+        "shell_readline: should use a switch statement": [
+            "A switch statement works better here:",
+            "```c",
+            "switch (ch) {",
+            "   case '\\b':",
+            "   case '\\n':",
+            "   default:",
+            "}",
+            "```"
+        ]
+      },
+      "src/tests/test_keyboard.c": {}
+  },
+  "assign6": {
+    "*": {
+        "assign6*: Uses literal numbers for modes, not enums": [
+            "Rather than using the literal number here, use the relevant entry from",
+            "`fb_mode_t` or `gl_mode_t` enums."
+        ]
+    },
+    "src/lib/console.c": {
+        "console_init: doesn't allocate space for null terminator": [
+            "You should be able to fit `ncols` characters in each row, which",
+            "means that you need to allocate `nrows*(ncols+1)` bytes."
+        ],
+        "process_char: should use a switch statement": [
+            "This is the perfect situation for a switch statement:",
+            "```c",
+            "switch (ch) {",
+            "   case '\\b':",
+            "   case '\\f':",
+            "   case '\\n':",
+            "   case '\\r':",
+            "   default:",
+            "}",
+            "```"
+        ]
+    },
+    "src/lib/fb.c": {
+        "fb_get_draw_buffer: doesn't keep track of mode": [
+            "While using comparing `fb.virtual_height` to `fb.height` does allow",
+            "you to distinguish between single and double buffer modes, a more",
+            "explicit and clearer way is to create a static global variable of",
+            "type `fb_mode_t` that tracks the exact mode the framebuffer is in."
+        ],
+        "fb_init: has separate cases for single and double buffer modes": [
+            "A lot of the logic is shared between the single buffer and double",
+            "buffer modes. Instead of creating two entirely separate cases for",
+            "each, you should unify the two branches so that you have as little",
+            "duplicated code as possible."
+        ],
+        "fb_swap_buffer: changes y offset when in single buffer mode": [
+            "If `fb_swap_buffer` is called when in single buffer mode, it should",
+            "return without doing anything."
+        ]
+    },
+    "src/lib/gl.c": {
+        "gl_*: doesn't cast framebuffer as 2D array": [
+            "You should cast the framebuffer pointer as a 2D array so that you",
+            "don't need complicated pointer arithmetic:",
+            "```c",
+            "unsigned int pixels_per_row = fb_get_pitch()/fb_get_depth();",
+            "color_t (*grid)[pixels_per_row] = fb_get_draw_buffer();"
+        ],
+        "gl_clear: uses width, not pitch": [
+            "Remember that there may be more than `gl_get_width()` pixels in a",
+            "row since the GPU may pad the framebuffer. You should therefore use",
+            "`fb_get_pitch() / 4` as the number of pixels in a row."
+        ],
+        "gl_color: can condense": [
+            "You can condense this function into a single line without losing",
+            "clarity:",
+            "```c",
+            "return 0xff << 24 | r << 16 | g << 8 | b;",
+            "```"
+        ],
+        "gl_draw_char: doesn't treat font buffer as a 2D array": [
+            "This function would be much clearer if you treated the array containing",
+            "the font pixels as two-dimensional as opposed to one-dimensional."
+        ],
+        "gl_draw_pixel/gl_read_pixel: doesn't check lower bounds": [
+            "You should verify that `x < 0` and `y < 0` so that you don't read/",
+            "write a pixel outside the bounds of the screen."
+        ],
+        "gl_draw_pixel/gl_read_pixel: doesn't check upper bounds": [
+            "You should verify that `x < gl_get_width()` and `y < 0` so that",
+            "you don't read/write a pixel outside the bounds of the screen."
+        ],
+        "gl_draw_string: can condense": [
+            "Here's a another way of writing this function:",
+            "```c",
+            "unsigned int char_width = gl_get_char_width();  // call once to improve performance",
+            "for (unsigned int i = 0; str[i]; i++, x += i*char_width)",
+            "   gl_draw_char(x, y, str[i], c);",
+            "```"
+        ]
+    },
+    "src/tests/test_gl_console.c": {}
+  }
+}

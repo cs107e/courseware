@@ -1,0 +1,14 @@
+
+echo hello world
+peek 0x40000000
+poke 0x0200000a0 0
+start command, make typo, backspace to beginning, enter empty command
+help
+nonsense     # unrecognized
+peek         # no arg
+help
+echo typeahead while redrawing
+echo a long line that will wrap at the bottom right edge....
+clear
+help
+reboot

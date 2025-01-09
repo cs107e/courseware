@@ -1,0 +1,36 @@
+CS107E_AUTO: START TEST
+
+CS107E_AUTO: call retval = snprintf(dst, 20, "Hello, world!")
+CS107E_AUTO:   call returned 13, expected 13
+CS107E_AUTO: call retval = snprintf(dst, 20, "%s", "Hello, world!")
+CS107E_AUTO:   call returned 13, expected 13
+CS107E_AUTO: call retval = snprintf(dst, 20, "%2d", 987)
+CS107E_AUTO:   call returned 3, expected 3
+CS107E_AUTO: call retval = snprintf(dst, 20, "%5d", -365)
+CS107E_AUTO:   call returned 5, expected 5
+CS107E_AUTO: call retval = snprintf(dst, 20, "%2x", 0x107e)
+CS107E_AUTO:   call returned 4, expected 4
+CS107E_AUTO: call retval = snprintf(dst, 20, "%8x", 0xa01c)
+CS107E_AUTO:   call returned 8, expected 8
+CS107E_AUTO: call retval = snprintf(dst, 20, "%8x", 0xa01c)
+CS107E_AUTO:   call returned 8, expected 8
+CS107E_AUTO: call retval = snprintf(dst, 20, "%8s", "hello")
+CS107E_AUTO:   call returned 8, expected 8
+CS107E_AUTO: call retval = snprintf(dst, 3, "Hello, world!")
+CS107E_AUTO:   call returned 13, expected 13
+CS107E_AUTO: call retval = snprintf(dst, 3, "%s", "Hello, world!")
+CS107E_AUTO:   call returned 13, expected 13
+CS107E_AUTO: call retval = snprintf(dst, 3, "%8s", "Hello")
+CS107E_AUTO:   call returned 8, expected 8
+CS107E_AUTO: call retval = snprintf(dst, 3, "%2d", 987)
+CS107E_AUTO:   call returned 3, expected 3
+CS107E_AUTO: call retval = snprintf(dst, 3, "%5d", -365)
+CS107E_AUTO:   call returned 5, expected 5
+CS107E_AUTO: call retval = snprintf(dst, 3, "%2x", 0x107e)
+CS107E_AUTO:   call returned 4, expected 4
+CS107E_AUTO: call retval = snprintf(dst, 3, "%8x", 0xa01c)
+CS107E_AUTO:   call returned 8, expected 8
+CS107E_AUTO: call retval = snprintf(dst, 3, "%8c", 'Z')
+CS107E_AUTO:   call returned 8, expected 8
+
+CS107E_AUTO: END TEST

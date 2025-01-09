@@ -1,0 +1,27 @@
+CS107E_AUTO: START TEST
+
+CS107E_AUTO: call ptr[0] = malloc(16)
+CS107E_AUTO: call ptr[1] = malloc(512)
+CS107E_AUTO: call free(ptr[0])
+CS107E_AUTO: call ptr[2] = malloc(8)
+CS107E_AUTO: call free(ptr[2])
+CS107E_AUTO: call ptr[3] = malloc(16)
+CS107E_AUTO: expected ptr[3] to recycle space from existing freed blocks (i.e. no extend sbrk) and it did recycle
+CS107E_AUTO: call ptr[4] = malloc(116)
+CS107E_AUTO: call ptr[5] = malloc(512)
+CS107E_AUTO: call free(ptr[4])
+CS107E_AUTO: call malloc(x) and malloc(12) where x = 116 - 12 - sizeof header
+CS107E_AUTO: expected split of recycled freed block (i.e. no extend sbrk) and it did split
+CS107E_AUTO: call ptr[7] = malloc(1000)
+CS107E_AUTO: call ptr[8] = malloc(512)
+CS107E_AUTO: call free(ptr[7])
+CS107E_AUTO: call ptr[9] = malloc(290)
+CS107E_AUTO: expected ptr[9] to recycle space from existing freed blocks (i.e. no extend sbrk) and it did recycle
+CS107E_AUTO: call ptr[10] = malloc(20)
+CS107E_AUTO: expected ptr[10] to recycle space from existing freed blocks (i.e. no extend sbrk) and it did recycle
+CS107E_AUTO: call ptr[11] = malloc(45)
+CS107E_AUTO: expected ptr[11] to recycle space from existing freed blocks (i.e. no extend sbrk) and it did recycle
+CS107E_AUTO: call ptr[12] = malloc(420)
+CS107E_AUTO: expected ptr[12] to recycle space from existing freed blocks (i.e. no extend sbrk) and it did recycle
+
+CS107E_AUTO: END TEST

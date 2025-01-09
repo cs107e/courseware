@@ -1,0 +1,33 @@
+CS107E_AUTO: START TEST
+
+CS107E_AUTO: Correct malloc/memset, expect free to succeed with no alert
+
+
+CS107E_AUTO: Testing write outside payload (BEFORE), expect valgrind alert
+CS107E_AUTO: Malloc block of size 23, memset contents to 35
+CS107E_AUTO: Wrote to ptr[-1], call free should get valgrind alert
+
+=============================================
+ **********  Mini-Valgrind Alert  ********** 
+=============================================
+Attempt to free address 0x440000e0 that has damaged red zone(s): [35999999] [99999999]
+Block of size 23 bytes, allocated by
+#0 0x40000574 at <test_write_before_block+60>
+#1 0x40000678 at <run_test+72>
+#2 0x400006cc at <run_test_wrapped+52>
+
+
+CS107E_AUTO: Testing write outside payload (AFTER), expect valgrind alert
+CS107E_AUTO: Malloc block of size 11, memset contents to 71
+CS107E_AUTO: Wrote to ptr[size+1], call free should get valgrind alert
+
+=============================================
+ **********  Mini-Valgrind Alert  ********** 
+=============================================
+Attempt to free address 0x440000a0 that has damaged red zone(s): [99999999] [99997199]
+Block of size 11 bytes, allocated by
+#0 0x400005f0 at <test_write_after_block+60>
+#1 0x40000684 at <run_test+84>
+#2 0x400006cc at <run_test_wrapped+52>
+
+CS107E_AUTO: END TEST

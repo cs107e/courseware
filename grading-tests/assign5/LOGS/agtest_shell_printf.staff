@@ -1,0 +1,8 @@
+CS107E_AUTO: START TEST
+
+CS107E_AUTO: This test executes `shell_run` using shell configured with our read/write functions.
+CS107E_AUTO: Input to shell is:
+CS107E_AUTO: help\nhelp peek\nhelp nonsense\necho fun\nechho\b\bo\npeek 0x40000000\npeek apple\npeek 3\npeek\npoke 0x40000000 4222\npoke fred 5\npoke 0x40000000 wilma\npoke 5 8\npoke\ngarbage\n\nreboot
+CS107E_AUTO: Stray shell output in this log indicates direct use of printf
+
+

@@ -1,0 +1,20 @@
+CS107E_AUTO: START TEST
+
+CS107E_AUTO: ====================================================================
+CS107E_AUTO: Try malloc(0) and free(NULL), weird calls but valid
+CS107E_AUTO: call free(NULL)
+CS107E_AUTO: call ptr[0] = malloc(16)
+CS107E_AUTO: call ptr[1] = malloc(0)
+CS107E_AUTO: call free(ptr[1])
+CS107E_AUTO: call free(ptr[0])
+CS107E_AUTO: call free(NULL)
+CS107E_AUTO: ====================================================================
+CS107E_AUTO: Request large allocations that CAN be satisifed
+CS107E_AUTO: call ptr[2] = malloc(4444)
+CS107E_AUTO: call ptr[3] = malloc(55555)
+CS107E_AUTO: ====================================================================
+CS107E_AUTO: Request large allocation that CANNOT be satisifed
+CS107E_AUTO: call ptr[4] = malloc(999999999)
+CS107E_AUTO: returned ptr is NULL
+
+CS107E_AUTO: END TEST

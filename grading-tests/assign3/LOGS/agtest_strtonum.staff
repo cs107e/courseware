@@ -1,0 +1,13 @@
+CS107E_AUTO: START TEST
+
+CS107E_AUTO: call strtonum("6", &end) returned 6 (=0x6), expected 6 (=0x6)
+CS107E_AUTO: call strtonum("1234567890", &end) returned 1234567890 (=0x499602d2), expected 1234567890 (=0x499602d2)
+CS107E_AUTO: call strtonum("00107", &end) returned 107 (=0x6b), expected 107 (=0x6b)
+CS107E_AUTO: call strtonum("500", &end) returned 500 (=0x1f4), expected 500 (=0x1f4)
+CS107E_AUTO: call strtonum("0", &end) returned 0 (=0x0), expected 0 (=0x0)
+CS107E_AUTO: call strtonum("32a3", &end) returned 32 (=0x20), expected 32 (=0x20)
+CS107E_AUTO: call strtonum("8.5", &end) returned 8 (=0x8), expected 8 (=0x8)
+CS107E_AUTO: call strtonum("5 9 3", &end) returned 5 (=0x5), expected 5 (=0x5)
+CS107E_AUTO: call strtonum("", &end) returned 0 (=0x0), expected 0 (=0x0)
+
+CS107E_AUTO: END TEST
