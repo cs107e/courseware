@@ -26,8 +26,8 @@ Each student is given a parts kit containing the materials needed for the course
         - twenty __1K resistors__ (for leds, 4-digit display, transistors) <https://www.taydaelectronics.com/resistors/1k-ohm-1-2w-5-carbon-film-resistor.html>
         - four __10K resistors__ (for push buttons) <https://www.taydaelectronics.com/10k-ohm-1-2w-5-carbon-film-resistor.html>
     - eight __LEDs__ <https://www.taydaelectronics.com/catalogsearch/result/?q=led+5mm+ultra+bright>
-    - four tactile __pushbuttons__ and colored button __caps__ <https://www.taydaelectronics.com/electromechanical/switches-key-pad/tact-switch/tact-switch-12-12mm-7-3mm-through-hole-spst-no-4-pins.html> <https://www.taydaelectronics.com/catalogsearch/result/?q=tactile+switch+caps>
     - four 2N3904 __transistors__ (BJTs) <https://www.taydaelectronics.com/2n3904-npn-general-propose-transistor.html>
+    - tactile __pushbuttons__ and colored button __caps__ <https://www.taydaelectronics.com/electromechanical/switches-key-pad/tact-switch/tact-switch-12-12mm-7-3mm-through-hole-spst-no-4-pins.html> <https://www.taydaelectronics.com/catalogsearch/result/?q=tactile+switch+caps>
     - mini __claw clips__ (for cable management) <https://www.amazon.com/gp/product/B08TWN8DQZ>
 
 

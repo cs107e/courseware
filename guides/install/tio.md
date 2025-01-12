@@ -31,8 +31,7 @@ $ tio -b 115200 -d 8 -s 1 -p none  /dev/YOUR_DEVICE_PATH
 
 The above command connects to a device and sets the baud rate to 115200 baud, 8 data bits, 1 stop bit, and no parity.
 
-You can use our [find-dev.sh script](/guides/install/cp2102#find-dev) to get the device path
-for your CP2102 device.
+Refer to instructions in [uart guide](/guides/uart#find-dev) for finding the CP2102 device path.
 
 To exit tio, use the sequence `control-t q`.
 

@@ -1,7 +1,3 @@
----
-layout: base
-permalink: /ps2
----
 # PS2 Emulator 
 
 ### Motivation and design
@@ -31,11 +27,11 @@ $ RPI_CS107E=<location of rpi cs107e directory> make install
 1. Plug driver into laptop to power up both Pi's.
 1. Confirm configuration is working using `test_driver` from assign5. See [Testing](#testing) below for info on test driver.
    
-The emulator Pi uses the ACT(green) and PWR(red) LEDs to tell you what it is doing.  Here is how to read the tea leaves:
+The emulator RPi uses the ACT(green) and PWR(red) LEDs to tell you what it is doing.  Here is how to read the tea leaves:
 - Red on, green slow toggle means emulator RPi is waiting for handshake. This is where emulator RPi spends most of its time.
 - During handshake, slow pulse both green and red N times where N is the sequence number requested.
 - During send of scancode sequence, both green and red stay on solid. 
-- After sending, emulator goes back to waiting for handshake (red on, green slow toggle)
+- After sending, emulator Rpi goes back to waiting for handshake (red on, green slow toggle)
 - Fast blinking of red indicates something unexpected has gone wrong and emulator RPi needs to be reset.
 
 ### Usage

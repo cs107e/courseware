@@ -7,17 +7,64 @@ attribution: Written by Julie Zelenski
 
 UART is an acronym for __Universal Asynchronous Receiver-Transmitter__, a protocol for sequential serial communication.  Most processors include hardware support for a uart peripheral (the Mango Pi has six of them in fact!). A uart is a serial communication channel for sending and receiving data between devices. Your laptop can use a uart to talk to your Pi and receive output and provide input.
 
-## CP2012 USB to serial breakout board
+## USB-serial breakout board
 
-You will use a CP2102 USB to serial breakout board (hereafter referred to as "usb-serial”) to make a serial connection between your laptop usb and the Pi's uart.
+You will use a CP2102 USB-to-serial breakout board (hereafter referred to as "usb-serial”) to make a serial connection between your laptop usb and the Pi's uart.
 
-Find the usb-serial in your parts kit. One end has a USB-A connector and the other is a 5-pin or 6-pin header. You will plug the USB-A end into a usb port on your hub and wire jumpers from the header pins to the uart on your Pi.
+Find the usb-serial in your parts kit. One end has a USB-A connector and the other is a 5-pin or 6-pin header. You will plug the USB-A end into a usb port and connect jumpers from the header end to the Pi.
 ![usb-serial](../images/uart-usb-serial.jpg){: .w-50 .zoom}
 
-The square IC in the center of the board is the CP2102 chip converts from a usb interface to a serial interface. You will need a CP2102 driver on your laptop.
+The usb-serial requires a CP2102 driver installed on your laptop. Most recent macOS and Windows have pre-installed driver. If you have an older version of Windows, you must manually install the driver.
 
-> __Got CP2102 driver?__  If your OS version is relatively recent, your laptop likely has the driver pre-installed. If not, you will need to manually install the CP2102 driver.  See [CP2102 installation guide](/guides/install/cp2102) for more info.
-{: .callout-warning}
+<blockquote class="callout-warning" markdown="1">
+__Got CP2102 driver?__  Is you are running macOS or a recent version of Windows (v11 or newer), you already have a CP2102 driver out of the box. Skip over this section; do not manually install the driver.
+<details markdown="1">
+<summary>Expand for instructions to manually install CP2012 driver</summary>
+1. Only use these instructions for Windows v10 or older.
+1. Installing the CP2102 driver is done from Windows (not inside the WSL terminal). Switch to your Windows web browser and go to the Silicon Labs [CP210x Downloads page](https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers?tab=downloads).
+1. Select the "Downloads" tab and find "CP210x Windows Drivers v6.7.6". Download this zip file.
+    - __Be sure to choose version 6.7.6!__ Don't be confused by other drivers with similar names and slightly different version numbers. The version to download is exactly __CP210x Windows Drivers v6.7.6__.
+1. Extract all files from the downloaded zip file. Look in the uncompressed folder for the installer exe file that matches the architecture of your laptop.  If your laptop is 64-bit, the installer exe is named `CP210xVCPInstaller_x64.exe`. If 32-bit, it is `CP210xVCPInstaller_x86.exe`.
+    - If you are not sure whether your laptop is 32 or 64-bit, use command `dpkg --print-architecture` in your WSL terminal and look for a response of `amd64` (64-bit) or `i386` (32-bit).
+1. Run the installer exe file and follow its instructions.
+</details>
+</blockquote>
+
+<A name="find-dev"></A>
+## Find device name
+When the usb-serial is plugged into your laptop, it appears as a new entry in the filesystem, with a name of the form `/dev/NAME` for some value of NAME. You'll need to know that device NAME in order to connect to it.
+
+How to get the device name:
+1. `find-dev.sh`
+    Try out this little script we hacked up that tries to ferret out the CP2102 device name for you. It works for some setups but not all.
+
+    When `find-dev.sh` finds the CP2102, it prints the device name. If it doesn't find your usb-serial, double-check that it is connected and powered on. If `find-dev.sh` just isn't working for you, move on to the other method below.
+
+    ```console
+    $ find-dev.sh
+    /dev/cu.usbserial-0001
+
+    $ find-dev.sh
+    Could not find CP2102 serial device.
+    I looked through the serial devices on this computer, and did not
+    find a device associated with a CP2102 USB-serial adapter. Is
+    your USB-serial adapter plugged in?
+    ```
+
+1.  Instead use your shell ninja powers to suss out the device name.
+    The idea is to capture a list of the files in directory `/dev/tty*` when usb-serial is unplugged and take another capture after connecting it. Applying `diff` to the two listings will show what changed, which gives you the device name for the usb-serial, neat!
+
+    ```console?prompt=$
+    $ ls /dev/tty* >unplugged     # capture ls output into file named unplugged
+    $ ls /dev/tty* >plugged       # repeat after plugging in usb-serial
+    $ diff plugged unplugged
+    2a3
+    > /dev/ttyS3
+    $ rm plugged unplugged        # remove temp files
+    ```
+
+Note that __your__ device name may be different than the examples above.
+If you are not able to find the device name, ask us for help!
 
 ## Connect usb-serial to Pi
 1. First, disconnect power to the Pi.
@@ -29,17 +76,22 @@ The square IC in the center of the board is the CP2102 chip converts from a usb 
 
 2. Connect transmit, receive, and ground between the usb-serial and the Pi
     - Pick out three female-female jumpers: one blue, one green, and one black. People experienced in electronics choose the color of the wire to indicate what type of signal is being carried.  This makes it easier to debug connections and visualize the circuit. By convention, black is used for ground, and blue and green are used for transmit and receive, respectively.
-    - On the usb-serial, identify the pins labeled transmit `TX`, receive `RX`, and ground `GND`.
-    - Use the [pinout](/guides/refcard) to locate the Mango Pi pins for `UART TX` and `UART RX`. Also identify an open ground pin.
-    - Connect the black ground between ground on the usb-serial and ground on the Pi. Connect the blue jumper from __TX__ of the usb-serial to __UART RX__ on the Pi. Connect the green jumper from __RX__ of the usb-serial to __UART TX__ on the Pi. The correct connections are shown in the photo below:
-        ![usb-serial to Pi connections](../images/uart-connections.jpg)
+    - On the usb-serial, identify the pins labeled transmit `TX`, receive `RX`, and ground `GND`. Connect the jumpers to the usb-serial as follows:
+        - blue: usb-serial __TX__
+        - green: usb-serial __RX__
+        - black: usb-serial __GND__
+        ![jumpers connected to usb-serial](../images/usb-serial-connect.png){: .w-75 .zoom}
+    - Use the Mango Pi [pinout](/guides/refcard) to locate the header pins for `UART TX` and `UART RX`. Also find an open ground pin. Connect the jumpers from usb-serial to the Mango Pi as follows
+        - blue: usb-serial __TX__ <-> Pi __UART RX__
+        - green: usb-serial __RX__ <-> Pi __UART TX__
+        - black: usb-serial __GND__ <-> Pi __ground__
+        ![usb-serial to Pi connections](../images/uart-usb-serial-connect.jpg){: .w-50 .zoom}
+    We recommend the arrangement shown above-- OTG port connected to hub using port at end and CP2102 connected to port on side-- as this configuration doesn't block access to the other ports along the side of the Pi.
 
-
->__Careful with the connections__ The connections run from one device's TX to the other's RX, i.e. the data __transmitted__ by your laptop is __received__ by your Pi and vice versa. Connecting TX to TX and RX to RX is not correct! Also note that the pins on your USB-serial
-may be in different positions or have different label names. Don't just follow the photo blindly.
+>__Careful with the connections__ The connections run from one device's TX to the other's RX, i.e. the data __transmitted__ by your laptop is __received__ by your Pi and vice versa. Connecting TX to TX and RX to RX is not correct!
 {: .callout-warning}
 
-Here are photos of usb-serial variants you might possibly have in your kit (click to enlarge):
+The usb-serial in your parts kit may be a bit different than photos above, so be sure to read the labels rather than follow the photos blindly. Here are a few examples of usb-serial variants we have used (click to enlarge):
 ![V1](../images/uart-usb-serial-v1.jpg){: .w-25 .zoom} ![V2](../images/uart-usb-serial-v2.jpg){: .w-25 .zoom}  ![V3](../images/uart-usb-serial-v3.jpg){: .w-25 .zoom}
 
 Once you have verified that your connections are correct, plug the usb-serial into your laptop or usb hub and then power up the Pi. You now have a serial connection!
@@ -52,7 +104,7 @@ There are a number of programs that support communication with a tty device (`sc
 {: .callout-warning}
 
 
-For uart communication to succeed, the transmitter and receiver must agree on device, baud rate, use of start, parity, and stop bits, and so on. In this course, we will be using these settings:
+A successful uart connection requires that the transmitter and receiver agree on all settings: device name, baud rate, use of start, parity, and stop bits. We are using these settings for communicating between your laptop and Mango Pi:
 - peripheral `UART0`
 - transmit on `GPIO PB8`, receive on `GPIO PB9`
 - baud rate 115200 bps
@@ -60,11 +112,11 @@ For uart communication to succeed, the transmitter and receiver must agree on de
 
 <a name="troubleshooting"></a>
 ## Troubleshooting 
-
 - Review all three connections to confirm correct (TX->RX, RX->TX, GND->GND).
 - Reseat your jumpers if they have wiggled loose.
 - If jumper cables appear stressed or worn, replace with fresh ones.
 - Confirm that your settings are 115200 8N1.
 - If you try to connect and receive the error `Device file is locked by another process`, this typically means that `tio` is already running and connected to the device. Look through your windows to find your existing connnection instead of trying to start another one.
+- In some situations, the CP2102 device name can change from what it was previously. Re-do the [hunt for the device name](#find-dev).
 
 

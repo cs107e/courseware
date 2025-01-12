@@ -30,7 +30,7 @@ The `xfel` tool runs on your laptop and communicates with the bootloader.
 ## Connect through OTG
 FEL listens for commands over USB. The connection from your laptop to the OTG port that is [powering the Pi](/guides/power) is the same connection your laptop will use to communicate with the bootloader. Your usb cable/hub must support both charge and data, needed for power and communication, respectively.
 
-![usb otg power](../images/power-otg.png)
+![usb otg power](../images/power-otg.jpg)
 {: .w-50 .mx-auto }
 
 

@@ -8,7 +8,7 @@ USB On-The-Go (OTG) is a USB sub-specification  that allows devices to switch be
 
 Connect a usb cable from a usb port on your laptop to the OTG port on the Mango Pi. The green power LED turns on when the Pi is receiving power. It is blindingly bright! We wish it were possible to dim it. If you find a way, please share.
 
-![usb otg power](../images/power-otg.png)
+![usb otg power](../images/power-otg.jpg)
 {: .w-50 .mx-auto }
 
 The Pi does not need much power. We can measure how much power it requires by using an inline power meter. The usb specification says that a usb port should supply 5V, and up to 500 mA of current.
