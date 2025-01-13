@@ -47,7 +47,7 @@ To prepare, please do the following before coming to lab:
         -  [powering the Pi](/guides/power)
         -  [using the xfel bootloader](/guides/xfel) to send programs to the Pi
         -  [one page of RISC-V](/guides/riscv-onepage) assembly
-1. When you arrive at lab, check that your Stanford ID card is registered with the card reader. When you place your card on the reader, it should blink green and unlock the door. Follow up our [Ed post](https://edstem.org/us/courses/70346/discussion/5951074)
+1. When you arrive at lab, check that your Stanford ID card is authorized. When you place your card on the reader, it should blink green and unlock the door. If your card does not work, see our [Ed post](https://edstem.org/us/courses/70346/discussion/5951074) for followup.
 
 ## Lab exercises
 
