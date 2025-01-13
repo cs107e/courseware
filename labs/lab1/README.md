@@ -38,15 +38,16 @@ During this lab you will:
 
 To prepare, please do the following before coming to lab:
 
-1. Organize supplies to bring with you:
-    - Bring your __laptop__, ideally with full charge, cable/charger as needed.
-    - If you have access to a __multimeter__, bring it along.
+1. Be up to date on recent lectures: __RISC-V architecture and assembly__
 1. Reading to do ahead of lab:
     - Read this SparkFun tutorial on [using a breadboard](https://learn.sparkfun.com/tutorials/how-to-use-a-breadboard). Pay special attention to the section labeled "Anatomy of a Breadboard" to learn about the internal connections.
     - Please review our course guides on:
         -  [powering the Pi](/guides/power)
         -  [using the xfel bootloader](/guides/xfel) to send programs to the Pi
         -  [one page of RISC-V](/guides/riscv-onepage) assembly
+1. Organize supplies to bring with you:
+    - Bring your __laptop__, ideally with full charge, cable/charger as needed.
+    - If you have access to a __multimeter__, bring it along.
 1. When you arrive at lab, check that your Stanford ID card is authorized. When you place your card on the reader, it should blink green and unlock the door. If your card does not work, see our [Ed post](https://edstem.org/us/courses/70346/discussion/5951074) for followup.
 
 ## Lab exercises
