@@ -1,7 +1,0 @@
-CS107E_AUTO: START TEST
-
-CS107E_AUTO: call gpio_set_output(PB2), function changed to 1, expected 1
-CS107E_AUTO: call gpio_set_input(PG12), function changed to 0, expected 0
-CS107E_AUTO: call gpio_set_function(PB12, 2), function changed to 2, expected 2
-
-CS107E_AUTO: END TEST

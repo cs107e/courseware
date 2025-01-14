@@ -14,7 +14,6 @@ Each student is given a parts kit containing the materials needed for the course
 - a slim __USB-C hub/splitter__ <https://www.aliexpress.us/item/3256805490680384.html>
 - a __USB OTG connector__ <https://www.aliexpress.us/item/3256802115485144.html>
 - a __CP2102 USB-to-serial__ breakout board <https://www.taydaelectronics.com/cp2102-serial-converter-usb-2-0-to-ttl-uart-ftdi.html>
-- a 4-digit __7-segment display__ <http://www.lanpade.com/7-segment-led-dot-matrix/5461as.html>
 - a full-sized __breadboard__ <https://www.jameco.com/z/WBU-202-R-Jameco-Valuepro-830-Point-Solderless-Breadboard-6-5-x-2-125-_20723.html>
     + Jameco, BusBoard, Velleman are solid! sometimes cheaper breadboards have flaky connection points, best to avoid
 - __jumpers__ (5-20 of each) <https://www.aliexpress.com/item/32891879068.html>
@@ -22,6 +21,7 @@ Each student is given a parts kit containing the materials needed for the course
     -  __female-male__
 - a handy __reference card__ (Anna Mistele's [custom design](/guides/refcard))
 - a __mini-box__ of small components:
+    - a 4-digit __7-segment display__ <http://www.lanpade.com/7-segment-led-dot-matrix/5461as.html>
     - __resistors__ ([how resistance is encoded in band color](https://learn.sparkfun.com/tutorials/resistors#decoding-resistor-markings),  [color code calculator](https://www.digikey.com/en/resources/conversion-calculators/conversion-calculator-resistor-color-code))
         - twenty __1K resistors__ (for leds, 4-digit display, transistors) <https://www.taydaelectronics.com/resistors/1k-ohm-1-2w-5-carbon-film-resistor.html>
         - four __10K resistors__ (for push buttons) <https://www.taydaelectronics.com/10k-ohm-1-2w-5-carbon-film-resistor.html>

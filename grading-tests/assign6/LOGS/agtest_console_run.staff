@@ -1,6 +1,0 @@
-CS107E_AUTO: START TEST
-
-CS107E_AUTO: This test executes `shell_run` on reference shell module using student's fb/gl/console modules.
-CS107E_AUTO: Grader observes results on display to evaluate test success.
-CS107E_AUTO: Input to shell is:
-CS107E_AUTO: help\n\n\n\necho clear\npeek 0x40000000\necho Mango Pi is my new best fren\b\b\b\b\b\b\b\b\bBFF. How could I ever have lived without it?\n\n\nreboot

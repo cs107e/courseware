@@ -1,8 +1,0 @@
-CS107E_AUTO: START TEST
-
-CS107E_AUTO: confirm timer tick count increments deterministically
-CS107E_AUTO: wait 107 usecs, tick count increased by appropriate amount
-CS107E_AUTO: calling timer_delay_us(25000) ... 
-CS107E_AUTO: delay completed, count of elapsed ticks is appropriate
-
-CS107E_AUTO: END TEST

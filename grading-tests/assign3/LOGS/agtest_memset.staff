@@ -1,7 +1,0 @@
-CS107E_AUTO: START TEST
-
-CS107E_AUTO: call memset(dst, 'A', 1), confirm contents
-CS107E_AUTO: call memset(dst, '0', 1234), confirm contents
-CS107E_AUTO: call memset(dst, 'x', 0), confirm contents
-
-CS107E_AUTO: END TEST
