@@ -72,9 +72,9 @@ static struct {
 };
 
 // not published for now, used to do testing of alternate uarts
-void uart_reinit_custom(int, gpio_id_t, gpio_id_t, unsigned int);
+void uart_reinit_custom(int, int, gpio_id_t, gpio_id_t, unsigned int);
 
-void uart_reinit_custom(int uart_id, gpio_id_t tx, gpio_id_t rx, unsigned int gpio_fn) {
+void uart_reinit_custom(int uart_id, int baud, gpio_id_t tx, gpio_id_t rx, unsigned int gpio_fn) {
     if (module.uart) {  // shut down previous if active
         uart_flush();
         gpio_set_function(module.config.tx, GPIO_FN_DISABLED); // disconnect gpio
@@ -103,7 +103,6 @@ void uart_reinit_custom(int uart_id, gpio_id_t tx, gpio_id_t rx, unsigned int gp
     gpio_set_pullup(module.config.rx);
 
     // configure baud rate
-    uint32_t baud = 115200;
     module.uart->regs.fcr = 1;      // enable TX/RX fifo
     module.uart->regs.halt = 1;     // temporarily disable TX transfer
     uint32_t udiv = sys_clock_rate / (16 * baud);
@@ -131,7 +130,7 @@ void uart_init(void) {
     initialized = true;
     module.uart = NULL;
     // default to UART0 on pins PB8+9
-    uart_reinit_custom(0, GPIO_PB8, GPIO_PB9, GPIO_FN_ALT6);
+    uart_reinit_custom(0, 115200, GPIO_PB8, GPIO_PB9, GPIO_FN_ALT6);
     module.running_in_simulator = sys_running_in_simulator();
     uart_putchar('\f'); // clear terminal window on init
 }
@@ -221,7 +220,7 @@ void uart_start_error(void) {
         // All calls to uart operations are dead ends (that means no printf/assert!)
         // Force a call to uart_init here to enable reporting of problem
         // (otherwise lack of output is ultra mysterious)
-        uart_reinit_custom(0, GPIO_PB8, GPIO_PB9, GPIO_FN_ALT6);
+        uart_reinit_custom(0, 115200, GPIO_PB8, GPIO_PB9, GPIO_FN_ALT6);
     }
     uart_putstring("\e[31;1m"); // red-bold
 }

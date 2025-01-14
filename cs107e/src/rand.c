@@ -6,6 +6,7 @@
  */
 
 #include "rand.h"
+#include "timer.h"
 #include <stdbool.h>
 #include <stdint.h>
 
