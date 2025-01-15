@@ -83,7 +83,13 @@ Next, we need to install xfel (<https://github.com/xboot/xfel>), which is the to
     $ powershell.exe "./xfel/zadig-2.8.exe"
     ```
 
-3. In the Zadig window that looks like screenshot below, choose `Create New Device` from the `Device` menu. Use `Mango Pi` as the description text and enter `1F3A` `EFEB` for the USB ID and then click the button `Install Driver`. You should see a progress meter that says "Installing Driver...". Wait to comfirm the installation successfully completes and close zadig.
+3. In the Zadig window that looks like screenshot below:
+    - choose `Create New Device` from the `Device` menu
+    - enter `Mango Pi` as the description text (may need to click the `Edit` checkbox first)
+    - enter `1F3A` `EFE8` for the USB ID
+    - choose `libusbK` from the popup next to the green arrow
+    - click the large button that says `Install Driver` or 'Reinstall Driver'.
+    The progress meter comes up and reports "Installing Driver..." as it works. Wait to comfirm the installation successfully completes and close zadig.
 
     ![zadig.exe popup](../images/zadig.png){: .w-90}
 

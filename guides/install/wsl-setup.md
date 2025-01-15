@@ -44,7 +44,7 @@ Windows OS does not natively support the development tools used in this course. 
     {: .callout-warning}
 
 1. The `ubuntu` application is now launched and opens a new WSL terminal window. The terminal prints the message "Installing, this may take a few minutes...", be patient while it works.
-1. When complete, it prompts you to create a new username and password for your Ubuntu account. __Be sure to remember the name and password__, you'll need them later for sudo/administrator privileges.
+1. After it completes, it may prompt you to create a username and password and if so, follow its instructions.
 1. Bring the Ubuntu packages up to date by running the commands below in your WSL terminal window:
 
     ```console
