@@ -10,7 +10,7 @@ $().ready(function() {
 });
 </script>
 
-Below are basic instructions for installing the dev tools on ubuntu. These are written for `ubuntu 24` and we have done only limited testing. The instructions may not be compatible with a different version or alternate distro.
+Below are basic instructions for installing the dev tools on ubuntu. These are written for __ubuntu 24__ and we have done only limited testing. The instructions may not be compatible with a different version or alternate distro.
 
 Before starting, confirm your version.
 
@@ -55,7 +55,7 @@ Connected to the simulator.
 ```
 ## Build and install xfel
 
-Next, we need to install xfel (<https://github.com/xboot/xfel>), which is the tool that we use to communicate with your Pi (i.e., send code and other nifty tricks).
+You also need xfel (<https://github.com/xboot/xfel>), a tool used to communicate with your Pi (i.e., send code and other nifty tricks).
 
 1. Install prerequisites.
     ```console
@@ -68,7 +68,7 @@ Next, we need to install xfel (<https://github.com/xboot/xfel>), which is the to
 1. Build and install.
     ```console
     $ cd xfel
-    $ make install
+    $ sudo make install
     ```
 {% include checkstep.html content="confirm xfel" %}
 

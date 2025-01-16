@@ -14,7 +14,7 @@ weeks:
     assign: /assignments/assign1/
     fri: /lectures/C_Pointers/
   -
-    mon: MLK Day
+    mon: MLK Day (no lecture)
     lab: /labs/lab2/
     assign: /assignments/assign2/
     fri: /lectures/C_Functions/
@@ -34,7 +34,7 @@ weeks:
     assign: /assignments/assign5/ 
     fri: /lectures/Framebuffer/
   -
-    mon: Presidents Day
+    mon: Presidents Day (no lecture)
     lab: /labs/lab6/
     assign: /assignments/assign6/
     fri: /lectures/Interrupts1/

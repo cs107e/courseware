@@ -19,6 +19,7 @@ The installation steps are:
 Follow the installation instructions for your OS
 + [Install dev tools on macOS](../devtools-mac)
 + [Install dev tools on Windows WSL](../devtools-wsl)
++ [Install dev tools on ubuntu](../devtools-linux) (experimental)
 
 <a name="finalcheck"></a>
 ## Final check steps
