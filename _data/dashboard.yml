@@ -14,7 +14,7 @@ tools:
     description: (RISC-V simulator)
   - title: RISC-V cheatsheet
     icon: riscv.png
-    link: /guides/RISC-V-cheatsheet-RV32I-4-3.pdf
+    link: /readings/RISC-V-cheatsheet-RV32I-4-3.pdf
     description: (Erik Engheim)
   - title: D-1 User manual
     icon: allwinner.png
